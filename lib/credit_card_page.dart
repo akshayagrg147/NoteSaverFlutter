@@ -6,16 +6,18 @@ import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
+import 'package:cardsaver/addpage.dart';
+import 'package:cardsaver/homepage.dart';
 
 
 class CreditCardPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MySampleState();
+    return CreditCardPageState();
   }
 }
 
-class MySampleState extends State<CreditCardPage> {
+class CreditCardPageState extends State<CreditCardPage> {
   late CardDetails _cardDetails;
 
   String cardNumber = '';
