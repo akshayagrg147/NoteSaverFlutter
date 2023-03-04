@@ -5,12 +5,17 @@ part 'notes_modal.g.dart';
 @HiveType(typeId: 0)
 class NotesModal extends HiveObject{
   @HiveField(0)
-  late String title;
+  late String cardnumber;
   @HiveField(1)
-  late String description;
+  late String expiry;
+  @HiveField(2)
+  late String cardholder;
+  @HiveField(3)
+  late String cvv;
 
   NotesModal({
-    required this.title,required this.description
+    required this.cardnumber,required this.expiry,
+    required this.cardholder,required this.cvv
 });
  
 

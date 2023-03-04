@@ -30,7 +30,10 @@ return ListView.builder(
   return Card(
     child: Column(
       children: [
-        Text(data[index].title.toString())
+        Text("Holder name:${data[index].cardholder.toString()}"),
+        Text("Card Number :${data[index].cardnumber.toString()}"),
+        Text("Expiry:${data[index].expiry.toString()}"),
+        Text("Cvv:${data[index].cvv.toString()}")
       ],
     ),
   );

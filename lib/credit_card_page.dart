@@ -215,7 +215,7 @@ class CreditCardPageState extends State<CreditCardPage> {
 
   void _onValidate() {
     if (formKey.currentState!.validate()) {
-      final data = NotesModal(title: "skks", description: "sjssjj");
+      final data = NotesModal(cardnumber: cardNumber, expiry: expiryDate, cardholder: cardHolderName, cvv: cvvCode);
       final box = Boxes.getdata();
       box.add(data);
       Navigator.pop(context);

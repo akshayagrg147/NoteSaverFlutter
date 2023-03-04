@@ -17,19 +17,25 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return NotesModal(
-      title: fields[0] as String,
-      description: fields[1] as String,
+      cardnumber: fields[0] as String,
+      expiry: fields[1] as String,
+      cardholder: fields[2] as String,
+      cvv: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, NotesModal obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.title)
+      ..write(obj.cardnumber)
       ..writeByte(1)
-      ..write(obj.description);
+      ..write(obj.expiry)
+      ..writeByte(2)
+      ..write(obj.cardholder)
+      ..writeByte(3)
+      ..write(obj.cvv);
   }
 
   @override
