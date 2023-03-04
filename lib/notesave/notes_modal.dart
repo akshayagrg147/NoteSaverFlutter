@@ -8,6 +8,7 @@ class NotesModal extends HiveObject{
   late String title;
   @HiveField(1)
   late String description;
+
   NotesModal({
     required this.title,required this.description
 });

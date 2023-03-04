@@ -1,3 +1,4 @@
+import 'package:cardsaver/credit_card_page.dart';
 import 'package:cardsaver/notesave/boxes.dart';
 import 'package:cardsaver/notesave/notes_modal.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +39,11 @@ return ListView.builder(
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final data = NotesModal(title: "skks", description: "sjssjj");
-          final box = Boxes.getdata();
-          box.add(data);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  CreditCardPage()),
+          );
+
         },
         child: const Icon(Icons.add),
       ),

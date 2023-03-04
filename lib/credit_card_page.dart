@@ -1,4 +1,6 @@
 import 'package:card_scanner/card_scanner.dart';
+import 'package:cardsaver/notesave/boxes.dart';
+import 'package:cardsaver/notesave/notes_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
@@ -7,15 +9,17 @@ import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 
+import 'package:cardsaver/homepage.dart';
+
 
 class CreditCardPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MySampleState();
+    return CreditCardPageState();
   }
 }
 
-class MySampleState extends State<CreditCardPage> {
+class CreditCardPageState extends State<CreditCardPage> {
   late CardDetails _cardDetails;
 
   String cardNumber = '';
@@ -211,10 +215,13 @@ class MySampleState extends State<CreditCardPage> {
 
   void _onValidate() {
     if (formKey.currentState!.validate()) {
-      scanCard();
+      final data = NotesModal(title: "skks", description: "sjssjj");
+      final box = Boxes.getdata();
+      box.add(data);
+      Navigator.pop(context);
       print('valid!');
     } else {
-      scanCard();
+
       print('invalid!');
     }
   }

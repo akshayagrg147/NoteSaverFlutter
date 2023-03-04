@@ -1,3 +1,4 @@
+import 'package:cardsaver/homepage.dart';
 import 'package:cardsaver/notesave/noteScreen.dart';
 import 'package:cardsaver/notesave/notes_modal.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: NoteScreen(),
+      home: MyHomePage(title: 'hello',),
+
     );
   }
 }
