@@ -1,19 +1,16 @@
 import 'package:cardsaver/notesave/noteScreen.dart';
 import 'package:flutter/material.dart';
-void main() {
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -31,75 +28,77 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double height = 0 , width = 0;
+  double height = 0, width = 0;
 
   @override
   Widget build(BuildContext context) {
-    height =  MediaQuery.of(context).size.height;
-    width =  MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Stack(
-        children: [
-          Column(  children: [
-            //profilecard
-            Align(
-                alignment: AlignmentDirectional.topEnd,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.yellow[100],
-                    border: Border.all(
-                      color: Colors.green,
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.circular(50),),
-                  height: 90,
-                  width: 90,
-                  child: CircleAvatar(
-                    child: Column(
-                      children: [
-                        Container(
-                            width: 50,
-                            child: Image.asset('assets/images/devs.jpg')) ,
-                        Text("Name",style: TextStyle(color: Colors.yellow),)
-                      ],
-                    ),
-                    backgroundColor: Colors.black,
-                    maxRadius: 50,
-                  ),
-                )
-            ),
+        appBar:  AppBar(
 
-//container 1
+          backgroundColor: Colors.deepPurple,
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            tooltip: 'Menu',
+            onPressed: () {},
+          ), //IconButton
+          actions: <Widget>[
+            //IconButton
+            IconButton(
+              icon: Icon(Icons.person),
+              tooltip: 'Person',
+              onPressed: () {},
+            ), //IconButton
+          ], //<Widget>[]
+        ),
+      body: CustomScrollView(
+        slivers: [
 
-            Container(
-              height: height *.35,
-              child: Text("Welcome Homepage\n\nRose Poole",style: TextStyle(color: Colors.black,fontSize: 20)),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+    (BuildContext context, int index) {
+    return Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: Container(
+    color: Colors.pink[100],
+    height: 40,
+    alignment: Alignment.center,
+    child: Text(
+    "$index",
+    style: const TextStyle(fontSize: 30),
+    ),
+    ),
+    );
+    },
+    // 40 list items
+    childCount: 10,
+    ),
 
-              decoration: BoxDecoration(
+    ),
 
-              ),
-              margin: const EdgeInsets.fromLTRB(0, 12.3, 200, 0),
-            ),
-
-
-            //cotainer 2
-
-            ElevatedButton(
-              child: const Text('ADD'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>  NoteScreen()),
-                );
-              },
-            )
-
-          ],
-          )
         ],
       ),
     );
   }
+}
+
+Widget topBar() {
+  return AppBar(
+
+    backgroundColor: Colors.deepPurple,
+    leading: IconButton(
+      icon: Icon(Icons.menu),
+      tooltip: 'Menu',
+      onPressed: () {},
+    ), //IconButton
+    actions: <Widget>[
+      //IconButton
+      IconButton(
+        icon: Icon(Icons.person),
+        tooltip: 'Person',
+        onPressed: () {},
+      ), //IconButton
+    ], //<Widget>[]
+  );
 }
 
 class FirstRoute extends StatelessWidget {
@@ -110,6 +109,7 @@ class FirstRoute extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('First Route'),
+
       ),
       body: Center(
         child: ElevatedButton(
@@ -117,7 +117,7 @@ class FirstRoute extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  FirstRoute()),
+              MaterialPageRoute(builder: (context) => FirstRoute()),
             );
           },
         ),
