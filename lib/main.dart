@@ -9,10 +9,10 @@ import 'package:path_provider/path_provider.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
-  var directory=await getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
-  Hive.registerAdapter(NotesModalAdapter());
-  await Hive.openBox<NotesModal>("notes");
+  // var directory=await getApplicationDocumentsDirectory();
+  // Hive.init(directory.path);
+  // Hive.registerAdapter(NotesModalAdapter());
+ // await Hive.openBox<NotesModal>("notes");
   runApp(MyApp());
 }
 
