@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar:  AppBar(
 
-          backgroundColor: Colors.deepPurpleAccent,
+          backgroundColor: Colors.purple[900],
           leading: IconButton(
             icon: Icon(Icons.menu),
             tooltip: 'Menu',
@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.deepPurpleAccent
+          color: Colors.purple[900]
         ),
         child: CustomScrollView(
           slivers:
@@ -101,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                 margin: EdgeInsets.only(left: 20, right: 20 ,top: 10,bottom: 10),
                 child:  ListTile(
+
                     contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
                     shape: RoundedRectangleBorder( //<-- SEE HERE
                       side: BorderSide(width: 2),
