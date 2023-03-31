@@ -280,7 +280,7 @@ class FirstRoute extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FirstRoute()),
+              MaterialPageRoute(builder: (context) => NoteScreen()),
             );
           },
         ),
