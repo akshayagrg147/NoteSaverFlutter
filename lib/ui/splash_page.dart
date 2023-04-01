@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:cardsaver/ui/creditCardPage.dart';
 import 'package:flutter/material.dart';
-import 'package:cardsaver/credit_card_page.dart';
 
 
 class Splash extends StatefulWidget {

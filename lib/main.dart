@@ -1,8 +1,8 @@
-import 'package:cardsaver/homepage.dart';
-import 'package:cardsaver/notesave/noteScreen.dart';
+
 import 'package:cardsaver/notesave/notes_modal.dart';
+import 'package:cardsaver/ui/homepage.dart';
 import 'package:flutter/material.dart';
-import 'package:cardsaver/splash_page.dart';
+
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
