@@ -50,6 +50,8 @@ class _hScrollState extends State<hScroll> {
             child:InkWell(
                 onTap: (){},
                 child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
                   child:const Center( child: Text("Personal Information",style: TextStyle(fontSize: 10,color: Colors.black),),),
                 )
