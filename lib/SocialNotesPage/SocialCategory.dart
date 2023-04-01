@@ -13,60 +13,76 @@ class _SocialScreenState extends State<SocialScreen> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async{
-        if(isDialOpen.value){
-          isDialOpen.value = false;
-          return false;
-        }else{
-          return true;
-        }
-      },
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Social Route'),
 
         ),
-        floatingActionButton: SpeedDial(
-          animatedIcon: AnimatedIcons.menu_close,
-          openCloseDial: isDialOpen,
-          backgroundColor: Colors.redAccent,
-          overlayColor: Colors.grey,
-          overlayOpacity: 0.5,
-          spacing: 15,
-          spaceBetweenChildren: 15,
-          // closeManually: true,
-          children: [
-            SpeedDialChild(
-                child: Icon(Icons.local_atm),
-                label: 'Credit/Debit Cards',
-                backgroundColor: Colors.blue,
-                onTap: (){
-
-                }
-            ),
-            SpeedDialChild(
-                child: Icon(Icons.lock),
-                label: 'Passwords',
-                onTap: (){
-                  print('Mail Tapped');
-                }
-            ),
-
-            SpeedDialChild(
-                child: Icon(Icons.person),
-                label: 'Personal Info',
-                onTap: (){
-                  print('Copy Tapped');
-                }
-            ),
-          ],
+        floatingActionButton: FloatingActionButton(
+          // isExtended: true,
+          child: Icon(Icons.add),
+          backgroundColor: Colors.green,
+          onPressed: () {
+           callBottomSheet(context);
+          },
         ),
         body: Container(
           alignment: Alignment.center,
           child: const Text("Notes",style: TextStyle(fontSize: 30),),
         ),
-      ),
-    );
+      );
+
   }
+}
+
+void callBottomSheet(BuildContext context) {
+  showModalBottomSheet<void>(
+    // context and builder are
+    // required properties in this widget
+      context: context,
+      builder: (BuildContext context) {
+        // we set up a container inside which
+        // we create center column and display text
+
+        // Returning SizedBox instead of a Container
+        return SizedBox(
+          height: 200,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "Enter Email",
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    )
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: "Enter Password",
+                      filled: true,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      )
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+
+
+              ],
+            ),
+          ),
+        );
+      });
 }
