@@ -71,10 +71,10 @@ class _hScrollState extends State<hScroll> {
             padding: const EdgeInsets.all(8.0),
             child:InkWell(
                 onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SocialScreen()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const SocialScreen()),
+                  // );
                 },
                 child: Container(
                   width: 100,

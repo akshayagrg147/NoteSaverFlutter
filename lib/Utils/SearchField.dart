@@ -12,7 +12,7 @@ class SearchField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 20,right: 20,top: 20),
       child: TextFormField(
-        autofocus: true,
+        autofocus: false,
         style: const TextStyle(color: Colors.black),
         decoration: InputDecoration(
           hintText: "Search Passwords",

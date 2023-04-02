@@ -20,3 +20,32 @@ class NotesModal extends HiveObject{
  
 
 }
+@HiveType(typeId: 1)
+class SocialModal extends HiveObject{
+  @HiveField(0)
+  late String username;
+  @HiveField(1)
+  late String password;
+  @HiveField(2)
+  late String category;
+
+
+  SocialModal({
+    required this.username,required this.password,
+    required this.category
+  });
+
+
+}
+
+@HiveType(typeId: 2)
+class CategoryModal extends HiveObject{
+  @HiveField(0)
+  late String category;
+  CategoryModal({
+    required this.category
+  });
+
+
+}
+
