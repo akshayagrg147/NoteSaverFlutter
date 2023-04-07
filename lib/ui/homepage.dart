@@ -123,64 +123,70 @@ class _MyHomePageState extends State<MyHomePage> {
               // borderRadius: BorderRadius.circular(20),
             ),
 
-            child: Column(
-              children: [
-                 const SearchField(),
-                 const SizedBox(height: 20,),
-                 const hScroll(),
-                 const SizedBox(height: 20,),
-                ValueListenableBuilder<Box<CategoryModal>>(
-                    valueListenable: Boxes.getCategoryModal().listenable(),
-                    builder: (context, box, _) {
-                      var data = box.values.toList().cast<CategoryModal>();
-                      return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: box.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              margin: const EdgeInsets.only(left: 20,
-                                  right: 20,
-                                  top: 10,
-                                  bottom: 10),
-                              child: ListTile(
-
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                shape: RoundedRectangleBorder( //<-- SEE HERE
-                                  side: const BorderSide(width: 2),
+            child: ValueListenableBuilder<Box<CategoryModal>>(
+                valueListenable: Boxes.getCategoryModal().listenable(),
+                builder: (context, box, _) {
+                  var data = box.values.toList().cast<CategoryModal>();
+                  return Column(
+                    children: [
+                      const SearchField(),
+                      const SizedBox(height: 20,),
+                      const hScroll(),
+                      const SizedBox(height: 20,),
+                      Expanded(
+                        child:        ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: box.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                title: Text(data[index].category,
-                                  style: const TextStyle(color: Colors.black),),
-                                leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        "assets/images/$index.png")),
-                                trailing: const Icon(
-                                  Icons.copy_all, color: Colors.black,),
-                                onTap: () {
+                                margin: const EdgeInsets.only(left: 20,
+                                    right: 20,
+                                    top: 10,
+                                    bottom: 10),
+                                child: ListTile(
 
-                                },
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  shape: RoundedRectangleBorder( //<-- SEE HERE
+                                    side: const BorderSide(width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  title: Text(data[index].category,
+                                    style: const TextStyle(color: Colors.black),),
+                                  leading: CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          "assets/images/$index.png")),
+                                  trailing: const Icon(
+                                    Icons.copy_all, color: Colors.black,),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SocialScreen(data[index].category)),
+                                    );
+
+                                  },
 
 
-                              ),
-                            );
+                                ),
+                              );
 
-                          }
-                      );
-                    }
-                )
+                            }
+                        ),
+                      )
 
-              ],
-            ),
-          )
+                    ],
+                  );
+                }
+            )
 
 
-      ),
+      ),)
     );
   }
 
