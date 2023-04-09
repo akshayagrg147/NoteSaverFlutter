@@ -26,6 +26,7 @@ class _SocialScreenState extends State<SocialScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title:  Text(widget.categoryType),
 
@@ -54,13 +55,13 @@ class _SocialScreenState extends State<SocialScreen> {
                   Expanded(
                     child: ListView.builder(
                         itemCount: box.length,
-                        itemBuilder: (context,index){
-                          var valueTitle=data[index].title;
-                          var visibilityTilte=true;
-                          if(valueTitle.isEmpty){
-                            visibilityTilte=false;
+                        itemBuilder: (context,index) {
+                          var valueTitle = data[index].title;
+                          var visibilityTilte = true;
+                          if (valueTitle.isEmpty||valueTitle.contains("null")) {
+                            visibilityTilte = false;
                           }
-                          return     Card(
+                          return Card(
                             color: Colors.white,
                             elevation: 5,
                             margin: const EdgeInsets.all(5),
@@ -70,8 +71,9 @@ class _SocialScreenState extends State<SocialScreen> {
                               child: Column(
                                 children: [
                                   Visibility(
-                                    visible:visibilityTilte,
-                                    child: Text("Title : ${data[index].title.toString()}",
+                                    visible: visibilityTilte,
+                                    child: Text(
+                                      "Title : ${data[index].title.toString()}",
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.black26,
@@ -85,16 +87,19 @@ class _SocialScreenState extends State<SocialScreen> {
                                       backgroundColor: Colors.amber,
                                       child: Text(index.toString()),
                                     ),
-                                    title:   Text("UName:${data[index].username.toString()}",
+                                    title: Text("UName:${data[index].username
+                                        .toString()}",
                                       style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black26,
-                                          fontWeight: FontWeight.w700,
-                                          fontStyle: FontStyle.italic,
+                                        fontSize: 12,
+                                        color: Colors.black26,
+                                        fontWeight: FontWeight.w700,
+                                        fontStyle: FontStyle.italic,
                                       ),
                                     ),
 
-                                    subtitle: Text("UPassword :${data[index].password.toString()}",
+                                    subtitle: Text(
+                                      "UPassword :${data[index].password
+                                          .toString()}",
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.black26,
@@ -105,21 +110,41 @@ class _SocialScreenState extends State<SocialScreen> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(onPressed: () {
-                                          print("${box.values.take(index+1).first.username} valuegetting");
-                                          usernameController.text=box.values.take(index+1).first.username;
-                                          passwordController.text=box.values.take(index+1).first.password;
-                                          callBottomSheet(context,usernameController,passwordController,titleController,index,"null");
-                                        }, icon: const Icon(Icons.edit,color: Colors.black26,)),
+                                          
+                                          usernameController.text = box.values
+                                              .take(index + 1)
+                                              .first
+                                              .username;
+                                          passwordController.text = box.values
+                                              .take(index + 1)
+                                              .first
+                                              .password;
+                                          callBottomSheet(
+                                              context, usernameController,
+                                              passwordController,
+                                              titleController, index, "null");
+                                        },
+                                            icon: const Icon(Icons.edit,
+                                              color: Colors.black26,)),
                                         IconButton(
                                             onPressed: () {
-                                              final Map<dynamic, SocialModal> deliveriesMap = box.toMap();
+                                              final Map<dynamic,
+                                                  SocialModal> deliveriesMap = box
+                                                  .toMap();
                                               dynamic desiredKey;
-                                              deliveriesMap.forEach((key, value){
-                                                if (value.username == box.values.take(index+1).first.username)
+                                              deliveriesMap.forEach((key,
+                                                  value) {
+                                                if (value.username == box.values
+                                                    .take(index + 1)
+                                                    .first
+                                                    .username)
                                                   desiredKey = key;
                                               });
 
-                                              box.delete(desiredKey);}, icon: const Icon(Icons.delete,color: Colors.black26,)),
+                                              box.delete(desiredKey);
+                                            },
+                                            icon: const Icon(Icons.delete,
+                                              color: Colors.black26,)),
 
                                       ],
                                     ),
@@ -128,10 +153,9 @@ class _SocialScreenState extends State<SocialScreen> {
                               ),
                             ),
                           );
-
-
+                        }
                   ),
-                ],
+                  )],
               ),
             ); }
       ),
@@ -172,7 +196,7 @@ void _onValidate(TextEditingController usernameController,TextEditingController 
   final _formKey = GlobalKey<FormState>();
 void callBottomSheet(BuildContext context, TextEditingController usernameController, TextEditingController passwordController,TextEditingController titleController, int position, String categoryType) {
   bool _titleVisibility = true;
-  if(categoryType.contains('facebook')|categoryType.contains('Instagram')){
+  if(categoryType.contains('facebook')|categoryType.contains('Instagram')|categoryType.contains('null')){
     _titleVisibility=false;
     titleController.text="empty";
   }
