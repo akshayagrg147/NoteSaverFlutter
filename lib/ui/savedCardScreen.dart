@@ -25,31 +25,134 @@ class _NoteScreenState extends State<NoteScreen> {
         valueListenable: Boxes.getdata().listenable(),
         builder: (context,box,_){
           var data=box.values.toList().cast<NotesModal>();
-return ListView.builder(
-  itemCount: box.length,
-    itemBuilder: (context,index){
-  return Card(
-    child: Row(
-      children: [
-        Icon(Icons.add_card),
-        Container(
-          width: 10,
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Card Number  : ${data[index].cardnumber.toString()}"),
-            Text("Holder name   : ${data[index].cardholder.toString()}"),
-            Text("Expiry               : ${data[index].expiry.toString()}"),
-            Text("Cvv                   : ${data[index].cvv.toString()}")
-          ],
-        ),
-      ],
+return Column(
+  children: [
+    Image.asset(
+      'assets/gif/creditcard.gif',
+      width: double.infinity,
+      height: 250,
     ),
-  );
-}
-); }
+    const SizedBox(
+      height: 20,
+    ),
+Expanded(
+child:   ListView.builder(
+
+itemCount: box.length,
+
+    itemBuilder: (context,index){
+
+      return Card(
+
+        color: Colors.white,
+
+        elevation: 5,
+
+        margin: const EdgeInsets.all(5),
+
+        child: Row(
+
+          children: [
+
+            const Icon(Icons.add_card,color: Colors.black,),
+
+            Container(
+              width: 10,
+            ),
+
+            Column(
+
+              mainAxisAlignment: MainAxisAlignment.start,
+
+              crossAxisAlignment: CrossAxisAlignment.start,
+
+              children: [
+
+                Text("Card Number  : ${data[index].cardnumber.toString()}",style: const TextStyle(
+
+                  fontSize: 12,
+
+                  color: Colors.black,
+
+                  fontWeight: FontWeight.w700,
+
+                  fontStyle: FontStyle.normal,
+
+                ),),
+
+                Text("Holder name   : ${data[index].cardholder.toString()}",style: const TextStyle(
+
+                  fontSize: 12,
+
+                  color: Colors.black,
+
+                  fontWeight: FontWeight.w700,
+
+                  fontStyle: FontStyle.normal,
+
+                )),
+
+                Text("Expiry               : ${data[index].expiry.toString()}",style: const TextStyle(
+
+                  fontSize: 12,
+
+                  color: Colors.black,
+
+                  fontWeight: FontWeight.w700,
+
+                  fontStyle: FontStyle.normal,
+
+                )),
+
+                Text("Cvv                   : ${data[index].cvv.toString()}",style: const TextStyle(
+
+                  fontSize: 12,
+
+                  color: Colors.black,
+
+                  fontWeight: FontWeight.w700,
+
+                  fontStyle: FontStyle.normal,
+
+                ))
+
+              ],
+
+            ),
+            Container(
+              width: 10,
+            ),
+            IconButton(
+                onPressed: () {
+                  final Map<dynamic,
+                      NotesModal> deliveriesMap = box.toMap();
+                  dynamic desiredKey;
+                  deliveriesMap.forEach((key,
+                      value) {
+                    if (value.cardnumber == box.values
+                        .take(index + 1)
+                        .first
+                        .cardnumber)
+                      desiredKey = key;
+                  });
+
+                  box.delete(desiredKey);
+                },
+                icon: const Icon(Icons.delete,
+                  color: Colors.black,)),
+          ],
+
+        ),
+
+      );
+
+    }
+
+),
+          )
+  ],
+);
+     }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
