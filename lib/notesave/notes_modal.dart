@@ -28,11 +28,13 @@ class SocialModal extends HiveObject{
   late String password;
   @HiveField(2)
   late String category;
+  @HiveField(2)
+  late String title;
 
 
   SocialModal({
     required this.username,required this.password,
-    required this.category
+    required this.title
   });
 
 

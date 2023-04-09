@@ -62,7 +62,8 @@ class SocialModalAdapter extends TypeAdapter<SocialModal> {
     return SocialModal(
       username: fields[0] as String,
       password: fields[1] as String,
-      category: fields[2] as String,
+      title: fields[2] as String,
+
     );
   }
 
@@ -75,7 +76,8 @@ class SocialModalAdapter extends TypeAdapter<SocialModal> {
       ..writeByte(1)
       ..write(obj.password)
       ..writeByte(2)
-      ..write(obj.category);
+      ..write(obj.title);
+
   }
 
   @override

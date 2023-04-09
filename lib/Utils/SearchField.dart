@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class SearchField extends StatelessWidget {
   const SearchField({
     Key? key,
@@ -14,9 +15,10 @@ class SearchField extends StatelessWidget {
       child: TextFormField(
         autofocus: false,
         style: const TextStyle(color: Colors.black),
+        // onChanged: onSearchTextChanged,
         decoration: InputDecoration(
           hintText: "Search Passwords",
-          fillColor: Colors.white,
+
           filled: true,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
@@ -24,6 +26,7 @@ class SearchField extends StatelessWidget {
           ),
           prefixIcon:
           IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+
         ),
       ),
     );

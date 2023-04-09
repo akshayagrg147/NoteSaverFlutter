@@ -24,13 +24,13 @@ class HomePage extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'NoteSaver',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Card Saver'),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blueGrey,
+      // ),
+      home: MyHomePage(title: 'Card Saver'),
     );
   }
 }
@@ -62,14 +62,14 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
           appBar: AppBar(
 
-            backgroundColor: Colors.purple[900],
+            backgroundColor: Colors.black26,
             leading: IconButton(
-              icon: Icon(Icons.menu),
+              icon: Icon(Icons.access_alarm),
               tooltip: 'Menu',
               onPressed: () {},
             ), //IconButton
             actions: const <Widget>[
-              CircleAvatar(backgroundImage: AssetImage("assets/images/1.png"),),
+              CircleAvatar(backgroundImage: AssetImage("assets/images/0.png"),),
             ], //<Widget>[]
           ),
           floatingActionButton: SpeedDial(
@@ -83,7 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
             // closeManually: true,
             children: [
               SpeedDialChild(
-                  child: Icon(Icons.local_atm),
+                  child: Image.asset(
+          'assets/facebook.png',
+            height: 48,
+            width: 48,
+          ),
                   label: 'Facebook',
                   backgroundColor: Colors.blue,
                   onTap: () {
@@ -95,7 +99,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
               ),
               SpeedDialChild(
-                  child: const Icon(Icons.lock),
+                  child: Image.asset(
+                    'assets/instagram.png',
+                    height: 48,
+                    width: 48,
+                  ),
                   label: 'Instagram',
                   onTap: () {
                     Navigator.push(
@@ -108,7 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
 
               SpeedDialChild(
-                  child: const Icon(Icons.person),
+                  child: Image.asset(
+                    'assets/others.png',
+                    height: 48,
+                    width: 48,
+                  ),
                   label: 'Others',
                   onTap: () {
                     callBottomSheet(context);
@@ -119,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
           body: Container(
 
             decoration: const BoxDecoration(
-              color: Colors.deepPurple,
+              color: Colors.black26,
               // borderRadius: BorderRadius.circular(20),
             ),
 
@@ -159,10 +171,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                   title: Text(data[index].category,
                                     style: const TextStyle(color: Colors.black),),
                                   leading: CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          "assets/images/$index.png")),
-                                  trailing: const Icon(
-                                    Icons.copy_all, color: Colors.black,),
+                                    backgroundColor: Colors.blueAccent,
+                                    child: Text((index+1).toString(),  style: const TextStyle(color: Colors.black),),
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            final Map<dynamic, CategoryModal> deliveriesMap = box.toMap();
+                                            dynamic desiredKey;
+                                            deliveriesMap.forEach((key, value){
+                                              if (value.category == box.values.take(index+1).first.category) {
+                                                desiredKey = key;
+                                              }
+                                            });
+
+                                            box.delete(desiredKey);}, icon: const Icon(Icons.delete,color: Colors.black,)),
+
+                                    ],
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                       context,
@@ -200,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context) {
            return Container(
              decoration: BoxDecoration(
-               color: Colors.deepPurple,
+               color: Colors.black26,
                borderRadius: BorderRadius.circular(20),
              ),
              child: Center(

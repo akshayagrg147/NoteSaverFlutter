@@ -45,44 +45,7 @@ class _hScrollState extends State<hScroll> {
                 )
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child:InkWell(
-                onTap: (){},
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
 
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
-                  child:const Center( child: Text("Personal Information",style: TextStyle(fontSize: 10,color: Colors.black),),),
-                )
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child:InkWell(
-                onTap: (){},
-                child: Container(
-                  width: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
-                  child:const Center( child: Text("Emails",style: TextStyle(fontSize: 10,color: Colors.black),),),
-                )
-            ),
-          ),Padding(
-            padding: const EdgeInsets.all(8.0),
-            child:InkWell(
-                onTap: (){
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const SocialScreen()),
-                  // );
-                },
-                child: Container(
-                  width: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
-                  child:const Center( child: Text("Social",style: TextStyle(fontSize: 10,color: Colors.black),),),
-                )
-            ),
-          ),
 
 
         ],
