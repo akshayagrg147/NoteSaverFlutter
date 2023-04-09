@@ -128,8 +128,8 @@ class _SocialScreenState extends State<SocialScreen> {
                               ),
                             ),
                           );
-                        }
-                    ),
+
+
                   ),
                 ],
               ),
@@ -167,6 +167,9 @@ void _onValidate(TextEditingController usernameController,TextEditingController 
     print('valid!');
 
 }
+  bool passwordValidationResult = false;
+  bool usernameValidationResult = false;
+  final _formKey = GlobalKey<FormState>();
 void callBottomSheet(BuildContext context, TextEditingController usernameController, TextEditingController passwordController,TextEditingController titleController, int position, String categoryType) {
   bool _titleVisibility = true;
   if(categoryType.contains('facebook')|categoryType.contains('Instagram')){
@@ -182,86 +185,130 @@ void callBottomSheet(BuildContext context, TextEditingController usernameControl
         // we create center column and display text
 
         // Returning SizedBox instead of a Container
-        return SizedBox(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:  <Widget>[
-                TextField(
-                controller: usernameController,
-                  decoration: const InputDecoration(
-                    hintText: "Enter Email",
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    )
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                 TextField(
-                  controller: passwordController,
-                  decoration: const InputDecoration(
-                      hintText: "Enter Password",
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      )
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 10,
-                ),
-                Visibility(
-                  visible: _titleVisibility,
-                  child: TextField(
-                    controller: titleController,
-                   
-                    decoration: const InputDecoration(
-                        hintText: "Enter any title",
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        )
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-
-                GestureDetector(
-                  onTap: (){
-                    _onValidate(usernameController,passwordController,titleController,position);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'Save Information',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'halter',
-                        fontSize: 14,
-                        package: 'flutter_credit_card',
+        return Container(
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.lightBlue,
+              borderRadius: BorderRadius.only(topLeft:Radius.circular(35), topRight:Radius.circular(35)),
+            ),
+            height: 240,
+            child: Center(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:  <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left:20.0,right:25.0),
+                      child: TextFormField(
+                      controller: usernameController,
+                        decoration: const InputDecoration(
+                          labelText: "Email/Username",
+                          labelStyle: TextStyle(fontSize: 16),
+                          // hintText: "Enter Email",
+                          filled: true,
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          )
+                        ),
+                          validator: (value){
+                            if(value!.isEmpty){
+                              usernameValidationResult = false;
+                              return "Please enter Username/Email";
+                            }else{
+                              //call function to check password
+                              usernameValidationResult = true;
+                              // _onValidate(usernameController,passwordController);
+                              return null;
+                            }
+                          }
                       ),
                     ),
-                  ),
-                ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                     Padding(
+                       padding: const EdgeInsets.only(left:20.0, right:25.0),
+                       child: TextFormField(
+                        controller: passwordController,
+                        decoration: const InputDecoration(
+                          labelText: "Password",
+                            labelStyle: TextStyle(fontSize: 16),
+                            // hintText: "Enter Password",
+                            filled: true,
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                            )
+                        ),
+                         validator: (value){
+                           if(value!.isEmpty){
+                             passwordValidationResult = false;
+                             return "Please enter password";
+                           }else{
+                             //call function to check password
+                             passwordValidationResult = true;
+                             // _onValidate(usernameController,passwordController);
+                             return null;
+                           }
+                         },
+                    ),
+                     ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Visibility(
+                      visible: _titleVisibility,
+                      child: TextField(
+                        controller: titleController,
 
-              ],
+                        decoration: const InputDecoration(
+                            hintText: "Enter any title",
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                            )
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        _formKey.currentState!.validate();
+                        if(usernameValidationResult == true && passwordValidationResult == true){
+                          _onValidate(usernameController,passwordController,titleController,position);
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 80, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Save',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'halter',
+                            fontSize: 14,
+                            package: 'flutter_credit_card',
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
             ),
           ),
         );
