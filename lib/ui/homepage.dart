@@ -47,6 +47,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   double height = 0, width = 0;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +61,65 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       },
       child: Scaffold(
+        key: scaffoldKey,
           appBar: AppBar(
 
             backgroundColor: Colors.purple[900],
             leading: IconButton(
               icon: Icon(Icons.menu),
               tooltip: 'Menu',
-              onPressed: () {},
+              onPressed: () {
+                // if(scaffoldKey.currentState!.isDrawerOpen){
+                //   scaffoldKey.currentState!.closeDrawer();
+                //   //close drawer, if drawer is open
+                // }else{
+                // scaffoldKey.currentState!.openDrawer();
+                // //open drawer, if drawer is closed
+                // }
+              },
             ), //IconButton
             actions: const <Widget>[
               CircleAvatar(backgroundImage: AssetImage("assets/images/1.png"),),
             ], //<Widget>[]
           ),
+
+          // drawer: Drawer(
+          //   child: ListView(
+          //     children: [
+          //       SizedBox(
+          //         height: 100,
+          //         child: DrawerHeader(
+          //             child: ListTile(
+          //               title: Text("Note Saver"),
+          //               subtitle: Text("By Google"),
+          //               leading: CircleAvatar(backgroundImage: AssetImage("assets/images/1.png")),
+          //             )
+          //         ),
+          //       ),
+          //
+          //       Column(children: [
+          //         ListTile(
+          //           title: Text("Home"),
+          //           leading: Icon(Icons.home),
+          //         ),
+          //         ListTile(
+          //           title: Text("Credit Cards"),
+          //           leading: Icon(Icons.add_card_outlined),
+          //         ),
+          //         ListTile(
+          //           title: Text("Personal Information"),
+          //           leading: Icon(Icons.person),
+          //         ),
+          //         ListTile(
+          //           title: Text("Social"),
+          //           leading: Icon(Icons.facebook),
+          //         ),
+          //       ],
+          //       ),
+          //     ],
+          //   ),
+          // ),
+
           floatingActionButton: SpeedDial(
             animatedIcon: AnimatedIcons.menu_close,
             openCloseDial: isDialOpen,
@@ -203,6 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
                color: Colors.deepPurple,
                borderRadius: BorderRadius.circular(20),
              ),
+             height: 220,
              child: Center(
                child: Column(
                  mainAxisAlignment: MainAxisAlignment.center,
@@ -218,20 +267,23 @@ class _MyHomePageState extends State<MyHomePage> {
                    const SizedBox(
                      height: 10,
                    ),
-                   TextField(
-                     controller: categoryController,
-                     decoration: const InputDecoration(
-                         hintText: "Enter Category",
-                         filled: true,
-                         border: OutlineInputBorder(
-                           borderSide: BorderSide.none,
-                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                         )
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: TextField(
+                       controller: categoryController,
+                       decoration: const InputDecoration(
+                           hintText: "Enter Category",
+                           filled: true,
+                           border: OutlineInputBorder(
+                             borderSide: BorderSide.none,
+                             borderRadius: BorderRadius.all(Radius.circular(10)),
+                           )
+                       ),
                      ),
                    ),
 
                    const SizedBox(
-                     height: 10,
+                     height: 2,
                    ),
 
                    GestureDetector(
@@ -240,7 +292,7 @@ class _MyHomePageState extends State<MyHomePage> {
                      },
                      child: Container(
                        margin: const EdgeInsets.symmetric(
-                           horizontal: 16, vertical: 8),
+                           horizontal: 60, vertical: 6),
                        decoration: BoxDecoration(
                          color: Colors.red,
                          borderRadius: BorderRadius.circular(8),

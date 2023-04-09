@@ -119,30 +119,30 @@ class CreditCardPageState extends State<CreditCardPage> {
                           cardNumberDecoration: InputDecoration(
                             labelText: 'Enter Card Number',
                             hintText: 'XXXX XXXX XXXX XXXX',
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: Colors.white),
+                            hintStyle: const TextStyle(color: Colors.white,fontSize: 16),
+                            labelStyle: const TextStyle(color: Colors.white,fontSize: 16),
                             focusedBorder: border,
                             enabledBorder: border,
                           ),
                           expiryDateDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: Colors.white),
+                            hintStyle: const TextStyle(color: Colors.white,fontSize: 16),
+                            labelStyle: const TextStyle(color: Colors.white,fontSize: 16),
                             focusedBorder: border,
                             enabledBorder: border,
-                            labelText: 'Expired Date',
+                            labelText: 'Expiry Date',
                             hintText: 'XX/XX',
                           ),
                           cvvCodeDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: Colors.white),
+                            hintStyle: const TextStyle(color: Colors.white,fontSize: 16),
+                            labelStyle: const TextStyle(color: Colors.white,fontSize: 16),
                             focusedBorder: border,
                             enabledBorder: border,
                             labelText: 'CVV',
                             hintText: 'XXX',
                           ),
                           cardHolderDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: Colors.white),
+                            hintStyle: const TextStyle(color: Colors.white,fontSize: 16),
+                            labelStyle: const TextStyle(color: Colors.white,fontSize: 16),
                             focusedBorder: border,
                             enabledBorder: border,
                             labelText: 'Card Holder',
@@ -150,7 +150,7 @@ class CreditCardPageState extends State<CreditCardPage> {
                           onCreditCardModelChange: onCreditCardModelChange,
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         GestureDetector(
                           onTap: scanCard,
@@ -176,7 +176,7 @@ class CreditCardPageState extends State<CreditCardPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 5,
                         ),
                         GestureDetector(
                           onTap: _onValidate,
