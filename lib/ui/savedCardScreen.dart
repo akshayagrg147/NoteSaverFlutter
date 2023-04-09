@@ -39,8 +39,8 @@ return ListView.builder(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Holder name   : ${data[index].cardholder.toString()}"),
             Text("Card Number  : ${data[index].cardnumber.toString()}"),
+            Text("Holder name   : ${data[index].cardholder.toString()}"),
             Text("Expiry               : ${data[index].expiry.toString()}"),
             Text("Cvv                   : ${data[index].cvv.toString()}")
           ],

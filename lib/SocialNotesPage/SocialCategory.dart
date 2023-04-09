@@ -28,6 +28,7 @@ class _SocialScreenState extends State<SocialScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      // backgroundColor: Colors.transparent,
         appBar: AppBar(
           title:  Text(widget.categoryType),
 
@@ -162,7 +163,8 @@ void _onValidate(TextEditingController usernameController,TextEditingController 
 //   }
 // }
 
-
+bool passwordValidationResult = false;
+bool usernameValidationResult = false;
 final _formKey = GlobalKey<FormState>();
 void callBottomSheet(BuildContext context, TextEditingController usernameController, TextEditingController passwordController) {
 
@@ -177,99 +179,111 @@ void callBottomSheet(BuildContext context, TextEditingController usernameControl
 
         // Returning SizedBox instead of a Container
         return Container(
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.only(topLeft:Radius.circular(35), topRight:Radius.circular(35)),
-          ),
-          height: 240,
-          child: Center(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:  <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(left:20.0,right:25.0),
-                    child: TextField(
-                    controller: usernameController,
-                      decoration: const InputDecoration(
-                        labelText: "Email/Username",
-                        labelStyle: TextStyle(fontSize: 16),
-                        // hintText: "Enter Email",
-                        filled: true,
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        )
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                   Padding(
-                     padding: const EdgeInsets.only(left:20.0, right:25.0),
-                     child: TextFormField(
-                      controller: passwordController,
-                      decoration: const InputDecoration(
-                        labelText: "Password",
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.lightBlue,
+              borderRadius: BorderRadius.only(topLeft:Radius.circular(35), topRight:Radius.circular(35)),
+            ),
+            height: 240,
+            child: Center(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:  <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left:20.0,right:25.0),
+                      child: TextFormField(
+                      controller: usernameController,
+                        decoration: const InputDecoration(
+                          labelText: "Email/Username",
                           labelStyle: TextStyle(fontSize: 16),
-                          // hintText: "Enter Password",
+                          // hintText: "Enter Email",
                           filled: true,
                           border: UnderlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           )
+                        ),
+                          validator: (value){
+                            if(value!.isEmpty){
+                              usernameValidationResult = false;
+                              return "Please enter Username/Email";
+                            }else{
+                              //call function to check password
+                              usernameValidationResult = true;
+                              // _onValidate(usernameController,passwordController);
+                              return null;
+                            }
+                          }
                       ),
-                       validator: (value){
-                         if(value!.isEmpty){
-                           return "Please enter password";
-                         }else{
-                           //call function to check password
-                           // bool result = validatePassword(value);
-                           if(value.length >4){
-                             // create account event
-                             _onValidate(usernameController,passwordController);
-                             return null;
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                     Padding(
+                       padding: const EdgeInsets.only(left:20.0, right:25.0),
+                       child: TextFormField(
+                        controller: passwordController,
+                        decoration: const InputDecoration(
+                          labelText: "Password",
+                            labelStyle: TextStyle(fontSize: 16),
+                            // hintText: "Enter Password",
+                            filled: true,
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                            )
+                        ),
+                         validator: (value){
+                           if(value!.isEmpty){
+                             passwordValidationResult = false;
+                             return "Please enter password";
                            }else{
-                             return " Password must contain 4 character";
+                             //call function to check password
+                             passwordValidationResult = true;
+                             // _onValidate(usernameController,passwordController);
+                             return null;
                            }
-                         }
-                       },
-                  ),
-                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                         },
+                    ),
+                     ),
+                    const SizedBox(
+                      height: 5,
+                    ),
 
-                  GestureDetector(
-                    onTap: (){
-                      _formKey.currentState!.validate();
-                      // _onValidate(usernameController,passwordController);
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 80, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Save Information',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'halter',
-                          fontSize: 14,
-                          package: 'flutter_credit_card',
+                    GestureDetector(
+                      onTap: (){
+                        _formKey.currentState!.validate();
+                        if(usernameValidationResult == true && passwordValidationResult == true){
+                          _onValidate(usernameController,passwordController);
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 80, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Save',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'halter',
+                            fontSize: 14,
+                            package: 'flutter_credit_card',
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                ],
+                  ],
+                ),
               ),
             ),
           ),
