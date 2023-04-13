@@ -1,12 +1,7 @@
-import 'dart:ffi';
 
 import 'package:cardsaver/notesave/boxes.dart';
 import 'package:cardsaver/notesave/notes_modal.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SocialScreen extends StatefulWidget {
@@ -36,6 +31,13 @@ class _SocialScreenState extends State<SocialScreen> {
           valueListenable: Boxes.getSocialPasswords().listenable(),
           builder: (context,box,_){
             var data=box.values.toList().cast<SocialModal>();
+            var image= 'assets/gif/others.gif';
+            if(widget.categoryType.contains('facebook')){
+              image= 'assets/gif/faceboook.gif';
+            }
+            else  if(widget.categoryType.contains('Instagram')){
+              image= 'assets/gif/instagram.gif';
+            }
             return Container(
               decoration: BoxDecoration(
                 color: Colors.black26,
@@ -45,7 +47,7 @@ class _SocialScreenState extends State<SocialScreen> {
 
                 children: [
                   Image.asset(
-                    'assets/gif/facebook.gif',
+                    image,
                     width: double.infinity,
                     height: 250,
                   ),
@@ -58,7 +60,7 @@ class _SocialScreenState extends State<SocialScreen> {
                         itemBuilder: (context,index) {
                           var valueTitle = data[index].title;
                           var visibilityTilte = true;
-                          if (valueTitle.isEmpty||valueTitle.contains("null")) {
+                          if (valueTitle.isEmpty||valueTitle.contains("null")||valueTitle.contains("empty")) {
                             visibilityTilte = false;
                           }
                           return Card(
@@ -137,8 +139,9 @@ class _SocialScreenState extends State<SocialScreen> {
                                                 if (value.username == box.values
                                                     .take(index + 1)
                                                     .first
-                                                    .username)
+                                                    .username) {
                                                   desiredKey = key;
+                                                }
                                               });
 
                                               box.delete(desiredKey);
@@ -212,7 +215,7 @@ void callBottomSheet(BuildContext context, TextEditingController usernameControl
         return Container(
           color: Colors.transparent,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.lightBlue,
               borderRadius: BorderRadius.only(topLeft:Radius.circular(35), topRight:Radius.circular(35)),
             ),
