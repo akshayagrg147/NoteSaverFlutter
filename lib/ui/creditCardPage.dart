@@ -25,7 +25,7 @@ class CreditCardPageState extends State<CreditCardPage> {
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
-  String bankName = '';
+  String bankName = 'ak';
   String cvvCode = '';
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
@@ -231,7 +231,7 @@ class CreditCardPageState extends State<CreditCardPage> {
 
   void _onValidate() {
     if (formKey.currentState!.validate()) {
-      final data = NotesModal(cardnumber: cardNumber, expiry: expiryDate, cardholder: cardHolderName, cvv: cvvCode,bankName:bankName);
+      final data = NotesModal(cardnumber: cardNumber, expiry: expiryDate, cardholder: cardHolderName, cvv: cvvCode);
       final box = Boxes.getdata();
       box.add(data);
       Navigator.pop(context);

@@ -235,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: ListTile(
 
                                     contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
+                                        horizontal: 20.0,vertical: 0.0),
                                     shape: RoundedRectangleBorder( //<-- SEE HERE
                                       side: const BorderSide(width: 2),
                                       borderRadius: BorderRadius.circular(20),
