@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:cardsaver/ui/creditCardPage.dart';
+import 'package:cardsaver/ui/homepage.dart';
 import 'package:flutter/material.dart';
 
 
 class Splash extends StatefulWidget {
+  const Splash({super.key});
   @override
   VideoState createState() => VideoState();
 }
@@ -22,8 +24,8 @@ class VideoState extends State<Splash> with SingleTickerProviderStateMixin{
   }
 
   void navigationPage() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => CreditCardPage()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const MyHomePage(title: 'hello',),
+    ));
   }
 
   @override
@@ -54,19 +56,13 @@ class VideoState extends State<Splash> with SingleTickerProviderStateMixin{
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
 
-              Padding(padding: EdgeInsets.only(bottom: 30.0),child:Image.asset('assets/images/powered_by.png',height: 25.0,fit: BoxFit.scaleDown,))
-
-            ],),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+
               Image.asset(
-                'assets/images/devs.jpg',
+                'assets/gif/splash.gif',
                 width: animation.value * 250,
                 height: animation.value * 250,
               ),

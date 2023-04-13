@@ -25,6 +25,7 @@ class CreditCardPageState extends State<CreditCardPage> {
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
+  String bankName = 'ak';
   String cvvCode = '';
   bool isCvvFocused = false;
   bool useGlassMorphism = false;

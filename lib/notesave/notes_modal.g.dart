@@ -21,6 +21,8 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       expiry: fields[1] as String,
       cardholder: fields[2] as String,
       cvv: fields[3] as String,
+
+
     );
   }
 
@@ -36,6 +38,7 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       ..write(obj.cardholder)
       ..writeByte(3)
       ..write(obj.cvv);
+
   }
 
   @override

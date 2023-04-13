@@ -1,7 +1,7 @@
 
 import 'package:cardsaver/notesave/notes_modal.dart';
-import 'package:cardsaver/ui/SplashScreenMain.dart';
 import 'package:cardsaver/ui/homepage.dart';
+import 'package:cardsaver/ui/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,6 +19,9 @@ void main()async {
   await Hive.openBox<NotesModal>("notes");
   await Hive.openBox<SocialModal>("socialPasswords");
   await Hive.openBox<CategoryModal>("category");
+  await Hive.openBox<SocialModal>("facebookPasswords");
+  await Hive.openBox<SocialModal>("instagramPasswords");
+
   // _openBox();
 
   runApp(MyApp());
@@ -44,7 +47,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: SplashScreen(),
+      home: Splash(),
       // home: MyHomePage(title: 'hello',),
 
     );

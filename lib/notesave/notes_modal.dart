@@ -13,6 +13,7 @@ class NotesModal extends HiveObject{
   @HiveField(3)
   late String cvv;
 
+
   NotesModal({
     required this.cardnumber,required this.expiry,
     required this.cardholder,required this.cvv
