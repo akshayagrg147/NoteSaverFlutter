@@ -216,7 +216,7 @@ void callBottomSheet(BuildContext context, TextEditingController usernameControl
               color: Colors.lightBlue,
               borderRadius: BorderRadius.only(topLeft:Radius.circular(35), topRight:Radius.circular(35)),
             ),
-            height: 240,
+            height: 260,
             child: Center(
               child: Form(
                 key: _formKey,
@@ -251,7 +251,7 @@ void callBottomSheet(BuildContext context, TextEditingController usernameControl
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 8,
                     ),
                      Padding(
                        padding: const EdgeInsets.only(left:20.0, right:25.0),
@@ -281,20 +281,26 @@ void callBottomSheet(BuildContext context, TextEditingController usernameControl
                     ),
                      ),
                     const SizedBox(
-                      height: 5,
+                      height: 8,
                     ),
                     Visibility(
                       visible: _titleVisibility,
-                      child: TextField(
-                        controller: titleController,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left:20.0, right:25.0),
+                        child: TextField(
+                          controller: titleController,
 
-                        decoration: const InputDecoration(
-                            hintText: "Enter any title",
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            )
+                          decoration: const InputDecoration(
+                              hintText: "Enter any title",
+                              labelText: "Title",
+                              labelStyle: TextStyle(fontSize: 16),
+                              hintStyle: TextStyle(fontSize: 16),
+                              filled: true,
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              )
+                          ),
                         ),
                       ),
                     ),
@@ -310,12 +316,12 @@ void callBottomSheet(BuildContext context, TextEditingController usernameControl
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(
-                            horizontal: 80, vertical: 8),
+                            horizontal: 80, vertical: 0),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         width: double.infinity,
                         alignment: Alignment.center,
                         child: const Text(

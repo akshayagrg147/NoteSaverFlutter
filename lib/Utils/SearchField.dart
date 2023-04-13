@@ -17,18 +17,22 @@ class SearchField extends StatelessWidget {
         style: const TextStyle(color: Colors.black),
         // onChanged: onSearchTextChanged,
         decoration: InputDecoration(
+          contentPadding:
+          const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
           hintText: "Search Passwords",
-
           filled: true,
           border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            // borderSide: BorderSide.none,
+            borderSide: const BorderSide(),
+            borderRadius: const BorderRadius.all(Radius.circular(25)),
           ),
           prefixIcon:
           IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+
 
         ),
       ),
     );
   }
+
 }

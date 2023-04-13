@@ -14,7 +14,7 @@ class _hScrollState extends State<hScroll> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      height: 50,
+      height: 54,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -24,8 +24,8 @@ class _hScrollState extends State<hScroll> {
                 onTap: (){},
                 child: Container(
                   width: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
-                  child:const Center( child: Text("All category",style: TextStyle(fontSize: 10,color: Colors.black),),),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
+                  child:const Center( child: Text("All category",style: TextStyle(fontSize: 12,color: Colors.black),),),
                 )
             ),
           ),
@@ -40,8 +40,8 @@ class _hScrollState extends State<hScroll> {
                 },
                 child: Container(
                   width: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.white),
-                  child:const Center( child: Text("Credit Cards",style: TextStyle(fontSize: 10,color: Colors.black),),),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
+                  child:const Center( child: Text("Credit Cards",style: TextStyle(fontSize: 12,color: Colors.black),),),
                 )
             ),
           ),
