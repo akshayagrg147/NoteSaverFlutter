@@ -1,7 +1,9 @@
 
 import 'package:cardsaver/notesave/notes_modal.dart';
+import 'package:cardsaver/ui/SplashScreenMain.dart';
 import 'package:cardsaver/ui/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,6 +23,7 @@ void main()async {
   await Hive.openBox<SocialModal>("instagramPasswords");
 
   // _openBox();
+
   runApp(MyApp());
 }
 List<Box> boxList = [];
@@ -44,7 +47,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: MyHomePage(title: 'hello',),
+      home: SplashScreen(),
+      // home: MyHomePage(title: 'hello',),
 
     );
   }

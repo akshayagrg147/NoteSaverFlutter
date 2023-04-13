@@ -1,10 +1,11 @@
 import 'package:cardsaver/SocialNotesPage/SocialCategory.dart';
-import 'package:cardsaver/Utils/SearchField.dart';
+// import 'package:cardsaver/Utils/SearchField.dart';
 import 'package:cardsaver/Utils/categoryhScroll.dart';
 import 'package:cardsaver/notesave/boxes.dart';
 import 'package:cardsaver/notesave/notes_modal.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -49,6 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  // #2 start here
+  String search = '';
+  TextEditingController searchController = TextEditingController();
+
+  // #2 end here
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -63,10 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         key: scaffoldKey,
           appBar: AppBar(
-
-            backgroundColor: Colors.black26,
+            elevation: 0,
+            // backgroundColor: Colors.black26,
+            backgroundColor: Color(0xFF4e3974),
             leading: IconButton(
-              icon: Icon(Icons.access_alarm),
+              icon: const Icon(Icons.access_alarm),
               tooltip: 'Menu',
               onPressed: () {
                 // if(scaffoldKey.currentState!.isDrawerOpen){
@@ -79,46 +88,16 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ), //IconButton
             actions: const <Widget>[
-              CircleAvatar(backgroundImage: AssetImage("assets/images/0.png"),),
+              Padding(
+                padding: EdgeInsets.only(right: 10,top: 10),
+                child: CircleAvatar(backgroundImage: AssetImage("assets/images/avatar.png"),
+                backgroundColor: Colors.red,
+                radius: 28,),
+              ),
             ], //<Widget>[]
           ),
 
-          // drawer: Drawer(
-          //   child: ListView(
-          //     children: [
-          //       SizedBox(
-          //         height: 100,
-          //         child: DrawerHeader(
-          //             child: ListTile(
-          //               title: Text("Note Saver"),
-          //               subtitle: Text("By Google"),
-          //               leading: CircleAvatar(backgroundImage: AssetImage("assets/images/1.png")),
-          //             )
-          //         ),
-          //       ),
-          //
-          //       Column(children: [
-          //         ListTile(
-          //           title: Text("Home"),
-          //           leading: Icon(Icons.home),
-          //         ),
-          //         ListTile(
-          //           title: Text("Credit Cards"),
-          //           leading: Icon(Icons.add_card_outlined),
-          //         ),
-          //         ListTile(
-          //           title: Text("Personal Information"),
-          //           leading: Icon(Icons.person),
-          //         ),
-          //         ListTile(
-          //           title: Text("Social"),
-          //           leading: Icon(Icons.facebook),
-          //         ),
-          //       ],
-          //       ),
-          //     ],
-          //   ),
-          // ),
+
 
           floatingActionButton: SpeedDial(
             animatedIcon: AnimatedIcons.menu_close,
@@ -142,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SocialScreen("facebook")),
+                          builder: (context) => const SocialScreen("facebook")),
                     );
                   }
               ),
@@ -179,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
           body: Container(
 
             decoration: const BoxDecoration(
-              color: Colors.black26,
+              color: Color(0xFF4e3974),
               // borderRadius: BorderRadius.circular(20),
             ),
 
@@ -189,68 +168,235 @@ class _MyHomePageState extends State<MyHomePage> {
                   var data = box.values.toList().cast<CategoryModal>();
                   return Column(
                     children: [
-                      const SearchField(),
+                      // const SearchField(),
+                      // #1 start here
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20,right: 20,top: 25),
+                        child: SizedBox(
+                          height: 44,
+                          child: TextFormField(
+                            controller: searchController,
+                            autofocus: false,
+                            style: const TextStyle(color: Colors.black),
+                            // #3starr here
+                            onChanged: (String? value){
+                              // print(value);
+                              setState(() {
+                                search = value.toString();
+                              });
+                              // #3 end here
+                          },
+                            decoration: InputDecoration(
+                              contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
+                              hintText: 'Search "passwords"',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.7),
+                                ),
+                                borderRadius: BorderRadius.all(Radius.circular(15)),
+                              ),
+                              prefixIcon:
+                              Icon(Icons.search,color: Colors.grey,),
+
+                            ),
+                          ),
+                        ),
+                      ),
+                      // #1 end here
+
                       const SizedBox(height: 20,),
-                      const hScroll(),
-                      const SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: const hScroll(),
+                      ),
+                      const SizedBox(height: 10,),
                       Expanded(
                         child:        ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemCount: box.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                margin: const EdgeInsets.only(left: 20,
-                                    right: 20,
-                                    top: 10,
-                                    bottom: 10),
-                                child: ListTile(
+                              late String position = data[index].category;
 
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  shape: RoundedRectangleBorder( //<-- SEE HERE
-                                    side: const BorderSide(width: 2),
+                              if(searchController.text.isEmpty){
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  title: Text(data[index].category,
-                                    style: const TextStyle(color: Colors.black),),
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.blueAccent,
-                                    child: Text((index+1).toString(),  style: const TextStyle(color: Colors.black),),
+                                  margin: const EdgeInsets.only(left: 20,
+                                      right: 20,
+                                      top: 10,
+                                      bottom: 10),
+                                  child: ListTile(
+
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    shape: RoundedRectangleBorder( //<-- SEE HERE
+                                      side: const BorderSide(width: 2),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    title: Text(data[index].category,
+                                      style: const TextStyle(color: Colors.black),),
+                                    leading: CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: Colors.blueAccent,
+                                      child: Text((index+1).toString(),  style: const TextStyle(color: Colors.black,fontSize: 18),),
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              final Map<dynamic, CategoryModal> deliveriesMap = box.toMap();
+                                              dynamic desiredKey;
+                                              deliveriesMap.forEach((key, value){
+                                                if (value.category == box.values.take(index+1).first.category) {
+                                                  desiredKey = key;
+                                                }
+                                              });
+
+                                              box.delete(desiredKey);}, icon: const Icon(Icons.delete,color: Colors.black,)),
+
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SocialScreen(data[index].category)),
+                                      );
+
+                                    },
+
+
                                   ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            final Map<dynamic, CategoryModal> deliveriesMap = box.toMap();
-                                            dynamic desiredKey;
-                                            deliveriesMap.forEach((key, value){
-                                              if (value.category == box.values.take(index+1).first.category) {
-                                                desiredKey = key;
-                                              }
-                                            });
-
-                                            box.delete(desiredKey);}, icon: const Icon(Icons.delete,color: Colors.black,)),
-
-                                    ],
+                                );
+                              }else if(position.toLowerCase().contains(searchController.text.toLowerCase())){
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => SocialScreen(data[index].category)),
-                                    );
+                                  margin: const EdgeInsets.only(left: 20,
+                                      right: 20,
+                                      top: 10,
+                                      bottom: 10),
+                                  child: ListTile(
 
-                                  },
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    shape: RoundedRectangleBorder( //<-- SEE HERE
+                                      side: const BorderSide(width: 2),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    title: Text(position,
+                                      style: const TextStyle(color: Colors.black),),
+                                    leading: CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: Colors.blueAccent,
+                                      child: Text((index+1).toString(),  style: const TextStyle(color: Colors.black,fontSize: 18),),
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              final Map<dynamic, CategoryModal> deliveriesMap = box.toMap();
+                                              dynamic desiredKey;
+                                              deliveriesMap.forEach((key, value){
+                                                if (value.category == box.values.take(index+1).first.category) {
+                                                  desiredKey = key;
+                                                }
+                                              });
+
+                                              box.delete(desiredKey);}, icon: const Icon(Icons.delete,color: Colors.black,)),
+
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SocialScreen(data[index].category)),
+                                      );
+
+                                    },
 
 
-                                ),
-                              );
+                                  ),
+                                );
+
+                                    // #5 code here
+                                //   Container(
+                                //   height: 100,
+                                //   color: Colors.red,
+                                // );
+                                // #5 code end here
+
+                              }else {
+                                return Container();
+                              }
+
+                              // #4 start here original code
+                              // return Container(
+                              //   decoration: BoxDecoration(
+                              //     color: Colors.white,
+                              //     borderRadius: BorderRadius.circular(20),
+                              //   ),
+                              //   margin: const EdgeInsets.only(left: 20,
+                              //       right: 20,
+                              //       top: 10,
+                              //       bottom: 10),
+                              //   child: ListTile(
+                              //
+                              //     contentPadding: const EdgeInsets.symmetric(
+                              //         horizontal: 20.0),
+                              //     shape: RoundedRectangleBorder( //<-- SEE HERE
+                              //       side: const BorderSide(width: 2),
+                              //       borderRadius: BorderRadius.circular(20),
+                              //     ),
+                              //     title: Text(data[index].category,
+                              //       style: const TextStyle(color: Colors.black),),
+                              //     leading: CircleAvatar(
+                              //       radius: 20,
+                              //       backgroundColor: Colors.blueAccent,
+                              //       child: Text((index+1).toString(),  style: const TextStyle(color: Colors.black,fontSize: 18),),
+                              //     ),
+                              //     trailing: Row(
+                              //       mainAxisSize: MainAxisSize.min,
+                              //       children: [
+                              //         IconButton(
+                              //             onPressed: () {
+                              //               final Map<dynamic, CategoryModal> deliveriesMap = box.toMap();
+                              //               dynamic desiredKey;
+                              //               deliveriesMap.forEach((key, value){
+                              //                 if (value.category == box.values.take(index+1).first.category) {
+                              //                   desiredKey = key;
+                              //                 }
+                              //               });
+                              //
+                              //               box.delete(desiredKey);}, icon: const Icon(Icons.delete,color: Colors.black,)),
+                              //
+                              //       ],
+                              //     ),
+                              //     onTap: () {
+                              //       Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) => SocialScreen(data[index].category)),
+                              //       );
+                              //
+                              //     },
+                              //
+                              //
+                              //   ),
+                              // );
+                              // #4 end here original code
 
                             }
                         ),
@@ -276,7 +422,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context) {
            return Container(
              decoration: BoxDecoration(
-               color: Colors.black26,
+               color: Color(0xFF4e3974),
                borderRadius: BorderRadius.circular(20),
              ),
              height: 220,
@@ -352,7 +498,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final box = Boxes.getCategoryModal();
     box.add(data);
     Navigator.pop(context);
-    print('valid!');
+    // print('valid!');
   }
 
 

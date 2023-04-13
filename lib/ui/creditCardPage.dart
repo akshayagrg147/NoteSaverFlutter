@@ -38,8 +38,9 @@ class CreditCardPageState extends State<CreditCardPage> {
     border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.grey.withOpacity(0.7),
-        width: 2.0,
+        width: 2,
       ),
+      borderRadius: BorderRadius.all(Radius.circular(30)),
     );
     super.initState();
   }
@@ -53,6 +54,7 @@ class CreditCardPageState extends State<CreditCardPage> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        // backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Container(
           decoration: const BoxDecoration(
@@ -60,13 +62,13 @@ class CreditCardPageState extends State<CreditCardPage> {
             //   image: ExactAssetImage('assets/bg.png'),
             //   fit: BoxFit.fill,
             // ),
-            color: Colors.black,
+            color: Colors.white70,
           ),
           child: SafeArea(
             child: Column(
               children: <Widget>[
                 const SizedBox(
-                  height: 30,
+                  height: 12,
                 ),
                 CreditCardWidget(
                   glassmorphismConfig:
@@ -116,69 +118,57 @@ class CreditCardPageState extends State<CreditCardPage> {
                           cardHolderName: cardHolderName,
                           expiryDate: expiryDate,
                           themeColor: Colors.blue,
-                          textColor: Colors.white,
+                          textColor: Colors.black,
                           cardNumberDecoration: InputDecoration(
                             labelText: 'Enter Card Number',
                             hintText: 'XXXX XXXX XXXX XXXX',
-                            hintStyle: const TextStyle(color: Colors.white,fontSize: 14),
-                            labelStyle: const TextStyle(color: Colors.white,fontSize: 14),
-                            focusedBorder: border,
-                            enabledBorder: border,
+                            hintStyle: const TextStyle(fontSize: 14),
+                            labelStyle: const TextStyle(fontSize: 14),
+                              // focusedBorder: border,
+                              // enabledBorder: border,
+                              border: border,
+
                           ),
                           expiryDateDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white,fontSize: 14),
-                            labelStyle: const TextStyle(color: Colors.white,fontSize: 14),
-                            focusedBorder: border,
-                            enabledBorder: border,
+                            hintStyle: const TextStyle(fontSize: 14),
+                            labelStyle: const TextStyle(fontSize: 14),
+                            // focusedBorder: border,
+                            // enabledBorder: border,
+                            border: border,
                             labelText: 'Expiry Date',
                             hintText: 'XX/XX',
                           ),
                           cvvCodeDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white,fontSize: 14),
-                            labelStyle: const TextStyle(color: Colors.white,fontSize: 14),
-                            focusedBorder: border,
-                            enabledBorder: border,
+                            hintStyle: const TextStyle(fontSize: 14),
+                            labelStyle: const TextStyle(fontSize: 14),
+                            // focusedBorder: border,
+                            // enabledBorder: border,
+                            border: border,
                             labelText: 'CVV',
                             hintText: 'XXX',
                           ),
                           cardHolderDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white,fontSize: 14),
-                            labelStyle: const TextStyle(color: Colors.white,fontSize: 14),
-                            focusedBorder: border,
-                            enabledBorder: border,
+                            hintStyle: const TextStyle(fontSize: 14),
+                            labelStyle: const TextStyle(fontSize: 14),
+                            // focusedBorder: border,
+                            // enabledBorder: border,
+                            border: border,
                             labelText: 'Card Holder',
                           ),
                           onCreditCardModelChange: onCreditCardModelChange,
                         ),
-
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                          onTap: scanCard,
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Scan Card',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'halter',
-                                fontSize: 14,
-                                package: 'flutter_credit_card',
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: border,
+                              labelText: 'Bank Name',
+                              labelStyle: const TextStyle(fontSize: 14),
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 5,
+                        SizedBox(
+                          height: 10,
                         ),
                         GestureDetector(
                           onTap: _onValidate,
@@ -186,8 +176,8 @@ class CreditCardPageState extends State<CreditCardPage> {
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xFF426da0),
+                              borderRadius: BorderRadius.circular(30),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             width: double.infinity,
@@ -203,6 +193,30 @@ class CreditCardPageState extends State<CreditCardPage> {
                             ),
                           ),
                         ),
+                        GestureDetector(
+                          onTap: scanCard,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            child: const Text(
+                              'Scan Card',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'halter',
+                                fontSize: 14,
+                                package: 'flutter_credit_card',
+                              ),
+                            ),
+                          ),
+                        ),
+
                       ],
                     ),
                   ),

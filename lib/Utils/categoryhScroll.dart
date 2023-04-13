@@ -11,30 +11,21 @@ class hScroll extends StatefulWidget {
 }
 
 class _hScrollState extends State<hScroll> {
-  var allCategory=Colors.green;
-  var creditCardCategory=Colors.white;
-
   @override
   Widget build(BuildContext context) {
     return  Container(
-      height: 50,
+      height: 54,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child:InkWell(
-                onTap: (){
-                  setState(() {
-                    allCategory=Colors.green;
-                    creditCardCategory=Colors.white;
-                  });
-
-                },
+                onTap: (){},
                 child: Container(
                   width: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: allCategory),
-                  child:const Center( child: Text("All category",style: TextStyle(fontSize: 10,color: Colors.black),),),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
+                  child:const Center( child: Text("All category",style: TextStyle(fontSize: 12,color: Colors.black),),),
                 )
             ),
           ),
@@ -42,11 +33,6 @@ class _hScrollState extends State<hScroll> {
             padding: const EdgeInsets.all(8.0),
             child:InkWell(
                 onTap: (){
-                  setState(() {
-                    allCategory = Colors.deepPurple;
-                    creditCardCategory=Colors.green;
-
-                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const NoteScreen()),
@@ -54,8 +40,8 @@ class _hScrollState extends State<hScroll> {
                 },
                 child: Container(
                   width: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: creditCardCategory),
-                  child:const Center( child: Text("Credit Cards",style: TextStyle(fontSize: 10,color: Colors.black),),),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
+                  child:const Center( child: Text("Credit Cards",style: TextStyle(fontSize: 12,color: Colors.black),),),
                 )
             ),
           ),
