@@ -224,6 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                               if(searchController.text.isEmpty){
                                 return Container(
+
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(20),
@@ -233,9 +234,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       top: 10,
                                       bottom: 10),
                                   child: ListTile(
-
                                     contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
+                                        horizontal: 15.0),
                                     shape: RoundedRectangleBorder( //<-- SEE HERE
                                       side: const BorderSide(width: 2),
                                       borderRadius: BorderRadius.circular(20),
