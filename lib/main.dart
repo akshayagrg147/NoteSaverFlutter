@@ -17,6 +17,9 @@ void main()async {
   await Hive.openBox<NotesModal>("notes");
   await Hive.openBox<SocialModal>("socialPasswords");
   await Hive.openBox<CategoryModal>("category");
+  await Hive.openBox<SocialModal>("facebookPasswords");
+  await Hive.openBox<SocialModal>("instagramPasswords");
+
   // _openBox();
   runApp(MyApp());
 }

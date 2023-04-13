@@ -17,8 +17,17 @@ class _SocialScreenState extends State<SocialScreen> {
   final passwordController = TextEditingController();
   final titleController = TextEditingController();
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
+
   @override
   Widget build(BuildContext context) {
+    var listeable=Boxes.getSocialPasswords().listenable();
+
+    if(widget.categoryType.contains('facebook')){
+      listeable=Boxes.getFacebookPasswords().listenable();
+    }
+    else  if(widget.categoryType.contains('Instagram')){
+      listeable=Boxes.getInstagramPasswords().listenable();
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -28,7 +37,7 @@ class _SocialScreenState extends State<SocialScreen> {
         ),
       body: ValueListenableBuilder(
 
-          valueListenable: Boxes.getSocialPasswords().listenable(),
+          valueListenable: listeable,
           builder: (context,box,_){
             var data=box.values.toList().cast<SocialModal>();
             var image= 'assets/gif/others.gif';
@@ -183,14 +192,21 @@ class _SocialScreenState extends State<SocialScreen> {
 }
 
 
-void _onValidate(TextEditingController usernameController,TextEditingController passwordController,TextEditingController titleController, int position) {
+void _onValidate(BuildContext context,TextEditingController usernameController,TextEditingController passwordController,TextEditingController titleController, int position, String categoryType) {
 
     final data = SocialModal(username: usernameController.text, password: passwordController.text, title: titleController.text);
-    final box = Boxes.getSocialPasswords();
+    var box = Boxes.getSocialPasswords();
+    if(categoryType.contains('facebook')){
+      box = Boxes.getFacebookPasswords();
+    }
+    else  if(categoryType.contains('Instagram')){
+      box = Boxes.getInstagramPasswords();
+    }
     if(position!=-1) {
       box.delete(position+1);
     }
     box.add(data);
+    Navigator.pop(context);
     print('valid!');
 
 }
@@ -308,7 +324,8 @@ void callBottomSheet(BuildContext context, TextEditingController usernameControl
                       onTap: (){
                         _formKey.currentState!.validate();
                         if(usernameValidationResult == true && passwordValidationResult == true){
-                          _onValidate(usernameController,passwordController,titleController,position);
+
+                          _onValidate(context ,usernameController,passwordController,titleController,position,categoryType);
                         }
                       },
                       child: Container(

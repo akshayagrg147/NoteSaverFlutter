@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               SpeedDialChild(
                   child: Image.asset(
-          'assets/facebook.png',
+          'assets/images/facebook.png',
             height: 48,
             width: 48,
           ),
@@ -148,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SpeedDialChild(
                   child: Image.asset(
-                    'assets/instagram.png',
+                    'assets/images/instagram.png',
                     height: 48,
                     width: 48,
                   ),
@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               SpeedDialChild(
                   child: Image.asset(
-                    'assets/others.png',
+                    'assets/images/others.png',
                     height: 48,
                     width: 48,
                   ),
