@@ -14,23 +14,38 @@ class _hScrollState extends State<hScroll> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      height: 54,
+      height: 75,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(right:8,top: 10,bottom: 8),
             child:InkWell(
                 onTap: (){},
                 child: Container(
-                  width: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
-                  child:const Center( child: Text("All category",style: TextStyle(fontSize: 12,color: Colors.black),),),
+                  width: 95,
+                  // height: 48,
+                  decoration: BoxDecoration(border: Border.all(width:3,color: Color(0xFFFfc9b6)),
+                      borderRadius: BorderRadius.circular(30)
+                      ),
+                  child:Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left:10.0,right: 11),
+                        child: CircleAvatar(
+                          radius: 18,
+                            backgroundColor: Colors.orangeAccent,
+                            child: Icon(Icons.category_outlined)),
+                      ),
+                      Text("All",style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w400),),
+                    ],
+                  ),
                 )
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(right:8,top: 11,bottom: 8),
             child:InkWell(
                 onTap: (){
                   Navigator.push(
@@ -39,12 +54,57 @@ class _hScrollState extends State<hScroll> {
                   );
                 },
                 child: Container(
-                  width: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
-                  child:const Center( child: Text("Credit Cards",style: TextStyle(fontSize: 12,color: Colors.black),),),
+                  width: 95,
+                  decoration: BoxDecoration(border: Border.all(width:1,color: Colors.grey),
+                      borderRadius: BorderRadius.circular(30)
+                  ),
+                  child:Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left:5.0,right: 5),
+                        child: CircleAvatar(
+                            radius: 18,
+                            backgroundColor: Color(0xfffaf3ed),
+                            child: Icon(Icons.add_card)),
+                      ),
+                      Text("Card",style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w400),),
+                    ],
+                  ),
                 )
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right:8,top: 11,bottom: 8),
+            child:InkWell(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NoteScreen()),
+                  );
+                },
+                child: Container(
+                  width: 95,
+                  decoration: BoxDecoration(border: Border.all(width:1,color: Colors.grey),
+                      borderRadius: BorderRadius.circular(30)
+                  ),
+                  child:Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left:4.0,right:1),
+                        child: CircleAvatar(
+                            radius: 18,
+                            backgroundColor: Color(0xfffaf3ed),
+                            child: Icon(Icons.note_add_outlined)),
+                      ),
+                      Text("Notes",style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w400),),
+                    ],
+                  ),
+                )
+            ),
+          ),
+
 
 
 

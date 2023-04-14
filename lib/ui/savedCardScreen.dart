@@ -18,7 +18,7 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFf4f4f4),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
@@ -107,7 +107,7 @@ class _NoteScreenState extends State<NoteScreen> {
               child: Text(
                 '$bankName',
                 style: const TextStyle(
-                    color: Colors.grey,
+                    color: Colors.white70,
                     fontSize: 12,
                     fontWeight: FontWeight.bold),
               ),
@@ -128,7 +128,7 @@ class _NoteScreenState extends State<NoteScreen> {
                   const Text(
                     'cvv ',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.white70,
                         fontSize: 12,
                         fontWeight: FontWeight.bold),
                   ),
@@ -186,7 +186,7 @@ class _NoteScreenState extends State<NoteScreen> {
         Text(
           '$label',
           style: const TextStyle(
-              color: Colors.grey, fontSize: 9, fontWeight: FontWeight.bold),
+              color: Colors.white70, fontSize: 9, fontWeight: FontWeight.bold),
         ),
         Text(
           '$value',

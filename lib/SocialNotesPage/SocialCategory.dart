@@ -28,6 +28,9 @@ class _SocialScreenState extends State<SocialScreen> {
     else  if(widget.categoryType.contains('Instagram')){
       listeable=Boxes.getInstagramPasswords().listenable();
     }
+    else  if(widget.categoryType.contains('google')){
+      listeable=Boxes.getgooglePasswords().listenable();
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -46,6 +49,9 @@ class _SocialScreenState extends State<SocialScreen> {
             }
             else  if(widget.categoryType.contains('Instagram')){
               image= 'assets/gif/instagram.gif';
+            }
+            else  if(widget.categoryType.contains('google')){
+              image= 'assets/gif/google.gif';
             }
             return Container(
               decoration: BoxDecoration(
@@ -202,6 +208,9 @@ void _onValidate(BuildContext context,TextEditingController usernameController,T
     else  if(categoryType.contains('Instagram')){
       box = Boxes.getInstagramPasswords();
     }
+    else  if(categoryType.contains('google')){
+      box = Boxes.getgooglePasswords();
+    }
     if(position!=-1) {
       box.delete(position+1);
     }
@@ -215,7 +224,7 @@ void _onValidate(BuildContext context,TextEditingController usernameController,T
   final _formKey = GlobalKey<FormState>();
 void callBottomSheet(BuildContext context, TextEditingController usernameController, TextEditingController passwordController,TextEditingController titleController, int position, String categoryType) {
   bool _titleVisibility = true;
-  if(categoryType.contains('facebook')|categoryType.contains('Instagram')|categoryType.contains('null')){
+  if(categoryType.contains('facebook')|categoryType.contains('google')|categoryType.contains('Instagram')|categoryType.contains('null')){
     _titleVisibility=false;
     titleController.text="empty";
   }
