@@ -3,6 +3,7 @@ import 'package:cardsaver/SocialNotesPage/SocialCategory.dart';
 import 'package:cardsaver/Utils/categoryhScroll.dart';
 import 'package:cardsaver/notesave/boxes.dart';
 import 'package:cardsaver/notesave/notes_modal.dart';
+import 'package:cardsaver/ui/chart.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -168,8 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   var data = box.values.toList().cast<CategoryModal>();
                   return Column(
                     children: [
-                      // const SearchField(),
-                      // #1 start here
+                      const Chart(),
                       Padding(
                         padding: const EdgeInsets.only(left: 20,right: 20,top: 25),
                         child: SizedBox(
@@ -206,12 +206,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      // #1 end here
-
                       const SizedBox(height: 20,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: const hScroll(),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: hScroll(),
                       ),
                       const SizedBox(height: 10,),
                       Expanded(

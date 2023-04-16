@@ -12,11 +12,13 @@ class NotesModal extends HiveObject{
   late String cardholder;
   @HiveField(3)
   late String cvv;
+  @HiveField(4)
+  late String bankName;
 
 
   NotesModal({
     required this.cardnumber,required this.expiry,
-    required this.cardholder,required this.cvv
+    required this.cardholder,required this.cvv,required this.bankName
 });
  
 

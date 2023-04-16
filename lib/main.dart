@@ -16,11 +16,16 @@ void main()async {
   Hive.registerAdapter(NotesModalAdapter());
   Hive.registerAdapter(SocialModalAdapter());
   Hive.registerAdapter(CategoryModalAdapter());
-  await Hive.openBox<NotesModal>("notes");
-  await Hive.openBox<SocialModal>("socialPasswords");
-  await Hive.openBox<CategoryModal>("category");
-  await Hive.openBox<SocialModal>("facebookPasswords");
-  await Hive.openBox<SocialModal>("instagramPasswords");
+  final record1=await Hive.openBox<NotesModal>("notes");
+  final record2=await Hive.openBox<SocialModal>("socialPasswords");
+  final record3=await Hive.openBox<CategoryModal>("category");
+  final record4=await Hive.openBox<SocialModal>("facebookPasswords");
+  final record5= await Hive.openBox<SocialModal>("instagramPasswords");
+  final count1 = record1.keys.length;
+  final count2 = record2.keys.length;
+  final count3 = record3.keys.length;
+  final count4 = record4.keys.length;
+  final count5 = record5.keys.length;
 
   // _openBox();
 

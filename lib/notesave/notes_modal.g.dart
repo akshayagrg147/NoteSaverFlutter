@@ -21,6 +21,7 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       expiry: fields[1] as String,
       cardholder: fields[2] as String,
       cvv: fields[3] as String,
+        bankName: fields[3] as String,
 
 
     );

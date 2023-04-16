@@ -21,9 +21,9 @@ class _NoteScreenState extends State<NoteScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 28,bottom: 5),
-          child: Text("Card Manager",style: const TextStyle(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 28,bottom: 5),
+          child: Text("Card Manager",style: TextStyle(
               color: Colors.black, fontSize: 22, fontWeight: FontWeight.w500)),
         ),
         elevation: 0,
@@ -34,17 +34,17 @@ class _NoteScreenState extends State<NoteScreen> {
           builder: (context, box, _) {
             var data = box.values.toList().cast<NotesModal>();
             return Padding(
-              padding: EdgeInsets.only(left: 20,right: 20,top: 5,bottom: 5),
+              padding: const EdgeInsets.only(left: 20,right: 20,top: 5,bottom: 5),
               child: ListView.builder(
                   itemCount: box.length,
                   itemBuilder: (context, index) {
                     return _buildCreditCard(
                         color: colorNames[index],
-                        cardExpiration: "${data[index].expiry.toString()}",
-                        cardHolder: "${data[index].cardholder.toString()}",
-                        cardNumber: "${data[index].cardnumber.toString()}",
-                        bankName: "State Bank of India",
-                        cvv: "${data[index].cvv.toString()}");
+                        cardExpiration: data[index].expiry.toString(),
+                        cardHolder: data[index].cardholder.toString(),
+                        cardNumber: data[index].cardnumber.toString(),
+                        bankName: data[index].bankName.toString(),
+                        cvv: data[index].cvv.toString(),box:box, index:index);
 
                     //     Card(
                     //   child: Row(
@@ -88,6 +88,8 @@ class _NoteScreenState extends State<NoteScreen> {
     required String cardExpiration,
     required String bankName,
     required String cvv,
+    required Box<NotesModal> box,
+    required int index
   }) {
     return Card(
       elevation: 4.0,
@@ -102,7 +104,7 @@ class _NoteScreenState extends State<NoteScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            _buildLogosBlock(),
+            _buildLogosBlock(box,index),
             Center(
               child: Text(
                 '$bankName',
@@ -158,7 +160,7 @@ class _NoteScreenState extends State<NoteScreen> {
     );
   }
 
-  Row _buildLogosBlock(){
+  Row _buildLogosBlock(Box<NotesModal> box,int index){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -168,7 +170,17 @@ class _NoteScreenState extends State<NoteScreen> {
           width: 18,
         ),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              final Map<dynamic, NotesModal> deliveriesMap = box.toMap();
+              dynamic desiredKey;
+              deliveriesMap.forEach((key, value){
+                if (value.cardnumber == box.values.take(index+1).first.cardnumber) {
+                  desiredKey = key;
+                }
+              });
+
+              box.delete(desiredKey);
+            },
             icon: const Icon(Icons.delete_forever,size: 28,)),
         // Container(
         //   height: 50,
@@ -184,12 +196,12 @@ class _NoteScreenState extends State<NoteScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          '$label',
+          label,
           style: const TextStyle(
               color: Colors.grey, fontSize: 9, fontWeight: FontWeight.bold),
         ),
         Text(
-          '$value',
+          value,
           style: const TextStyle(
               color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         )

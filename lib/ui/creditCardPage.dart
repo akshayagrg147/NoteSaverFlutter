@@ -21,11 +21,10 @@ class CreditCardPage extends StatefulWidget {
 
 class CreditCardPageState extends State<CreditCardPage> {
   late CardDetails _cardDetails;
-
+  final bankName = TextEditingController();
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
-  String bankName = 'ak';
   String cvvCode = '';
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
@@ -160,6 +159,7 @@ class CreditCardPageState extends State<CreditCardPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
                           child: TextField(
+                            controller: bankName,
                             decoration: InputDecoration(
                               border: border,
                               labelText: 'Bank Name',
@@ -231,11 +231,18 @@ class CreditCardPageState extends State<CreditCardPage> {
 
   void _onValidate() {
     if (formKey.currentState!.validate()) {
-      final data = NotesModal(cardnumber: cardNumber, expiry: expiryDate, cardholder: cardHolderName, cvv: cvvCode);
-      final box = Boxes.getdata();
-      box.add(data);
-      Navigator.pop(context);
-      print('valid!');
+      if(bankName.text.isNotEmpty){
+        final data = NotesModal(cardnumber: cardNumber, expiry: expiryDate, cardholder: cardHolderName, cvv: cvvCode,bankName: 'aksya');
+        final box = Boxes.getdata();
+        box.add(data);
+        Navigator.pop(context);
+        print('valid!');
+      }
+      else{
+        print('Invalid!');
+      }
+
+
     } else {
 
       print('invalid!');
