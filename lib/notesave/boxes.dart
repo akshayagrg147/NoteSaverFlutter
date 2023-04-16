@@ -7,6 +7,7 @@ class Boxes{
   static Box<SocialModal> getSocialPasswords()=>Hive.box<SocialModal>("socialPasswords");
   static Box<SocialModal> getFacebookPasswords()=>Hive.box<SocialModal>("facebookPasswords");
   static Box<SocialModal> getInstagramPasswords()=>Hive.box<SocialModal>("instagramPasswords");
+  static Box<SocialModal> getgooglePasswords()=>Hive.box<SocialModal>("googlePasswords");
   static Box<CategoryModal> getCategoryModal()=>Hive.box<CategoryModal>("category");
 }
 
