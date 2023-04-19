@@ -21,6 +21,8 @@ void main()async {
   final record3=await Hive.openBox<CategoryModal>("category");
   final record4=await Hive.openBox<SocialModal>("facebookPasswords");
   final record5= await Hive.openBox<SocialModal>("instagramPasswords");
+  final record6= await Hive.openBox<SocialModal>("googlePasswords");
+
   final count1 = record1.keys.length;
   final count2 = record2.keys.length;
   final count3 = record3.keys.length;

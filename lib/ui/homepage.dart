@@ -289,18 +289,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     side: const BorderSide(width: 2),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  title: Text(
+                                  title: const Text(
                                     "Google Account",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  subtitle: Text(
-                                    "cardsaver@gmail.com",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 12),
-                                  ),
-                                  leading: CircleAvatar(
+
+                                  leading: const CircleAvatar(
                                     backgroundImage: AssetImage(
                                         "assets/images/google.png"),
                                     radius: 20,
@@ -312,7 +308,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const SocialScreen("google")),
+                                          const SocialScreen(
+                                              "google")),
                                     );
                                   },
                                 ),
@@ -325,7 +322,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ? Container(
                                 decoration: BoxDecoration(
                                   // color: Color(0xFFfce8d6),
-                                  color: Color(0xFFFff6f1),
+                                  color: const Color(0xFFFff6f1),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 margin: const EdgeInsets.only(
@@ -342,18 +339,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     side: const BorderSide(width: 2),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  title: Text(
+                                  title: const Text(
                                     "Instagram",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  subtitle: Text(
-                                    "cardsaver@gmail.com",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 12),
-                                  ),
-                                  leading: CircleAvatar(
+
+                                  leading: const CircleAvatar(
                                     backgroundImage: AssetImage(
                                         "assets/images/instagram.png"),
                                     radius: 20,
@@ -395,18 +388,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     side: const BorderSide(width: 2),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  title: Text(
+                                  title: const Text(
                                     "Facebook",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  subtitle: Text(
-                                    "cardsaver@gmail.com",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 12),
-                                  ),
-                                  leading: CircleAvatar(
+
+                                  leading: const CircleAvatar(
                                     backgroundImage: AssetImage(
                                         "assets/images/facebook.png"),
                                     radius: 20,
@@ -480,12 +469,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        subtitle: Text(
-                                          "cardsaver@gmail.com",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
-                                        ),
+
                                         leading: Image.asset(
                                           'assets/images/4.png',
                                           height: 32,

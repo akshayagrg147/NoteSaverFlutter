@@ -29,7 +29,7 @@ class _SocialScreenState extends State<SocialScreen> {
       listeable=Boxes.getInstagramPasswords().listenable();
     }
     else  if(widget.categoryType.contains('google')){
-      listeable=Boxes.getgooglePasswords().listenable();
+      listeable=Boxes.getGooglePasswords().listenable();
     }
 
     return Scaffold(
@@ -51,7 +51,7 @@ class _SocialScreenState extends State<SocialScreen> {
               image= 'assets/gif/instagram.gif';
             }
             else  if(widget.categoryType.contains('google')){
-              image= 'assets/gif/google.gif';
+              image= 'assets/gif/others.gif';
             }
             return Container(
               decoration: BoxDecoration(
@@ -209,7 +209,7 @@ void _onValidate(BuildContext context,TextEditingController usernameController,T
       box = Boxes.getInstagramPasswords();
     }
     else  if(categoryType.contains('google')){
-      box = Boxes.getgooglePasswords();
+      box = Boxes.getGooglePasswords();
     }
     if(position!=-1) {
       box.delete(position+1);
