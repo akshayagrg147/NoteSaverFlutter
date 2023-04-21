@@ -51,7 +51,7 @@ class _SocialScreenState extends State<SocialScreen> {
               image= 'assets/gif/instagram.gif';
             }
             else  if(widget.categoryType.contains('google')){
-              image= 'assets/gif/google.gif';
+              image= 'assets/images/google.png';
             }
             return Container(
               decoration: BoxDecoration(
@@ -64,7 +64,7 @@ class _SocialScreenState extends State<SocialScreen> {
                   Image.asset(
                     image,
                     width: double.infinity,
-                    height: 250,
+                    height: 200,
                   ),
                   const SizedBox(
               height: 20,

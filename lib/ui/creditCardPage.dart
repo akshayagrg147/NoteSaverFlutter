@@ -108,8 +108,8 @@ class CreditCardPageState extends State<CreditCardPage> {
                       children: <Widget>[
                         CreditCardForm(
                           formKey: formKey,
-                          obscureCvv: true,
-                          obscureNumber: true,
+                          obscureCvv: false,
+                          obscureNumber: false,
                           cardNumber: cardNumber,
                           cvvCode: cvvCode,
                           isHolderNameVisible: true,

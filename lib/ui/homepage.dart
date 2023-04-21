@@ -50,6 +50,7 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -62,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
   // #2 start here
   String search = '';
   TextEditingController searchController = TextEditingController();
-
   // #2 end here
 
   @override
@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
         child: Scaffold(
+          backgroundColor: Color(0xFFf4f4f4),
           key: scaffoldKey,
           appBar: AppBar(
             elevation: 0,
@@ -109,7 +110,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ], //<Widget>[]
           ),
           floatingActionButton: SpeedDial(
-            // animatedIcon: AnimatedIcons.menu_close,
             animatedIcon: AnimatedIcons.add_event,
             openCloseDial: isDialOpen,
             backgroundColor: Colors.redAccent,
@@ -150,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
               //       );
               //     }),
               SpeedDialChild(
-                backgroundColor: Colors.black26,
+                  backgroundColor: Colors.black26,
                   child: Image.asset(
                     'assets/images/card.png',
                     height: 40,
@@ -180,12 +180,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   }),
               SpeedDialChild(
-                backgroundColor: Colors.black26,
+                  backgroundColor: Colors.black26,
                   child: Image.asset(
                     'assets/images/others.png',
                     height: 40,
                     width: 40,
-
                   ),
                   label: 'Categories',
                   onTap: () {
@@ -193,11 +192,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   }),
             ],
           ),
+
           body: Container(
               decoration: const BoxDecoration(
                 color: Color(0xFFf4f4f4),
-                // color: Colors.white,
-                // borderRadius: BorderRadius.circular(20),
               ),
               child: ValueListenableBuilder<Box<CategoryModal>>(
                   valueListenable: Boxes.getCategoryModal().listenable(),
@@ -252,7 +250,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 10,
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 20,),
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                            ),
                             child: Container(
                               child: Text(
                                 "Categories",
@@ -270,181 +270,227 @@ class _MyHomePageState extends State<MyHomePage> {
                           Container(
                               child: searchController.text.isEmpty
                                   ? Container(
-                                decoration: BoxDecoration(
-                                  // color: Color(0xFFfce8d6),
-                                  color: Color(0xFFFff6f1),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                margin: const EdgeInsets.only(
-                                  left: 15,
-                                  right: 15,
-                                  top: 1,
-                                ),
-                                child: ListTile(
-                                  contentPadding:
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 0.0),
-                                  shape: RoundedRectangleBorder(
-                                    //<-- SEE HERE
-                                    side: const BorderSide(width: 2),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  title: Text(
-                                    "Google Account",
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Text(
-                                    "cardsaver@gmail.com",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 12),
-                                  ),
-                                  leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        "assets/images/google.png"),
-                                    radius: 20,
-                                    backgroundColor: Colors.white,
-                                  ),
-                                  // trailing:
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const SocialScreen("google")),
-                                    );
-                                  },
-                                ),
-                              )
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFFff6f1),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      margin: const EdgeInsets.only(
+                                        left: 15,
+                                        right: 15,
+                                        top: 1,
+                                      ),
+                                      child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 0.0),
+                                        shape: RoundedRectangleBorder(
+                                          //<-- SEE HERE
+                                          side: const BorderSide(width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        title: Text(
+                                          "Google Account",
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(
+                                          "cardsaver@gmail.com",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
+                                        leading: CircleAvatar(
+                                          backgroundImage: AssetImage(
+                                              "assets/images/google.png"),
+                                          radius: 20,
+                                          backgroundColor: Colors.white,
+                                        ),
+                                        // trailing:
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SocialScreen(
+                                                        "google")),
+                                          );
+                                        },
+                                      ),
+                                    )
                                   : Container(
-                                height:1,
-                              )),
+                                      height: 1,
+                                    )),
                           Container(
                               child: searchController.text.isEmpty
                                   ? Container(
-                                decoration: BoxDecoration(
-                                  // color: Color(0xFFfce8d6),
-                                  color: Color(0xFFFff6f1),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                margin: const EdgeInsets.only(
-                                  left: 15,
-                                  right: 15,
-                                  top: 8,
-                                ),
-                                child: ListTile(
-                                  contentPadding:
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 0.0),
-                                  shape: RoundedRectangleBorder(
-                                    //<-- SEE HERE
-                                    side: const BorderSide(width: 2),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  title: Text(
-                                    "Instagram",
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Text(
-                                    "cardsaver@gmail.com",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 12),
-                                  ),
-                                  leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        "assets/images/instagram.png"),
-                                    radius: 20,
-                                  ),
-                                  // trailing:
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const SocialScreen('Instagram')),
-                                    );
-                                  },
-                                ),
-                              )
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFFff6f1),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      margin: const EdgeInsets.only(
+                                        left: 15,
+                                        right: 15,
+                                        top: 8,
+                                      ),
+                                      child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 0.0),
+                                        shape: RoundedRectangleBorder(
+                                          //<-- SEE HERE
+                                          side: const BorderSide(width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        title: Text(
+                                          "Instagram",
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(
+                                          "cardsaver@gmail.com",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
+                                        leading: CircleAvatar(
+                                          backgroundImage: AssetImage(
+                                              "assets/images/instagram.png"),
+                                          radius: 20,
+                                        ),
+                                        // trailing:
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SocialScreen(
+                                                        'Instagram')),
+                                          );
+                                        },
+                                      ),
+                                    )
                                   : Container(
-                                height: 1,
-                              )),
+                                      height: 1,
+                                    )),
                           Container(
                               child: searchController.text.isEmpty
                                   ? Container(
-                                decoration: BoxDecoration(
-                                  // color: Color(0xFFfce8d6),
-                                  color: Color(0xFFFff6f1),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                margin: const EdgeInsets.only(
-                                  left: 15,
-                                  right: 15,
-                                  top: 8,
-                                  bottom:5
-                                ),
-                                child: ListTile(
-                                  contentPadding:
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 0.0),
-                                  shape: RoundedRectangleBorder(
-                                    //<-- SEE HERE
-                                    side: const BorderSide(width: 2),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  title: Text(
-                                    "Facebook",
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Text(
-                                    "cardsaver@gmail.com",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 12),
-                                  ),
-                                  leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        "assets/images/facebook.png"),
-                                    radius: 20,
-                                  ),
-                                  // trailing:
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                          const SocialScreen(
-                                              "facebook")),
-                                    );
-                                  },
-                                ),
-                              )
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFFff6f1),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      margin: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 8,
+                                          bottom: 5),
+                                      child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 0.0),
+                                        shape: RoundedRectangleBorder(
+                                          //<-- SEE HERE
+                                          side: const BorderSide(width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        title: Text(
+                                          "Facebook",
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(
+                                          "cardsaver@gmail.com",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
+                                        leading: CircleAvatar(
+                                          backgroundImage: AssetImage(
+                                              "assets/images/facebook.png"),
+                                          radius: 20,
+                                        ),
+                                        // trailing:
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SocialScreen(
+                                                        "facebook")),
+                                          );
+                                        },
+                                      ),
+                                    )
                                   : Container(
-                                height: 1,
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, top: 5),
-                            child: Container(
-                              child: Text(
-                                "Recently Added",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 20),
+                                      height: 1,
+                                    )),
+
+                          if (searchController.text.isEmpty && box.length != 0)
+                            (Padding(
+                              padding: const EdgeInsets.only(left: 20, top: 5),
+                              child: Container(
+                                child: Text(
+                                  "Recently Added",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 20),
+                                ),
                               ),
-                            ),
-                          ),
+                            )),
                           const SizedBox(
                             height: 5,
                           ),
+                          if (box.length == 0 && MediaQuery.of(context).size.height > 550)(
+                          SizedBox(
+                            height: (MediaQuery.of(context).size.height - 525)/5,
+                          )
+                          ),
+                          if (box.length == 0)(
+                            Column(
+                              children: [
+                                Container(
+                                  height: 105,
+                                  width: double.infinity,
+                                  // color: Colors.blue,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      callBottomSheet(context);
+                                    },
+                                    icon: Icon(
+                                      Icons.add_circle_outline_rounded,
+                                      color: Colors.black26,
+                                      size: 100,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 25),
+                                  child: Text("Add more Catagories",
+                                      style: TextStyle(
+                                          color: Colors.black38,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w500)),
+                                )
+                              ],
+                            )
+                          ),
+
+                          // #code start
+
                           Container(
                             child: ListView.builder(
-                                scrollDirection: Axis.vertical,
+                                physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: box.length,
                                 itemBuilder: (context, index) {
@@ -455,8 +501,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       decoration: BoxDecoration(
                                         // color: Color(0xFFfce8d6),
                                         color: Color(0xFFFff6f1),
-                                        borderRadius:
-                                        BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
                                       margin: const EdgeInsets.only(
                                         left: 15,
@@ -465,14 +510,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                       child: ListTile(
                                         contentPadding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                            vertical: 0.0),
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 0.0),
                                         shape: RoundedRectangleBorder(
                                           //<-- SEE HERE
                                           side: const BorderSide(width: 2),
                                           borderRadius:
-                                          BorderRadius.circular(20),
+                                              BorderRadius.circular(20),
                                         ),
                                         title: Text(
                                           data[index].category,
@@ -491,32 +536,100 @@ class _MyHomePageState extends State<MyHomePage> {
                                           height: 32,
                                           width: 32,
                                         ),
-                                        // CircleAvatar(
-                                        //   radius: 20,
-                                        //   backgroundColor: Colors.blueAccent,
-                                        //   child: Text(
-                                        //     (index + 1).toString(),
-                                        //     style: const TextStyle(
-                                        //         color: Colors.black,
-                                        //         fontSize: 18),
-                                        //   ),
-                                        // ),
                                         trailing: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             IconButton(
                                                 onPressed: () {
                                                   final Map<dynamic,
-                                                      CategoryModal>
-                                                  deliveriesMap =
-                                                  box.toMap();
+                                                          CategoryModal>
+                                                      deliveriesMap =
+                                                      box.toMap();
+                                                  dynamic desiredKey;
+                                                  deliveriesMap
+                                                      .forEach((key, value) {
+                                                    if (value.category ==
+                                                        box.values
+                                                            .take(index + 1).last.category) {
+                                                      desiredKey = key;
+                                                    }
+                                                  });
+
+                                                  box.delete(desiredKey);
+                                                },
+                                                icon: const Icon(
+                                                  Icons.delete_outlined,
+                                                  color: Colors.black38,
+                                                )),
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SocialScreen(
+                                                        data[index].category)),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (position.toLowerCase().contains(
+                                      searchController.text.toLowerCase())) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFFff6f1),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      margin: const EdgeInsets.only(
+                                        left: 15,
+                                        right: 15,
+                                        top: 10,
+                                      ),
+                                      child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 0.0),
+                                        shape: RoundedRectangleBorder(
+                                          //<-- SEE HERE
+                                          side: const BorderSide(width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        title: Text(
+                                          position,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(
+                                          "cardsaver@gmail.com",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
+                                        leading: Image.asset(
+                                          'assets/images/4.png',
+                                          height: 32,
+                                          width: 32,
+                                        ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  final Map<dynamic,
+                                                          CategoryModal>
+                                                      deliveriesMap =
+                                                      box.toMap();
                                                   dynamic desiredKey;
                                                   deliveriesMap
                                                       .forEach((key, value) {
                                                     if (value.category ==
                                                         box.values
                                                             .take(index + 1)
-                                                            .first
+                                                            .last
                                                             .category) {
                                                       desiredKey = key;
                                                     }
@@ -535,86 +648,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    SocialScreen(data[index]
-                                                        .category)),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  } else if (position.toLowerCase().contains(
-                                      searchController.text.toLowerCase())) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFfce8d6),
-                                        borderRadius:
-                                        BorderRadius.circular(20),
-                                      ),
-                                      margin: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 10,
-                                      ),
-                                      child: ListTile(
-                                        contentPadding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 20.0),
-                                        shape: RoundedRectangleBorder(
-                                          //<-- SEE HERE
-                                          side: const BorderSide(width: 2),
-                                          borderRadius:
-                                          BorderRadius.circular(20),
-                                        ),
-                                        title: Text(
-                                          position,
-                                          style: const TextStyle(
-                                              color: Colors.black),
-                                        ),
-                                        leading: CircleAvatar(
-                                          radius: 20,
-                                          backgroundColor: Colors.blueAccent,
-                                          child: Text(
-                                            (index + 1).toString(),
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18),
-                                          ),
-                                        ),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                                onPressed: () {
-                                                  final Map<dynamic,
-                                                      CategoryModal>
-                                                  deliveriesMap =
-                                                  box.toMap();
-                                                  dynamic desiredKey;
-                                                  deliveriesMap
-                                                      .forEach((key, value) {
-                                                    if (value.category ==
-                                                        box.values
-                                                            .take(index + 1)
-                                                            .first
-                                                            .category) {
-                                                      desiredKey = key;
-                                                    }
-                                                  });
-
-                                                  box.delete(desiredKey);
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete_outlined,
-                                                  color: Colors.black,
-                                                )),
-                                          ],
-                                        ),
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SocialScreen(data[index]
-                                                        .category)),
+                                                    SocialScreen(
+                                                        data[index].category)),
                                           );
                                         },
                                       ),
@@ -687,7 +722,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   // #4 end here original code
                                 }),
                           ),
-                          
+
+                          //  end here
                         ],
                       ),
                     );
@@ -702,13 +738,15 @@ void callBottomSheet(BuildContext context) {
       // context and builder are
       // required properties in this widget
       context: context,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
           decoration: BoxDecoration(
-            color: Color(0xFFf4f4f4),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          height: 220,
+              // color: Color(0xFFf4f4f4),
+              color: Color(0xFFFff6f1),
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(40), topLeft: Radius.circular(40))),
+          height: 250,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -716,10 +754,10 @@ void callBottomSheet(BuildContext context) {
                 const Text(
                   'Create your Own Category',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'halter',
-                    fontSize: 20,
-                  ),
+                      color: Colors.black,
+                      fontFamily: 'halter',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(
                   height: 10,
@@ -727,18 +765,25 @@ void callBottomSheet(BuildContext context) {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
+                    style: TextStyle(color: Colors.black),
                     controller: categoryController,
-                    decoration: const InputDecoration(
-                        hintText: "Enter Category",
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        )),
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      hintText: "Enter Category",
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                      ),
+                      filled: true,
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 2,
+                  height: 10,
                 ),
                 GestureDetector(
                   onTap: () {
