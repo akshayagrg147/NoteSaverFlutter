@@ -262,7 +262,8 @@ class CreditCardPageState extends State<CreditCardPage> {
     var sharedpref = await SharedPreferences.getInstance();
     var sColor = sharedpref.getInt("selectedcolor");
     setState(() {
-      selectedColor = sColor ?? Colors.black.value;
+      // selectedColor = sColor ?? Colors.black.value;
+      selectedColor = sColor!;
     });
     _onValidate();
   }

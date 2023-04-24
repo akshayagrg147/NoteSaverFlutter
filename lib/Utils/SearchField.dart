@@ -22,10 +22,10 @@ class SearchField extends StatelessWidget {
           const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
           hintText: "Search Passwords",
           filled: true,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             // borderSide: BorderSide.none,
-            borderSide: const BorderSide(),
-            borderRadius: const BorderRadius.all(Radius.circular(25)),
+            borderSide: BorderSide(),
+            borderRadius: BorderRadius.all(Radius.circular(25)),
           ),
           prefixIcon:
           IconButton(onPressed: () {}, icon: Icon(Icons.search)),
