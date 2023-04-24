@@ -1,4 +1,5 @@
 import 'package:card_scanner/card_scanner.dart';
+import 'package:cardsaver/Utils/colorselector.dart';
 import 'package:cardsaver/notesave/boxes.dart';
 import 'package:cardsaver/notesave/notes_modal.dart';
 import 'package:flutter/material.dart';
@@ -8,15 +9,13 @@ import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
-
-
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreditCardPage extends StatefulWidget {
+  const CreditCardPage({super.key});
+
   @override
-  State<StatefulWidget> createState() {
-    return CreditCardPageState();
-  }
+  State<StatefulWidget> createState() => CreditCardPageState();
 }
 
 class CreditCardPageState extends State<CreditCardPage> {
@@ -25,13 +24,15 @@ class CreditCardPageState extends State<CreditCardPage> {
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
-  String bankName = 'ak';
+  String bankName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  var bankNameController = TextEditingController();
+  var selectedColor = Colors.blue.value ;
 
   @override
   void initState() {
@@ -72,35 +73,35 @@ class CreditCardPageState extends State<CreditCardPage> {
                 ),
                 CreditCardWidget(
                   glassmorphismConfig:
-                  useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+                      useGlassMorphism ? Glassmorphism.defaultConfig() : null,
                   cardNumber: cardNumber,
                   expiryDate: expiryDate,
                   cardHolderName: cardHolderName,
                   cvvCode: cvvCode,
                   bankName: 'Card Bank',
                   frontCardBorder:
-                  !useGlassMorphism ? Border.all(color: Colors.grey) : null,
+                      !useGlassMorphism ? Border.all(color: Colors.grey) : null,
                   backCardBorder:
-                  !useGlassMorphism ? Border.all(color: Colors.grey) : null,
+                      !useGlassMorphism ? Border.all(color: Colors.grey) : null,
                   showBackView: isCvvFocused,
                   obscureCardNumber: true,
                   obscureCardCvv: true,
                   isHolderNameVisible: true,
                   backgroundImage:
-                  useBackgroundImage ? 'assets/card_bg.png' : null,
+                      useBackgroundImage ? 'assets/card_bg.png' : null,
                   isSwipeGestureEnabled: true,
                   onCreditCardWidgetChange:
                       (CreditCardBrand creditCardBrand) {},
-                  customCardTypeIcons: <CustomCardTypeIcon>[
-                    CustomCardTypeIcon(
-                      cardType: CardType.mastercard,
-                      cardImage: Image.asset(
-                        'assets/mastercard.png',
-                        height: 48,
-                        width: 48,
-                      ),
-                    ),
-                  ],
+                  // customCardTypeIcons: <CustomCardTypeIcon>[
+                  //   CustomCardTypeIcon(
+                  //     cardType: CardType.mastercard,
+                  //     cardImage: Image.asset(
+                  //       'assets/mastercard.png',
+                  //       height: 38,
+                  //       width: 38,
+                  //     ),
+                  //   ),
+                  // ],
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -124,10 +125,9 @@ class CreditCardPageState extends State<CreditCardPage> {
                             hintText: 'XXXX XXXX XXXX XXXX',
                             hintStyle: const TextStyle(fontSize: 14),
                             labelStyle: const TextStyle(fontSize: 14),
-                              // focusedBorder: border,
-                              // enabledBorder: border,
-                              border: border,
-
+                            // focusedBorder: border,
+                            // enabledBorder: border,
+                            border: border,
                           ),
                           expiryDateDecoration: InputDecoration(
                             hintStyle: const TextStyle(fontSize: 14),
@@ -158,8 +158,10 @@ class CreditCardPageState extends State<CreditCardPage> {
                           onCreditCardModelChange: onCreditCardModelChange,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
+                          padding: const EdgeInsets.only(
+                              left: 16, top: 16, right: 16),
                           child: TextField(
+                            controller: bankNameController,
                             decoration: InputDecoration(
                               border: border,
                               labelText: 'Bank Name',
@@ -168,10 +170,17 @@ class CreditCardPageState extends State<CreditCardPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 12,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: ColorSelecting()
+                        ),
+                        SizedBox(
+                          height: 12,
                         ),
                         GestureDetector(
-                          onTap: _onValidate,
+                          onTap:getColorValue,
                           child: Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
@@ -192,6 +201,7 @@ class CreditCardPageState extends State<CreditCardPage> {
                               ),
                             ),
                           ),
+                          // ),
                         ),
                         GestureDetector(
                           onTap: scanCard,
@@ -216,7 +226,6 @@ class CreditCardPageState extends State<CreditCardPage> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -231,24 +240,43 @@ class CreditCardPageState extends State<CreditCardPage> {
 
   void _onValidate() {
     if (formKey.currentState!.validate()) {
-      final data = NotesModal(cardnumber: cardNumber, expiry: expiryDate, cardholder: cardHolderName, cvv: cvvCode);
+      // getColorValue();
+      var data = NotesModal(
+        cardnumber: cardNumber,
+        expiry: expiryDate,
+        cardholder: cardHolderName,
+        cvv: cvvCode,
+        bankname: bankNameController.text,
+        color: selectedColor,
+      );
       final box = Boxes.getdata();
       box.add(data);
       Navigator.pop(context);
       print('valid!');
     } else {
-
       print('invalid!');
     }
   }
+
+  void getColorValue() async {
+    var sharedpref = await SharedPreferences.getInstance();
+    var sColor = sharedpref.getInt("selectedcolor");
+    setState(() {
+      selectedColor = sColor ?? Colors.black.value;
+    });
+    _onValidate();
+  }
+
   Future<void> scanCard() async {
     var cardDetails = await CardScanner.scanCard();
     print("getcard ${cardDetails?.cardNumber.toString()} ");
     if (!mounted) return;
 
     _cardDetails = cardDetails!;
-    onCreditCardModelChange(CreditCardModel(_cardDetails.cardNumber,_cardDetails.expiryDate,_cardDetails.cardHolderName,"",true));
+    onCreditCardModelChange(CreditCardModel(_cardDetails.cardNumber,
+        _cardDetails.expiryDate, _cardDetails.cardHolderName, "", true));
   }
+
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     setState(() {
       cardNumber = creditCardModel!.cardNumber;

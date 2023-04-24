@@ -21,7 +21,8 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       expiry: fields[1] as String,
       cardholder: fields[2] as String,
       cvv: fields[3] as String,
-
+      bankname: fields[4] as String,
+      color: fields[5] as int,
 
     );
   }
@@ -29,7 +30,7 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
   @override
   void write(BinaryWriter writer, NotesModal obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.cardnumber)
       ..writeByte(1)
@@ -37,7 +38,11 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       ..writeByte(2)
       ..write(obj.cardholder)
       ..writeByte(3)
-      ..write(obj.cvv);
+      ..write(obj.cvv)
+      ..writeByte(4)
+      ..write(obj.bankname)
+      ..writeByte(5)
+      ..write(obj.color);
 
   }
 
@@ -127,3 +132,6 @@ class CategoryModalAdapter extends TypeAdapter<CategoryModal> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+
+

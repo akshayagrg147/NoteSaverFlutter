@@ -1,12 +1,19 @@
 
 import 'package:cardsaver/notesave/notes_modal.dart';
+import 'package:cardsaver/notesfile/add_note_cubit.dart';
+import 'package:cardsaver/notesfile/note_model.dart';
+import 'package:cardsaver/notesfile/simple_bloc_observer.dart';
+import 'package:cardsaver/notesfile/notes_cubit.dart';
+
 import 'package:cardsaver/ui/homepage.dart';
 import 'package:cardsaver/ui/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:cardsaver/notesfile/constant.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 void main()async {
@@ -22,6 +29,11 @@ void main()async {
   await Hive.openBox<SocialModal>("facebookPasswords");
   await Hive.openBox<SocialModal>("instagramPasswords");
   await Hive.openBox<SocialModal>("googlePasswords");
+
+  await Hive.initFlutter();
+  Bloc.observer = SimpleBlocObserver();
+  Hive.registerAdapter(NoteModelAdapter());
+  await Hive.openBox<NoteModel>(kNotesBox);
 
 
   // _openBox();
@@ -46,12 +58,15 @@ Future<List<Box>> _openBox() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: Splash(),
-      // home: MyHomePage(title: 'hello',),
+    return BlocProvider(
+      create: (context) => NotesCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(),
+        home: Splash(),
+        // home: MyHomePage(title: 'hello',),
 
+      ),
     );
   }
 }

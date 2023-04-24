@@ -3,6 +3,7 @@ import 'package:cardsaver/SocialNotesPage/SocialCategory.dart';
 import 'package:cardsaver/Utils/categoryhScroll.dart';
 import 'package:cardsaver/notesave/boxes.dart';
 import 'package:cardsaver/notesave/notes_modal.dart';
+import 'package:cardsaver/notesfile/add_note_bottom_sheet.dart';
 import 'package:cardsaver/ui/creditCardPage.dart';
 import 'package:cardsaver/ui/savedCardScreen.dart';
 
@@ -172,12 +173,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   label: 'Notes',
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const SocialScreen('Instagram')),
-                    );
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        context: context,
+                        builder: (context) {
+                          return const AddNoteBottomSheet();
+                          // return const Text("ABC");
+                        });
                   }),
               SpeedDialChild(
                   backgroundColor: Colors.black26,
@@ -209,7 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           // const SearchField(),
                           Padding(
                             padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 8),
+                                left: 20, right: 20, top: 15),
                             child: SizedBox(
                               height: 44,
                               child: TextFormField(

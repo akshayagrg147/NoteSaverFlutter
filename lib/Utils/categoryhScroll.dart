@@ -1,4 +1,5 @@
 import 'package:cardsaver/SocialNotesPage/SocialCategory.dart';
+import 'package:cardsaver/notesfile/notes_view.dart';
 import 'package:cardsaver/ui/savedCardScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _hScrollState extends State<hScroll> {
                 onTap: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const NoteScreen()),
+                    MaterialPageRoute(builder: (context) => const NotesView()),
                   );
                 },
                 child: Container(
