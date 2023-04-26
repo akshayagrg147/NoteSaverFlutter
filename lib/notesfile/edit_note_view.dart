@@ -9,6 +9,7 @@ class EditNoteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFff6f1),
       body: EditNoteViewBody(
         note: note,
       ),

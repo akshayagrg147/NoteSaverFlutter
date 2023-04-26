@@ -1,9 +1,9 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
-const kPrimaryColor = Color(0xff62FCD7);
+// const kPrimaryColor = Color(0xff62FCD7);
+const kPrimaryColor = Colors.lightBlue;
 const kNotesBox = 'notes_box';
-// const kNoteBox = 'note_box';
 List<Color> kColors = const [
   Colors.pink,
   Colors.lightBlue,

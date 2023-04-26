@@ -1,20 +1,18 @@
-import 'package:cardsaver/SocialNotesPage/SocialCategory.dart';
 import 'package:cardsaver/notesfile/notes_view.dart';
 import 'package:cardsaver/ui/savedCardScreen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class hScroll extends StatefulWidget {
-  const hScroll({Key? key}) : super(key: key);
+class HorizontalScroll extends StatefulWidget {
+  const HorizontalScroll({Key? key}) : super(key: key);
 
   @override
-  State<hScroll> createState() => _hScrollState();
+  State<HorizontalScroll> createState() => _HorizontalScrollState();
 }
 
-class _hScrollState extends State<hScroll> {
+class _HorizontalScrollState extends State<HorizontalScroll> {
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return  SizedBox(
       height: 75,
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -26,14 +24,14 @@ class _hScrollState extends State<hScroll> {
                 child: Container(
                   width: 95,
                   // height: 48,
-                  decoration: BoxDecoration(border: Border.all(width:3,color: Color(0xFFFfc9b6)),
+                  decoration: BoxDecoration(border: Border.all(width:3,color: const Color(0xFFFfc9b6)),
                       borderRadius: BorderRadius.circular(30)
                       ),
                   child:Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                    children: const [
                       Padding(
-                        padding: const EdgeInsets.only(left:10.0,right: 11),
+                        padding: EdgeInsets.only(left:10.0,right: 11),
                         child: CircleAvatar(
                           radius: 18,
                             backgroundColor: Colors.orangeAccent,
@@ -61,9 +59,9 @@ class _hScrollState extends State<hScroll> {
                   ),
                   child:Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                    children: const [
                       Padding(
-                        padding: const EdgeInsets.only(left:5.0,right: 5),
+                        padding: EdgeInsets.only(left:5.0,right: 5),
                         child: CircleAvatar(
                             radius: 18,
                             backgroundColor: Color(0xfffaf3ed),
@@ -91,9 +89,9 @@ class _hScrollState extends State<hScroll> {
                   ),
                   child:Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                    children: const [
                       Padding(
-                        padding: const EdgeInsets.only(left:4.0,right:1),
+                        padding: EdgeInsets.only(left:4.0,right:1),
                         child: CircleAvatar(
                             radius: 18,
                             backgroundColor: Color(0xfffaf3ed),

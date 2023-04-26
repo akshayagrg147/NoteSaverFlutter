@@ -28,6 +28,7 @@ class _AddNoteFormState extends State<AddNoteForm> {
     return Form(
       key: formKey,
       autovalidateMode: autovalidateMode,
+
       child: Column(
         children: [
           const SizedBox(
@@ -38,6 +39,7 @@ class _AddNoteFormState extends State<AddNoteForm> {
               title = value;
             },
             hint: 'title',
+            initialValue: null,
           ),
           const SizedBox(
             height: 16,
@@ -48,6 +50,7 @@ class _AddNoteFormState extends State<AddNoteForm> {
             },
             hint: 'content',
             maxLines: 5,
+            initialValue:null,
           ),
           const SizedBox(
             height: 20,
@@ -71,7 +74,7 @@ class _AddNoteFormState extends State<AddNoteForm> {
                         title: title!,
                         subTitle: subTitle!,
                         date: formattedCurrentDate,
-                        color: Colors.blue.value);
+                        color: Colors.lightBlue.value);
                     BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
                   } else {
                     autovalidateMode = AutovalidateMode.always;

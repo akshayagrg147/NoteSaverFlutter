@@ -1,33 +1,33 @@
+//18 to 31
+//836 - 930
 import 'package:cardsaver/SocialNotesPage/SocialCategory.dart';
-// import 'package:cardsaver/Utils/SearchField.dart';
-import 'package:cardsaver/Utils/categoryhScroll.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cardsaver/Utils/categoryhscroll.dart';
 import 'package:cardsaver/notesave/boxes.dart';
 import 'package:cardsaver/notesave/notes_modal.dart';
 import 'package:cardsaver/notesfile/add_note_bottom_sheet.dart';
 import 'package:cardsaver/ui/creditCardPage.dart';
-import 'package:cardsaver/ui/savedCardScreen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
 //Global declarations
-class Language {
-  String name;
-  bool isChecked;
-  Language(this.name, {this.isChecked = false});
-}
-
-final List<Language> languages = [
-  Language('Twiiter'),
-  Language('Google'),
-  Language('instagram'),
-  Language('Github'),
-  Language('Slack'),
-  Language('Linkedin')
-];
+// class Language {
+//   String name;
+//   bool isChecked;
+//   Language(this.name, {this.isChecked = false});
+// }
+//
+// final List<Language> languages = [
+//   Language('Twiiter'),
+//   Language('Google'),
+//   Language('instagram'),
+//   Language('Github'),
+//   Language('Slack'),
+//   Language('Linkedin')
+// ];
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -51,20 +51,23 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double height = 0, width = 0;
+  double height = 0,
+      width = 0;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // #2 start here
+
   String search = '';
   TextEditingController searchController = TextEditingController();
-  // #2 end here
+  var facebookEmail = "No Password" ;
+  var instagramEmail = "No Password";
+  var googleEmail = "No Password";
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
         child: Scaffold(
-          backgroundColor: Color(0xFFf4f4f4),
+          backgroundColor: const Color(0xFFf4f4f4),
           key: scaffoldKey,
           appBar: AppBar(
             elevation: 0,
-            // backgroundColor: Colors.black26,
-            // backgroundColor: Color(0xFF4e3974),
-            backgroundColor: Color(0xFFf4f4f4),
+            backgroundColor: const Color(0xFFf4f4f4),
             leading: IconButton(
               icon: const Icon(Icons.sort),
               color: Colors.black,
@@ -120,36 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
             spaceBetweenChildren: 15,
             // closeManually: true,
             children: [
-              // SpeedDialChild(
-              //     child: Image.asset(
-              //       'assets/images/facebook.png',
-              //       height: 48,
-              //       width: 48,
-              //     ),
-              //     label: 'Facebook',
-              //     backgroundColor: Colors.blue,
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) => const SocialScreen("facebook")),
-              //       );
-              //     }),
-              // SpeedDialChild(
-              //     child: Image.asset(
-              //       'assets/images/instagram.png',
-              //       height: 48,
-              //       width: 48,
-              //     ),
-              //     label: 'Instagram',
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) =>
-              //                 const SocialScreen('Instagram')),
-              //       );
-              //     }),
               SpeedDialChild(
                   backgroundColor: Colors.black26,
                   child: Image.asset(
@@ -161,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CreditCardPage()),
+                      MaterialPageRoute(builder: (context) => const CreditCardPage()),
                     );
                   }),
               SpeedDialChild(
@@ -175,13 +146,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () {
                     showModalBottomSheet(
                         isScrollControlled: true,
+                        backgroundColor: const Color(0xFFFff6f1),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(28),
                         ),
                         context: context,
                         builder: (context) {
                           return const AddNoteBottomSheet();
-                          // return const Text("ABC");
                         });
                   }),
               SpeedDialChild(
@@ -193,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   label: 'Categories',
                   onTap: () {
-                    callBottomSheet(context);
+                    callBottomSheets(context);
                   }),
             ],
           ),
@@ -202,16 +173,17 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: const BoxDecoration(
                 color: Color(0xFFf4f4f4),
               ),
-              child: ValueListenableBuilder<Box<CategoryModal>>(
-                  valueListenable: Boxes.getCategoryModal().listenable(),
+              child:
+              ValueListenableBuilder<Box<SocialModal>>(
+                  valueListenable: Boxes.getSocialPasswords().listenable(),
                   builder: (context, box, _) {
-                    var data = box.values.toList().cast<CategoryModal>();
+                    var data = box.values.toList().cast<SocialModal>();
+                    getEmail();
+
                     return SingleChildScrollView(
                       child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // const SearchField(),
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 20, right: 20, top: 15),
@@ -221,19 +193,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                 controller: searchController,
                                 autofocus: false,
                                 style: const TextStyle(color: Colors.black),
-                                // #3starr here
                                 onChanged: (String? value) {
-                                  // print(value);
                                   setState(() {
                                     search = value.toString();
                                   });
-                                  // #3 end here
                                 },
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 15),
                                   hintText: 'Search "passwords"',
-                                  hintStyle: TextStyle(color: Colors.grey),
+                                  hintStyle: const TextStyle(color: Colors.grey),
                                   fillColor: Colors.white,
                                   filled: true,
                                   border: OutlineInputBorder(
@@ -241,9 +210,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                       color: Colors.grey.withOpacity(0.7),
                                     ),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
+                                    const BorderRadius.all(Radius.circular(15)),
                                   ),
-                                  prefixIcon: Icon(
+                                  prefixIcon: const Icon(
                                     Icons.search,
                                     color: Colors.grey,
                                   ),
@@ -254,479 +223,417 @@ class _MyHomePageState extends State<MyHomePage> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
+                          const Padding(
+                            padding: EdgeInsets.only(
                               left: 20,
                             ),
-                            child: Container(
+                            child: Text(
+                              "Categories",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 15),
+                            child: HorizontalScroll(),
+                          ),
+                          Container(
+                              child: searchController.text.isEmpty
+                                  ? Container(
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFff6f1),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                margin: const EdgeInsets.only(
+                                  left: 15,
+                                  right: 15,
+                                  top: 1,
+                                ),
+                                child: ListTile(
+                                  contentPadding:
+                                  const EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                      vertical: 0.0),
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(width: 2),
+                                    borderRadius:
+                                    BorderRadius.circular(20),
+                                  ),
+                                  title: const Text(
+                                    "Google Account",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+
+                                  subtitle: Text(
+                                    googleEmail,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                  ),
+                                  leading: const CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        "assets/images/google.png"),
+                                    radius: 20,
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  // trailing:
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const SocialScreen(
+                                              "google")),
+                                    );
+                                  },
+                                ),
+                              )
+                                  : Container(
+                                height: 1,
+                              )),
+                          Container(
+                              child: searchController.text.isEmpty
+                                  ? Container(
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFff6f1),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                margin: const EdgeInsets.only(
+                                  left: 15,
+                                  right: 15,
+                                  top: 8,
+                                ),
+                                child: ListTile(
+                                  contentPadding:
+                                  const EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                      vertical: 0.0),
+                                  shape: RoundedRectangleBorder(
+                                    //<-- SEE HERE
+                                    side: const BorderSide(width: 2),
+                                    borderRadius:
+                                    BorderRadius.circular(20),
+                                  ),
+                                  title: const Text(
+                                    "Instagram",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Text(
+                                    instagramEmail,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                  ),
+                                  leading: const CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        "assets/images/instagram.png"),
+                                    radius: 20,
+                                  ),
+                                  // trailing:
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const SocialScreen(
+                                              'Instagram')),
+                                    );
+                                  },
+                                ),
+                              )
+                                  : Container(
+                                height: 1,
+                              )),
+                          Container(
+                              child: searchController.text.isEmpty
+                                  ? Container(
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFff6f1),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                margin: const EdgeInsets.only(
+                                    left: 15,
+                                    right: 15,
+                                    top: 8,
+                                    bottom: 5),
+                                child: ListTile(
+                                  contentPadding:
+                                  const EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                      vertical: 0.0),
+                                  shape: RoundedRectangleBorder(
+                                    //<-- SEE HERE
+                                    side: const BorderSide(width: 2),
+                                    borderRadius:
+                                    BorderRadius.circular(20),
+                                  ),
+                                  title: const Text(
+                                    "Facebook",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Text(
+                                    facebookEmail,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                  ),
+                                  leading: const CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        "assets/images/facebook.png"),
+                                    radius: 20,
+                                  ),
+                                  // trailing:
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const SocialScreen(
+                                              "facebook")),
+                                    );
+                                  },
+                                ),
+                              )
+                                  : Container(
+                                height: 1,
+                              )),
+
+                          if (searchController.text.isEmpty && box.length != 0)
+                            (const Padding(
+                              padding: EdgeInsets.only(left: 20, top: 5),
                               child: Text(
-                                "Categories",
+                                "Recently Added",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 20),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: const hScroll(),
-                          ),
-                          Container(
-                              child: searchController.text.isEmpty
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFff6f1),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      margin: const EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        top: 1,
-                                      ),
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10.0,
-                                                vertical: 0.0),
-                                        shape: RoundedRectangleBorder(
-                                          //<-- SEE HERE
-                                          side: const BorderSide(width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        title: Text(
-                                          "Google Account",
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          "cardsaver@gmail.com",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
-                                        ),
-                                        leading: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              "assets/images/google.png"),
-                                          radius: 20,
-                                          backgroundColor: Colors.white,
-                                        ),
-                                        // trailing:
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SocialScreen(
-                                                        "google")),
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  : Container(
-                                      height: 1,
-                                    )),
-                          Container(
-                              child: searchController.text.isEmpty
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFff6f1),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      margin: const EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        top: 8,
-                                      ),
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10.0,
-                                                vertical: 0.0),
-                                        shape: RoundedRectangleBorder(
-                                          //<-- SEE HERE
-                                          side: const BorderSide(width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        title: Text(
-                                          "Instagram",
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          "cardsaver@gmail.com",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
-                                        ),
-                                        leading: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              "assets/images/instagram.png"),
-                                          radius: 20,
-                                        ),
-                                        // trailing:
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SocialScreen(
-                                                        'Instagram')),
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  : Container(
-                                      height: 1,
-                                    )),
-                          Container(
-                              child: searchController.text.isEmpty
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFff6f1),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      margin: const EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
-                                          top: 8,
-                                          bottom: 5),
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10.0,
-                                                vertical: 0.0),
-                                        shape: RoundedRectangleBorder(
-                                          //<-- SEE HERE
-                                          side: const BorderSide(width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        title: Text(
-                                          "Facebook",
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          "cardsaver@gmail.com",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
-                                        ),
-                                        leading: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              "assets/images/facebook.png"),
-                                          radius: 20,
-                                        ),
-                                        // trailing:
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SocialScreen(
-                                                        "facebook")),
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  : Container(
-                                      height: 1,
-                                    )),
-
-                          if (searchController.text.isEmpty && box.length != 0)
-                            (Padding(
-                              padding: const EdgeInsets.only(left: 20, top: 5),
-                              child: Container(
-                                child: Text(
-                                  "Recently Added",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20),
-                                ),
-                              ),
                             )),
                           const SizedBox(
                             height: 5,
                           ),
-                          if (box.length == 0 && MediaQuery.of(context).size.height > 550)(
-                          SizedBox(
-                            height: (MediaQuery.of(context).size.height - 525)/5,
-                          )
-                          ),
-                          if (box.length == 0)(
-                            Column(
+                          if (box.length == 0 &&
+                              MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height > 550)
+                            (SizedBox(
+                              height:
+                              (MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height - 525) /
+                                  5,
+                            )),
+                          if (box.length == 0)
+                            (Column(
                               children: [
-                                Container(
+                                SizedBox(
                                   height: 105,
                                   width: double.infinity,
-                                  // color: Colors.blue,
                                   child: IconButton(
                                     onPressed: () {
-                                      callBottomSheet(context);
+                                      callBottomSheets(context);
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.add_circle_outline_rounded,
                                       color: Colors.black26,
                                       size: 100,
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 25),
-                                  child: Text("Add more Catagories",
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10, bottom: 25),
+                                  child: Text("Save More Passwords",
                                       style: TextStyle(
                                           color: Colors.black38,
                                           fontSize: 19,
                                           fontWeight: FontWeight.w500)),
                                 )
                               ],
-                            )
-                          ),
+                            )),
 
-                          // #code start
 
-                          Container(
-                            child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: box.length,
-                                itemBuilder: (context, index) {
-                                  late String position = data[index].category;
+                          ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: box.length,
+                              itemBuilder: (context, index) {
+                                late String position = data[index].title.toString();
 
-                                  if (searchController.text.isEmpty) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        // color: Color(0xFFfce8d6),
-                                        color: Color(0xFFFff6f1),
-                                        borderRadius: BorderRadius.circular(20),
+                                if (searchController.text.isEmpty) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      // color: Color(0xFFfce8d6),
+                                      color: const Color(0xFFFff6f1),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    margin: const EdgeInsets.only(
+                                      left: 15,
+                                      right: 15,
+                                      top: 10,
+                                    ),
+                                    child: ListTile(
+                                      contentPadding:
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 10.0,
+                                          vertical: 0.0),
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(width: 2),
+                                        borderRadius:
+                                        BorderRadius.circular(20),
                                       ),
-                                      margin: const EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        top: 10,
+                                      title: Text(
+                                        data[index].title.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10.0,
-                                                vertical: 0.0),
-                                        shape: RoundedRectangleBorder(
-                                          //<-- SEE HERE
-                                          side: const BorderSide(width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        title: Text(
-                                          data[index].category,
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          "cardsaver@gmail.com",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
-                                        ),
-                                        leading: Image.asset(
-                                          'assets/images/4.png',
-                                          height: 32,
-                                          width: 32,
-                                        ),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                                onPressed: () {
-                                                  final Map<dynamic,
-                                                          CategoryModal>
-                                                      deliveriesMap =
-                                                      box.toMap();
-                                                  dynamic desiredKey;
-                                                  deliveriesMap
-                                                      .forEach((key, value) {
-                                                    if (value.category ==
-                                                        box.values
-                                                            .take(index + 1).last.category) {
-                                                      desiredKey = key;
-                                                    }
-                                                  });
+                                      subtitle: Text(
+                                        data[index].username.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12),
+                                      ),
+                                      leading: Image.asset(
+                                        'assets/images/4.png',
+                                        height: 32,
+                                        width: 32,
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          InkWell(
 
-                                                  box.delete(desiredKey);
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete_outlined,
-                                                  color: Colors.black38,
-                                                )),
-                                          ],
-                                        ),
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SocialScreen(
-                                                        data[index].category)),
-                                          );
-                                        },
+                                              onTap: () async{
+                                              await Clipboard.setData(ClipboardData(text: data[index].username.toString()));
+                                              Fluttertoast.showToast(
+                                                  msg: "Username Copied\nLong Press to copy Password",
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.black54,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0
+                                              );},
+                                              onLongPress: () async{
+                                                await Clipboard.setData(ClipboardData(text: data[index].password.toString()));
+                                                Fluttertoast.showToast(
+                                                    msg: "Password Copied",
+                                                    toastLength: Toast.LENGTH_SHORT,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Colors.black54,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0
+                                                );
+                                              },
+                                              child: const Icon(Icons.content_copy,
+                                                color: Colors.black26,)),
+                                          IconButton(
+                                              onPressed: () {
+                                                box.deleteAt(index);
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.black26,
+                                              )),
+                                        ],
                                       ),
-                                    );
-                                  } else if (position.toLowerCase().contains(
-                                      searchController.text.toLowerCase())) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFff6f1),
-                                        borderRadius: BorderRadius.circular(20),
+                                      onLongPress: () {
+                                        // usernameController.text = box
+                                        //     .values
+                                        //     .take(index + 1)
+                                        //     .last
+                                        //     .username;
+                                        // passwordController.text = box
+                                        //     .values
+                                        //     .take(index + 1)
+                                        //     .last
+                                        //     .password;
+                                        // callBottomSheets(
+                                        //     context,
+                                        //     usernameController,
+                                        //     passwordController,
+                                        //     titleController,
+                                        //     index,
+                                        //     widget.categoryType);
+                                      },
+                                    ),
+                                  );
+                                } else if (position.toLowerCase().contains(
+                                    searchController.text.toLowerCase())) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFFff6f1),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    margin: const EdgeInsets.only(
+                                      left: 15,
+                                      right: 15,
+                                      top: 10,
+                                    ),
+                                    child: ListTile(
+                                      contentPadding:
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 10.0,
+                                          vertical: 0.0),
+                                      shape: RoundedRectangleBorder(
+                                        //<-- SEE HERE
+                                        side: const BorderSide(width: 2),
+                                        borderRadius:
+                                        BorderRadius.circular(20),
                                       ),
-                                      margin: const EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        top: 10,
+                                      title: Text(
+                                        data[index].title.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10.0,
-                                                vertical: 0.0),
-                                        shape: RoundedRectangleBorder(
-                                          //<-- SEE HERE
-                                          side: const BorderSide(width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        title: Text(
-                                          position,
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          "cardsaver@gmail.com",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12),
-                                        ),
-                                        leading: Image.asset(
-                                          'assets/images/4.png',
-                                          height: 32,
-                                          width: 32,
-                                        ),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                                onPressed: () {
-                                                  final Map<dynamic,
-                                                          CategoryModal>
-                                                      deliveriesMap =
-                                                      box.toMap();
-                                                  dynamic desiredKey;
-                                                  deliveriesMap
-                                                      .forEach((key, value) {
-                                                    if (value.category ==
-                                                        box.values
-                                                            .take(index + 1)
-                                                            .last
-                                                            .category) {
-                                                      desiredKey = key;
-                                                    }
-                                                  });
+                                      subtitle: Text(
+                                        data[index].username.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12),
+                                      ),
+                                      leading: Image.asset(
+                                        'assets/images/4.png',
+                                        height: 32,
+                                        width: 32,
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(onPressed: () {
+                                          },
+                                              icon: const Icon(Icons.copy_all_outlined,
+                                                color: Colors.black26,)),
+                                          IconButton(
+                                              onPressed: () {
+                                                box.deleteAt(index);
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete_outlined,
+                                                color: Colors.black38,
+                                              )),
+                                        ],
+                                      ),
+                                      onTap: () {
 
-                                                  box.delete(desiredKey);
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete_outlined,
-                                                  color: Colors.black38,
-                                                )),
-                                          ],
-                                        ),
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SocialScreen(
-                                                        data[index].category)),
-                                          );
-                                        },
-                                      ),
-                                    );
+                                      },
+                                    ),
+                                  );
 
-                                    // #5 code here
-                                    //   Container(
-                                    //   height: 100,
-                                    //   color: Colors.red,
-                                    // );
-                                    // #5 code end here
-                                  } else {
-                                    return Container();
-                                  }
-
-                                  // #4 start here original code
-                                  // return Container(
-                                  //   decoration: BoxDecoration(
-                                  //     color: Colors.white,
-                                  //     borderRadius: BorderRadius.circular(20),
-                                  //   ),
-                                  //   margin: const EdgeInsets.only(left: 20,
-                                  //       right: 20,
-                                  //       top: 10,
-                                  //       bottom: 10),
-                                  //   child: ListTile(
-                                  //
-                                  //     contentPadding: const EdgeInsets.symmetric(
-                                  //         horizontal: 20.0),
-                                  //     shape: RoundedRectangleBorder( //<-- SEE HERE
-                                  //       side: const BorderSide(width: 2),
-                                  //       borderRadius: BorderRadius.circular(20),
-                                  //     ),
-                                  //     title: Text(data[index].category,
-                                  //       style: const TextStyle(color: Colors.black),),
-                                  //     leading: CircleAvatar(
-                                  //       radius: 20,
-                                  //       backgroundColor: Colors.blueAccent,
-                                  //       child: Text((index+1).toString(),  style: const TextStyle(color: Colors.black,fontSize: 18),),
-                                  //     ),
-                                  //     trailing: Row(
-                                  //       mainAxisSize: MainAxisSize.min,
-                                  //       children: [
-                                  //         IconButton(
-                                  //             onPressed: () {
-                                  //               final Map<dynamic, CategoryModal> deliveriesMap = box.toMap();
-                                  //               dynamic desiredKey;
-                                  //               deliveriesMap.forEach((key, value){
-                                  //                 if (value.category == box.values.take(index+1).first.category) {
-                                  //                   desiredKey = key;
-                                  //                 }
-                                  //               });
-                                  //
-                                  //               box.delete(desiredKey);}, icon: const Icon(Icons.delete,color: Colors.black,)),
-                                  //
-                                  //       ],
-                                  //     ),
-                                  //     onTap: () {
-                                  //       Navigator.push(
-                                  //         context,
-                                  //         MaterialPageRoute(
-                                  //             builder: (context) => SocialScreen(data[index].category)),
-                                  //       );
-                                  //
-                                  //     },
-                                  //
-                                  //
-                                  //   ),
-                                  // );
-                                  // #4 end here original code
-                                }),
-                          ),
+                                } else {
+                                  return Container();
+                                }
+                              }),
 
                           //  end here
                         ],
@@ -735,97 +642,283 @@ class _MyHomePageState extends State<MyHomePage> {
                   })),
         ));
   }
-}
 
-void callBottomSheet(BuildContext context) {
-  final categoryController = TextEditingController();
-  showModalBottomSheet<void>(
-      // context and builder are
-      // required properties in this widget
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          decoration: BoxDecoration(
-              // color: Color(0xFFf4f4f4),
-              color: Color(0xFFFff6f1),
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(40), topLeft: Radius.circular(40))),
-          height: 250,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'Create your Own Category',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'halter',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    style: TextStyle(color: Colors.black),
-                    controller: categoryController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      hintText: "Enter Category",
-                      hintStyle: TextStyle(
-                        color: Colors.black,
+  void getEmail() async {
+    var sharedpref = await SharedPreferences.getInstance();
+    var facebookEmailId = sharedpref.getString("facebookEmail");
+    var instagramEmailId = sharedpref.getString("instagramEmail");
+    var googleEmailId = sharedpref.getString("googleEmail");
+    setState(() {
+      facebookEmail =
+      facebookEmailId ?? "No Account Saved";
+    });
+    setState(() {
+      instagramEmail =
+      instagramEmailId ?? "No Account Saved";
+    });
+    setState(() {
+      googleEmail = googleEmailId ?? "No Account Saved";
+    });
+  }
+
+
+
+
+
+  void callBottomSheets(BuildContext context) {
+    final titleController = TextEditingController();
+    final emailController = TextEditingController();
+    final passController = TextEditingController();
+    showModalBottomSheet<void>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return Container(
+            decoration: const BoxDecoration(
+                color: Color(0xFFFff6f1),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(28),
+                    topLeft: Radius.circular(28))),
+            height: 310,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 25.0),
+                    child: TextFormField(
+                        controller: titleController,
+                        style: const TextStyle(color: Colors.black),
+                        decoration: const InputDecoration(
+                          labelText: "Title/Website Name",
+                          labelStyle:
+                          TextStyle(fontSize: 16, color: Colors.black),
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter Username/Email";
+                          } else {
+                            return null;
+                          }
+                        }),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 25.0),
+                    child: TextFormField(
+                        controller: emailController,
+                        style: const TextStyle(color: Colors.black),
+                        decoration: const InputDecoration(
+                          labelText: "Email/Username",
+                          labelStyle:
+                          TextStyle(fontSize: 16, color: Colors.black),
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter Username/Email";
+                          } else {
+                            return null;
+                          }
+                        }),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 25.0),
+                    child: TextFormField(
+                        controller: passController,
+                        style: const TextStyle(color: Colors.black),
+                        decoration: const InputDecoration(
+                          labelText: "Password",
+                          labelStyle:
+                          TextStyle(fontSize: 16, color: Colors.black),
+                          // hintText: "Enter Email",
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(30))),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter Username/Email";
+                          } else {
+                            return null;
+                          }
+                        }),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      onValidate(
+                        context,
+                        emailController,
+                        passController,
+                        titleController,
+                      );
+                    },
+                    child: Container(
+                      margin:
+                      const EdgeInsets.symmetric(horizontal: 60, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      filled: true,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Save Password',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'halter',
+                          fontSize: 14,
+                          package: 'flutter_credit_card',
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    validate(context, categoryController.text);
-                  },
-                  child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 60, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'Save Category',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'halter',
-                        fontSize: 14,
-                        package: 'flutter_credit_card',
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      });
-}
+          );
+        });
+  }
 
-void validate(BuildContext context, String text) {
-  final data = CategoryModal(category: text);
-  final box = Boxes.getCategoryModal();
-  box.add(data);
-  Navigator.pop(context);
-  // print('valid!');
+  void onValidate(BuildContext context, TextEditingController usernameController, TextEditingController passwordController, TextEditingController titleController) {
+    final data = SocialModal(
+        username: usernameController.text,
+        password: passwordController.text,
+        title: titleController.text);
+    final navigator = Navigator.of(context);
+    var box = Boxes.getSocialPasswords();
+    box.add(data);
+    navigator.pop();
+  }
+
+
+
+  // void callBottomSheet(BuildContext context) {
+  //   final categoryController = TextEditingController();
+  //   showModalBottomSheet<void>(
+  //     // context and builder are
+  //     // required properties in this widget
+  //       context: context,
+  //       backgroundColor: Colors.transparent,
+  //       builder: (BuildContext context) {
+  //         return Container(
+  //           decoration: const BoxDecoration(
+  //             // color: Color(0xFFf4f4f4),
+  //               color: Color(0xFFFff6f1),
+  //               borderRadius: BorderRadius.only(
+  //                   topRight: Radius.circular(28),
+  //                   topLeft: Radius.circular(28))),
+  //           height: 240,
+  //           child: Center(
+  //             child: Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: <Widget>[
+  //                 const Text(
+  //                   'Create your Own Category',
+  //                   style: TextStyle(
+  //                       color: Colors.black,
+  //                       fontFamily: 'halter',
+  //                       fontSize: 20,
+  //                       fontWeight: FontWeight.w500),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 12,
+  //                 ),
+  //                 Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: TextField(
+  //                     style: const TextStyle(color: Colors.black),
+  //                     controller: categoryController,
+  //                     decoration: const InputDecoration(
+  //                       border: OutlineInputBorder(
+  //                           borderSide: BorderSide(color: Colors.black),
+  //                           borderRadius: BorderRadius.all(Radius.circular(
+  //                               30))),
+  //                       enabledBorder: OutlineInputBorder(
+  //                           borderSide: BorderSide(color: Colors.black),
+  //                           borderRadius: BorderRadius.all(Radius.circular(
+  //                               30))),
+  //                       labelText: "Enter Category",
+  //                       labelStyle: TextStyle(
+  //                         color: Colors.black,
+  //                       ),
+  //                       filled: true,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 6,
+  //                 ),
+  //                 GestureDetector(
+  //                   onTap: () {
+  //                     validate(context, categoryController.text);
+  //                   },
+  //                   child: Container(
+  //                     margin:
+  //                     const EdgeInsets.symmetric(horizontal: 60, vertical: 6),
+  //                     decoration: BoxDecoration(
+  //                       color: Colors.red,
+  //                       borderRadius: BorderRadius.circular(20),
+  //                     ),
+  //                     padding: const EdgeInsets.symmetric(vertical: 15),
+  //                     width: double.infinity,
+  //                     alignment: Alignment.center,
+  //                     child: const Text(
+  //                       'Save Category',
+  //                       style: TextStyle(
+  //                         color: Colors.white,
+  //                         fontFamily: 'halter',
+  //                         fontSize: 14,
+  //                         package: 'flutter_credit_card',
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
+  // void validate(BuildContext context, String text) {
+  //   final data = CategoryModal(category: text);
+  //   final box = Boxes.getCategoryModal();
+  //   box.add(data);
+  //   Navigator.pop(context);
+  //   // print('valid!');
+  // }
+
+
 }

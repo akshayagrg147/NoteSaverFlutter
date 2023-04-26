@@ -4,22 +4,32 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../../notesfile/constant.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(
+  const
+
+  CustomTextField(
       {super.key,
       required this.hint,
       this.maxLines = 1,
       this.onSaved,
-      this.onChanged});
+      this.onChanged,
+      required this.initialValue,
+      });
 
-  final String hint;
+  final hint;
   final int maxLines;
+  final initialValue;
+
 
   final void Function(String?)? onSaved;
 
   final Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
+    // if (intialValue == "A"){
+    //   intialValue = null;
+    // }
     return TextFormField(
+      initialValue: initialValue,
       onChanged: onChanged,
       onSaved: onSaved,
       validator: (value) {
@@ -31,8 +41,10 @@ class CustomTextField extends StatelessWidget {
       },
       cursorColor: kPrimaryColor,
       maxLines: maxLines,
+      style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         hintText: hint,
+        hintStyle: TextStyle(color: Colors.black),
         border: buildBorder(),
         enabledBorder: buildBorder(),
         focusedBorder: buildBorder(kPrimaryColor),
@@ -42,11 +54,8 @@ class CustomTextField extends StatelessWidget {
 
   OutlineInputBorder buildBorder([color]) {
     return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(
-          8,
-        ),
-        borderSide: BorderSide(
-          color: color ?? Colors.white,
-        ));
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(color: color ?? Colors.black)
+    );
   }
 }

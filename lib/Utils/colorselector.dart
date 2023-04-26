@@ -13,8 +13,8 @@ class ColorItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return isActive
         ? CircleAvatar(
-            radius: 29,
-            backgroundColor: Colors.black45,
+            radius: 28,
+            backgroundColor: Colors.black,
             child: CircleAvatar(
               radius: 26,
               backgroundColor: color,
@@ -53,7 +53,6 @@ class _ColorSelectingState extends State<ColorSelecting> {
 
                 var sharedpref = await SharedPreferences.getInstance();
                 sharedpref.setInt("selectedcolor", kColors[index].value);
-
                 setState(() {});
               },
               child: ColorItems(

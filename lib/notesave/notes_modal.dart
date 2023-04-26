@@ -15,7 +15,9 @@ class NotesModal extends HiveObject{
   @HiveField(4)
   late String bankname;
   @HiveField(5)
-  int color;
+  late int? color;
+  @HiveField(5)
+  late String? cardtype;
 
 
 
@@ -24,6 +26,7 @@ class NotesModal extends HiveObject{
     required this.cardholder,required this.cvv,
     required this.bankname,
     required this.color,
+    required this.cardtype,
 });
  
 
@@ -37,25 +40,22 @@ class SocialModal extends HiveObject{
   @HiveField(2)
   late String category;
   @HiveField(2)
-  late String title;
+  late String? title;
 
 
   SocialModal({
     required this.username,required this.password,
     required this.title
   });
-
-
 }
 
-@HiveType(typeId: 2)
-class CategoryModal extends HiveObject{
-  @HiveField(0)
-  late String category;
-  CategoryModal({
-    required this.category
-  });
-
-
-}
+// @HiveType(typeId: 2)
+// class CategoryModal extends HiveObject{
+//   @HiveField(0)
+//   late String category;
+//   CategoryModal({
+//     required this.category
+//   });
+//
+// }
 

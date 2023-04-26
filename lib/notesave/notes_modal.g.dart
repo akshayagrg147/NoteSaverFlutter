@@ -22,7 +22,9 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       cardholder: fields[2] as String,
       cvv: fields[3] as String,
       bankname: fields[4] as String,
-      color: fields[5] as int,
+      color: fields[5] as int?,
+      cardtype: fields[6] as String?,
+
 
     );
   }
@@ -30,7 +32,7 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
   @override
   void write(BinaryWriter writer, NotesModal obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.cardnumber)
       ..writeByte(1)
@@ -42,7 +44,9 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       ..writeByte(4)
       ..write(obj.bankname)
       ..writeByte(5)
-      ..write(obj.color);
+      ..write(obj.color)
+      ..writeByte(6)
+      ..write(obj.cardtype);
 
   }
 
@@ -70,7 +74,7 @@ class SocialModalAdapter extends TypeAdapter<SocialModal> {
     return SocialModal(
       username: fields[0] as String,
       password: fields[1] as String,
-      title: fields[2] as String,
+      title: fields[2] as String?,
 
     );
   }
@@ -99,39 +103,39 @@ class SocialModalAdapter extends TypeAdapter<SocialModal> {
           typeId == other.typeId;
 }
 
-class CategoryModalAdapter extends TypeAdapter<CategoryModal> {
-  @override
-  final int typeId = 2;
-
-  @override
-  CategoryModal read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return CategoryModal(
-      category: fields[0] as String,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, CategoryModal obj) {
-    writer
-      ..writeByte(1)
-      ..writeByte(0)
-      ..write(obj.category);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CategoryModalAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
+// class CategoryModalAdapter extends TypeAdapter<CategoryModal> {
+//   @override
+//   final int typeId = 2;
+//
+//   @override
+//   CategoryModal read(BinaryReader reader) {
+//     final numOfFields = reader.readByte();
+//     final fields = <int, dynamic>{
+//       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+//     };
+//     return CategoryModal(
+//       category: fields[0] as String,
+//     );
+//   }
+//
+//   @override
+//   void write(BinaryWriter writer, CategoryModal obj) {
+//     writer
+//       ..writeByte(1)
+//       ..writeByte(0)
+//       ..write(obj.category);
+//   }
+//
+//   @override
+//   int get hashCode => typeId.hashCode;
+//
+//   @override
+//   bool operator ==(Object other) =>
+//       identical(this, other) ||
+//       other is CategoryModalAdapter &&
+//           runtimeType == other.runtimeType &&
+//           typeId == other.typeId;
+// }
 
 
 

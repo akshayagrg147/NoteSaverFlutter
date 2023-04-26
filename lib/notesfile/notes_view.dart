@@ -3,8 +3,6 @@ import 'package:cardsaver/notesfile/notes_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
 
 class NotesView extends StatelessWidget {
   const NotesView({Key? key}) : super(key: key);
@@ -13,12 +11,14 @@ class NotesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Color(0xFFf4f4f4),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
               isScrollControlled: true,
+              backgroundColor: Color(0xFFFff6f1),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(28),
               ),
               context: context,
               builder: (context) {

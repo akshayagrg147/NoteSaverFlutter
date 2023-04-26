@@ -1,3 +1,4 @@
+//line 311
 import 'package:card_scanner/card_scanner.dart';
 import 'package:cardsaver/Utils/colorselector.dart';
 import 'package:cardsaver/notesave/boxes.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
-import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,7 +32,9 @@ class CreditCardPageState extends State<CreditCardPage> {
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var bankNameController = TextEditingController();
-  var selectedColor = Colors.blue.value ;
+  var selectedColor = Colors.blue.value;
+  String? cardType;
+  // String cardType = "Credit Card";
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class CreditCardPageState extends State<CreditCardPage> {
         color: Colors.grey.withOpacity(0.7),
         width: 2,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(30)),
+      borderRadius: const BorderRadius.all(Radius.circular(30)),
     );
     super.initState();
   }
@@ -159,6 +161,36 @@ class CreditCardPageState extends State<CreditCardPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
+                              left: 16, top: 12, right: 16),
+                          child: DropdownButtonFormField(
+                              items: <String>[
+                                "Credit Card",
+                                "Debit Card",
+                                "Other"
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+
+                                  child: Text(
+                                    value,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              hint: const Text("Select Card Type", style: TextStyle(color: Colors.black54),),
+                              // value: cardType,
+                              decoration: InputDecoration(
+                                border: border,
+                                labelText: (cardType != null ? "Card Type" : ""),
+                              ),
+                              onChanged: (String? newValue) {setState(() {cardType = newValue!;});}
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(
                               left: 16, top: 16, right: 16),
                           child: TextField(
                             controller: bankNameController,
@@ -166,26 +198,26 @@ class CreditCardPageState extends State<CreditCardPage> {
                               border: border,
                               labelText: 'Bank Name',
                               labelStyle: const TextStyle(fontSize: 14),
+                              // errorText: (bankNameController.toString().isNotEmpty ? "Please input a valid nae" : null),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 12,
                         ),
-                        Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: ColorSelecting()
-                        ),
-                        SizedBox(
+                        const Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: ColorSelecting()),
+                        const SizedBox(
                           height: 12,
                         ),
                         GestureDetector(
-                          onTap:getColorValue,
+                          onTap: getColorValue,
                           child: Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Color(0xFF426da0),
+                              color: const Color(0xFF426da0),
                               borderRadius: BorderRadius.circular(30),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -238,6 +270,7 @@ class CreditCardPageState extends State<CreditCardPage> {
     );
   }
 
+
   void _onValidate() {
     if (formKey.currentState!.validate()) {
       // getColorValue();
@@ -248,13 +281,14 @@ class CreditCardPageState extends State<CreditCardPage> {
         cvv: cvvCode,
         bankname: bankNameController.text,
         color: selectedColor,
+        cardtype: cardType,
       );
       final box = Boxes.getdata();
       box.add(data);
       Navigator.pop(context);
-      print('valid!');
+      // print('valid!');
     } else {
-      print('invalid!');
+      // print('invalid!');
     }
   }
 
@@ -263,14 +297,18 @@ class CreditCardPageState extends State<CreditCardPage> {
     var sColor = sharedpref.getInt("selectedcolor");
     setState(() {
       // selectedColor = sColor ?? Colors.black.value;
-      selectedColor = sColor!;
+      if (sColor == null) {
+        selectedColor = Colors.lightBlue.value;
+      } else {
+        selectedColor = sColor;
+      }
     });
     _onValidate();
   }
 
   Future<void> scanCard() async {
     var cardDetails = await CardScanner.scanCard();
-    print("getcard ${cardDetails?.cardNumber.toString()} ");
+    // print("getcard ${cardDetails?.cardNumber.toString()} ");
     if (!mounted) return;
 
     _cardDetails = cardDetails!;

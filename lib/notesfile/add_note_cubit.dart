@@ -4,13 +4,12 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:meta/meta.dart';
 import '../../notesfile/constant.dart';
 import '../../notesfile/note_model.dart';
-import 'package:cardsaver/notesave/notes_modal.dart';
 part 'add_note_state.dart';
 
 class AddNoteCubit extends Cubit<AddNoteState> {
   AddNoteCubit() : super(AddNoteInitial());
 
-  Color color = const Color(0xffAC3931);
+  Color color = Colors.lightBlue;
 
   addNote(NoteModel note) async {
     note.color = color.value;
@@ -24,17 +23,6 @@ class AddNoteCubit extends Cubit<AddNoteState> {
     }
   }
 
-  // addColor(NotesModal note) async {
-  //   note.selectedcolor = color.value;
-  //   emit(AddNoteLoading());
-  //   try {
-  //     var noteBox = Hive.box<NotesModal>(kNoteBox);
-  //     await noteBox.add(note);
-  //     emit(AddNoteSuccess());
-  //   } catch (e) {
-  //     emit(AddNoteFailure(e.toString()));
-  //   }
-  // }
 
 
 }
