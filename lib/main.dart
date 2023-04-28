@@ -11,14 +11,14 @@ import 'package:cardsaver/notesfile/notes_cubit.dart';
 import 'package:cardsaver/ui/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cardsaver/notesfile/constant.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var directory=await getApplicationDocumentsDirectory();
+  var directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(NotesModalAdapter());
   Hive.registerAdapter(SocialModalAdapter());
@@ -33,24 +33,11 @@ void main()async {
   Hive.registerAdapter(NoteModelAdapter());
   await Hive.openBox<NoteModel>(kNotesBox);
 
-
-  // _openBox();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,));
 
   runApp(const MyApp());
 }
-// List<Box> boxList = [];
-// Future<List<Box>> _openBox() async {
-//   var directory=await getApplicationDocumentsDirectory();
-//   Hive
-//     ..init(directory.path)
-//     ..registerAdapter(NotesModalAdapter())
-//     ..registerAdapter(SocialModalAdapter())
-//     ..registerAdapter(CategoryModalAdapter());
-//
-//   var box_comment =await Hive.openBox("socialPasswords");
-//   boxList.add(box_comment);
-//   return boxList;
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -64,9 +51,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.dark(),
         home: const Splash(),
         // home: MyHomePage(title: 'hello',),
-
       ),
     );
   }
 }
-

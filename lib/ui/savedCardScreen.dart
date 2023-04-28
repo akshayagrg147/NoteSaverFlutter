@@ -3,6 +3,8 @@ import 'package:cardsaver/notesave/notes_modal.dart';
 import 'package:cardsaver/ui/creditCardPage.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
 
 class NoteScreen extends StatefulWidget {
   const NoteScreen({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class _NoteScreenState extends State<NoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFf4f4f4),
+      // backgroundColor: Colors.black,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Padding(
@@ -94,7 +97,6 @@ class _NoteScreenState extends State<NoteScreen> {
                                 if (data[index].color != null) {
                                   selectedColor = (data[index].color)!.toInt();
                                 }
-
                                 return _buildCreditCard(
                                   color: Color(selectedColor),
                                   cardExpiration: data[index].expiry.toString(),
@@ -144,21 +146,47 @@ Padding _buildCreditCard({
           children: <Widget>[
             _buildLogosBlock(index: index,cardtype: cardType),
             Center(
-              child: Text(
-                bankName,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
+              child: InkWell(
+                child: Text(
+                  bankName,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
+                onLongPress: () async{
+                  await Clipboard.setData(ClipboardData(text: cardNumber));
+                  Fluttertoast.showToast(
+                      msg: "Card number Copied",
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black54,
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                  );
+                },
               ),
             ),
             Center(
-              child: Text(
-                cardNumber,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 21,
-                    fontFamily: 'CourrierPrime'),
+              child: InkWell(
+                child: Text(
+                  cardNumber,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 21,
+                      fontFamily: 'CourrierPrime'),
+                ),
+                onLongPress: () async{
+                  await Clipboard.setData(ClipboardData(text: cardNumber));
+                  Fluttertoast.showToast(
+                      msg: "Card number Copied",
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black54,
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                  );
+                },
               ),
             ),
             Center(
@@ -227,18 +255,52 @@ ValueListenableBuilder _buildLogosBlock({
 
 
 Column _buildDetailsBlock({required String label, required String value}) {
+  String copyMsg;
+  if(label == "CARDHOLDER"){
+    copyMsg = "Holder Name Copied";
+  }
+  else{
+    copyMsg = "Expiry Date Copied";
+  }
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-            color: Colors.white70, fontSize: 9, fontWeight: FontWeight.bold),
+
+      InkWell(
+        child: Text(
+          label,
+          style: const TextStyle(
+              color: Colors.white70, fontSize: 9, fontWeight: FontWeight.bold),
+        ),
+        onLongPress: () async{
+          await Clipboard.setData(ClipboardData(text: value));
+          Fluttertoast.showToast(
+              msg: copyMsg,
+              toastLength: Toast.LENGTH_SHORT,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black54,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        },
       ),
-      Text(
-        value,
-        style: const TextStyle(
-            color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+      InkWell(
+        child: Text(
+          value,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        onLongPress: () async{
+          await Clipboard.setData(ClipboardData(text: value));
+          Fluttertoast.showToast(
+              msg: copyMsg,
+              toastLength: Toast.LENGTH_SHORT,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black54,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        },
       )
     ],
   );

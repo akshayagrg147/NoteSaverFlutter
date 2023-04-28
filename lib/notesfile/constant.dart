@@ -1,23 +1,35 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 // const kPrimaryColor = Color(0xff62FCD7);
 const kPrimaryColor = Colors.lightBlue;
 const kNotesBox = 'notes_box';
 List<Color> kColors = const [
-  Colors.pink,
   Colors.lightBlue,
-  Colors.orange,
+  Color(0xfffe99ff),
+  Color(0xfffe9e9f),
+  Color(0xff92f48f),
+  Color(0xff9ffffe),
   Colors.yellow,
   Colors.red,
-  Color(0xffE5D352),
+  Colors.orange,
+  Colors.pink,
   Color(0xff537D8D),
-  Color(0xff482C3D),
-  Color(0xFFffeb3b),
-  Color(0xFFf44336),
   Color(0xFF9e9e9e),
-  Color(0xFF000000),
   Color(0xFFffc107),
-  Color(0xFF090943),
 
+
+];
+
+List<String> kIcons = const [
+  "assets/images/ecommerce.png",
+  "assets/images/netflix.png",
+  "assets/images/card.png",
+  "assets/images/amazon.png",
+  "assets/images/bank.png",
+  "assets/images/appicon.png",
+  "assets/images/music.png",
+  "assets/images/other.png",
+  "assets/images/ott.png",
+  "assets/images/linkdin.png",
+  "assets/images/twitter.png",
 ];

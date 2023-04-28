@@ -24,8 +24,6 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       bankname: fields[4] as String,
       color: fields[5] as int?,
       cardtype: fields[6] as String?,
-
-
     );
   }
 
@@ -47,7 +45,6 @@ class NotesModalAdapter extends TypeAdapter<NotesModal> {
       ..write(obj.color)
       ..writeByte(6)
       ..write(obj.cardtype);
-
   }
 
   @override
@@ -75,21 +72,22 @@ class SocialModalAdapter extends TypeAdapter<SocialModal> {
       username: fields[0] as String,
       password: fields[1] as String,
       title: fields[2] as String?,
-
+      icon: fields[3] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SocialModal obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.username)
       ..writeByte(1)
       ..write(obj.password)
       ..writeByte(2)
-      ..write(obj.title);
-
+      ..write(obj.title)
+      ..writeByte(3)
+      ..write(obj.icon);
   }
 
   @override
@@ -136,6 +134,3 @@ class SocialModalAdapter extends TypeAdapter<SocialModal> {
 //           runtimeType == other.runtimeType &&
 //           typeId == other.typeId;
 // }
-
-
-

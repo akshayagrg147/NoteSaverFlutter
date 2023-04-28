@@ -1,11 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:meta/meta.dart';
 import '../../notesfile/constant.dart';
 import '../../notesfile/note_model.dart';
-import 'package:cardsaver/notesave/notes_modal.dart';
-
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 part 'notes_state.dart';
 
 class NotesCubit extends Cubit<NotesState> {

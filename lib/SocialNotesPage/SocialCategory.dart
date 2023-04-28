@@ -20,6 +20,7 @@ class _SocialScreenState extends State<SocialScreen> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final titleController = TextEditingController();
+  String? nullicon;
 
   // ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
@@ -38,7 +39,7 @@ class _SocialScreenState extends State<SocialScreen> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: Colors.black, //change your color here
@@ -143,9 +144,9 @@ class _SocialScreenState extends State<SocialScreen> {
                               itemCount: box.length,
                               itemBuilder: (context, index) {
                                 setEmail(widget.categoryType,
-                                    "${data[box.length - 1].username.toString()}");
+                                    data[box.length - 1].username.toString());
                                 String maskingPassword =
-                                    '"${data[index].password.toString()}"';
+                                    data[index].password.toString();
                                 String maskedPassword = "";
                                 if (maskingPassword.length > 3) {
                                   maskedPassword = maskingPassword[0] +
@@ -201,7 +202,7 @@ class _SocialScreenState extends State<SocialScreen> {
                                                 children: <TextSpan>[
                                                   TextSpan(
                                                       text:
-                                                          "${data[index].username.toString()}",
+                                                          data[index].username.toString(),
                                                       style: const TextStyle(
                                                           color:
                                                               Colors.black45))
@@ -229,16 +230,10 @@ class _SocialScreenState extends State<SocialScreen> {
                                             children: [
                                               IconButton(
                                                   onPressed: () {
-                                                    usernameController.text =
-                                                        box.values
-                                                            .take(index + 1)
-                                                            .last
-                                                            .username;
-                                                    passwordController.text =
-                                                        box.values
-                                                            .take(index + 1)
-                                                            .last
-                                                            .password;
+                                                    // usernameController.text = box.values.take(index + 1).last.username;
+                                                    // passwordController.text = box.values.take(index + 1).last.password;
+                                                    usernameController.text = data[index].username.toString();
+                                                    passwordController.text = data[index].password.toString();
                                                     callBottomSheets(
                                                         context,
                                                         usernameController,
@@ -252,24 +247,13 @@ class _SocialScreenState extends State<SocialScreen> {
                                                     color: Colors.black26,
                                                   )),
                                               IconButton(
-                                                  onPressed: () {
-
-                                                    // final Map<dynamic,
-                                                    //     SocialModal> deliveriesMap = box
-                                                    //     .toMap();
-                                                    // dynamic desiredKey;
-                                                    // deliveriesMap.forEach((key,
-                                                    //     value) {
-                                                    //   if (value.username == box.values
-                                                    //       .take(index + 1)
-                                                    //       .last
-                                                    //       .username) {
-                                                    //     desiredKey = key;
-                                                    //   }
-                                                    // });
-                                                    // box.delete(desiredKey);
-
+                                                  onPressed: () async {
                                                     box.deleteAt(index);
+                                                    if (box.length == 0) {
+                                                      setEmail(
+                                                          widget.categoryType,
+                                                          null);
+                                                    }
                                                   },
                                                   icon: const Icon(
                                                     Icons.delete,
@@ -280,7 +264,7 @@ class _SocialScreenState extends State<SocialScreen> {
                                           onLongPress: () async {
                                             await Clipboard.setData(ClipboardData(
                                                 text:
-                                                    "${data[index].password.toString()}"));
+                                                    data[index].password.toString()));
                                             Fluttertoast.showToast(
                                                 msg: "Password Copied",
                                                 toastLength: Toast.LENGTH_SHORT,
@@ -292,7 +276,7 @@ class _SocialScreenState extends State<SocialScreen> {
                                           onTap: () async {
                                             await Clipboard.setData(ClipboardData(
                                                 text:
-                                                    "${data[index].username.toString()}"));
+                                                    data[index].username.toString()));
                                             Fluttertoast.showToast(
                                                 msg:
                                                     "Username Copied\nLongPress to Copy Password",
@@ -330,20 +314,33 @@ class _SocialScreenState extends State<SocialScreen> {
 
   void setEmail(
     String categoryType,
-    String emailData,
+    emailData,
   ) async {
     var sharedpref = await SharedPreferences.getInstance();
 
     if (widget.categoryType.contains('google')) {
-      sharedpref.setString("googleEmail", emailData);
-      setState(() {});
+      if (emailData != null) {
+        sharedpref.setString("googleEmail", emailData);
+        setState(() {});
+      } else {
+        await sharedpref.remove("googleEmail");
+      }
     } else if (widget.categoryType.contains('facebook')) {
-      sharedpref.setString("facebookEmail", emailData);
-      setState(() {});
+      if (emailData != null) {
+        sharedpref.setString("facebookEmail", emailData);
+        setState(() {});
+      } else {
+        await sharedpref.remove("facebookEmail");
+      }
     } else if (widget.categoryType.contains('Instagram')) {
-      sharedpref.setString("instagramEmail", emailData);
-      setState(() {});
+      if (emailData != null) {
+        sharedpref.setString("instagramEmail", emailData);
+        setState(() {});
+      } else {
+        await sharedpref.remove("instagramEmail");
+      }
     }
+    setState(() {});
   }
 
   void _onValidate(
@@ -356,7 +353,8 @@ class _SocialScreenState extends State<SocialScreen> {
     final data = SocialModal(
         username: usernameController.text,
         password: passwordController.text,
-        title: titleController.text);
+        title: titleController.text,
+        icon: nullicon);
     final navigator = Navigator.of(context);
     // var box = Boxes.getSocialPasswords();
     // if (categoryType.contains('facebook')) {
@@ -401,150 +399,123 @@ class _SocialScreenState extends State<SocialScreen> {
         // required properties in this widget
         context: context,
         backgroundColor: Colors.transparent,
+        isScrollControlled: true,
         builder: (BuildContext context) {
-          // we set up a container inside which
-          // we create center column and display text
-          // Returning SizedBox instead of a Container
-          return Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFFFff6f1),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(28), topRight: Radius.circular(28)),
-            ),
-            height: 240,
-            child: Center(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 25.0),
-                      child: TextFormField(
-                          controller: usernameController,
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFFff6f1),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15)),
+              ),
+              height: 260,
+              child: Center(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: TextFormField(
+                            controller: usernameController,
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
+                              labelText: "Email/Username",
+                              labelStyle:
+                                  TextStyle(fontSize: 16, color: Colors.black),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                // usernameValidationResult = false;
+                                return "Please enter Username/Email";
+                              } else {
+                                // usernameValidationResult = true;
+                                // _onValidate(usernameController,passwordController);
+                                return null;
+                              }
+                            }),
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: TextFormField(
+                          controller: passwordController,
                           style: const TextStyle(color: Colors.black),
                           decoration: const InputDecoration(
-                            labelText: "Email/Username",
+                            labelText: "Password",
                             labelStyle:
                                 TextStyle(fontSize: 16, color: Colors.black),
                             filled: true,
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
+                                    BorderRadius.all(Radius.circular(15))),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
+                                    BorderRadius.all(Radius.circular(15))),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              // usernameValidationResult = false;
-                              return "Please enter Username/Email";
+                              return "Please enter password";
                             } else {
-                              // usernameValidationResult = true;
-                              // _onValidate(usernameController,passwordController);
                               return null;
                             }
-                          }),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 25.0),
-                      child: TextFormField(
-                        controller: passwordController,
-                        style: const TextStyle(color: Colors.black),
-                        decoration: const InputDecoration(
-                          labelText: "Password",
-                          labelStyle:
-                              TextStyle(fontSize: 16, color: Colors.black),
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
+                          },
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            // passwordValidationResult = false;
-                            return "Please enter password";
-                          } else {
-                            // passwordValidationResult = true;
-                            // _onValidate(usernameController,passwordController);
-                            return null;
+                      ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            _onValidate(
+                                context,
+                                usernameController,
+                                passwordController,
+                                titleController,
+                                position,
+                                categoryType);
                           }
                         },
-                      ),
-                    ),
-                    // const SizedBox(
-                    //   height: 8,
-                    // ),
-                    // Visibility(
-                    //   visible: _titleVisibility,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(left:20.0, right:25.0),
-                    //     child: TextField(
-                    //       controller: titleController,
-                    //
-                    //       decoration: const InputDecoration(
-                    //           hintText: "Enter any title",
-                    //           labelText: "Title",
-                    //           labelStyle: TextStyle(fontSize: 16),
-                    //           hintStyle: TextStyle(fontSize: 16),
-                    //           filled: true,
-                    //           border: UnderlineInputBorder(
-                    //             borderSide: BorderSide.none,
-                    //             borderRadius: BorderRadius.all(Radius.circular(20)),
-                    //           )
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // if (usernameValidationResult == true &&
-                        //     passwordValidationResult == true) {}
-                        if (_formKey.currentState!.validate()) {
-                          _onValidate(
-                              context,
-                              usernameController,
-                              passwordController,
-                              titleController,
-                              position,
-                              categoryType);
-                        }
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 80, vertical: 0),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'Save',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'halter',
-                            fontSize: 18,
-                            package: 'flutter_credit_card',
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 0),
+                          decoration: BoxDecoration(
+                            color: Colors.lightBlue,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'Save',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

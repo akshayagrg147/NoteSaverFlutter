@@ -34,7 +34,6 @@ class CreditCardPageState extends State<CreditCardPage> {
   var bankNameController = TextEditingController();
   var selectedColor = Colors.blue.value;
   String? cardType;
-  // String cardType = "Credit Card";
 
   @override
   void initState() {
@@ -57,7 +56,6 @@ class CreditCardPageState extends State<CreditCardPage> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        // backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Container(
           decoration: const BoxDecoration(
@@ -196,7 +194,7 @@ class CreditCardPageState extends State<CreditCardPage> {
                             controller: bankNameController,
                             decoration: InputDecoration(
                               border: border,
-                              labelText: 'Bank Name',
+                              labelText: 'Bank/Card Name',
                               labelStyle: const TextStyle(fontSize: 14),
                               // errorText: (bankNameController.toString().isNotEmpty ? "Please input a valid nae" : null),
                             ),
@@ -273,7 +271,6 @@ class CreditCardPageState extends State<CreditCardPage> {
 
   void _onValidate() {
     if (formKey.currentState!.validate()) {
-      // getColorValue();
       var data = NotesModal(
         cardnumber: cardNumber,
         expiry: expiryDate,
@@ -302,6 +299,7 @@ class CreditCardPageState extends State<CreditCardPage> {
       } else {
         selectedColor = sColor;
       }
+
     });
     _onValidate();
   }

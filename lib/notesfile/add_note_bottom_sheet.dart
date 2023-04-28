@@ -1,3 +1,4 @@
+import 'package:cardsaver/notesfile/notes_view.dart';
 import   'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../notesfile/add_note_cubit.dart';
@@ -6,7 +7,8 @@ import '../../notesfile/notes_cubit.dart';
 import 'add_note_form.dart';
 
 class AddNoteBottomSheet extends StatelessWidget {
-  const AddNoteBottomSheet({Key? key}) : super(key: key);
+  final String navigator;
+  const AddNoteBottomSheet({Key? key, required this.navigator}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,15 @@ class AddNoteBottomSheet extends StatelessWidget {
 
           if (state is AddNoteSuccess) {
             BlocProvider.of<NotesCubit>(context).fetchAllNotes();
-            Navigator.pop(context);
+            if(navigator == "tonotespage"){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NotesView()),
+              );
+            }
+            else if(navigator == "just_pop"){
+              Navigator.pop(context);
+            }
           }
         },
         builder: (context, state) {
