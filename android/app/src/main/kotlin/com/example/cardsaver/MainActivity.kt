@@ -1,4 +1,4 @@
-package com.example.cardsaver
+package com.notes.passwordmanager
 
 import io.flutter.embedding.android.FlutterActivity
 
