@@ -1,6 +1,8 @@
 //18 to 31
 //836 - 930
 import 'package:cardsaver/SocialNotesPage/SocialCategory.dart';
+import 'package:cardsaver/Utils/appdrawer.dart';
+import 'package:cardsaver/Utils/fingerprint.dart';
 import 'package:cardsaver/Utils/iconselector.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -62,6 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   @override
+  void initState() {
+    super.initState();
+    FingerPrint fp = FingerPrint();
+    fp.authenticate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
@@ -78,20 +87,21 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: const Color(0xFFf4f4f4),
-            leading: IconButton(
-              icon: const Icon(Icons.sort),
-              color: Colors.black,
-              tooltip: 'Menu',
-              onPressed: () {
-                // if(scaffoldKey.currentState!.isDrawerOpen){
-                //   scaffoldKey.currentState!.closeDrawer();
-                //   //close drawer, if drawer is open
-                // }else{
-                // scaffoldKey.currentState!.openDrawer();
-                // //open drawer, if drawer is closed
-                // }
-              },
-            ), //IconButton
+            iconTheme: IconThemeData(color: Colors.black),
+            // leading: IconButton(
+            //   icon: const Icon(Icons.sort),
+            //   color: Colors.black,
+            //   tooltip: 'Menu',
+            //   onPressed: () {
+            //     // if(scaffoldKey.currentState!.isDrawerOpen){
+            //     //   scaffoldKey.currentState!.closeDrawer();
+            //     //   //close drawer, if drawer is open
+            //     // }else{
+            //     // scaffoldKey.currentState!.openDrawer();
+            //     // //open drawer, if drawer is closed
+            //     // }
+            //   },
+            // ), //IconButton
             actions: const <Widget>[
               Padding(
                 padding: EdgeInsets.only(right: 10, top: 10),
@@ -103,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ], //<Widget>[]
           ),
+          drawer: AppDrawer(),
           floatingActionButton: SpeedDial(
             animatedIcon: AnimatedIcons.add_event,
             openCloseDial: isDialOpen,
@@ -684,10 +695,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
-
-
-
   void callBottomSheets(
       BuildContext context,
       TextEditingController emailController,
@@ -874,101 +881,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-
-  // void callBottomSheet(BuildContext context) {
-  //   final categoryController = TextEditingController();
-  //   showModalBottomSheet<void>(
-  //     // context and builder are
-  //     // required properties in this widget
-  //       context: context,
-  //       backgroundColor: Colors.transparent,
-  //       builder: (BuildContext context) {
-  //         return Container(
-  //           decoration: const BoxDecoration(
-  //             // color: Color(0xFFf4f4f4),
-  //               color: Color(0xFFFff6f1),
-  //               borderRadius: BorderRadius.only(
-  //                   topRight: Radius.circular(28),
-  //                   topLeft: Radius.circular(28))),
-  //           height: 240,
-  //           child: Center(
-  //             child: Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: <Widget>[
-  //                 const Text(
-  //                   'Create your Own Category',
-  //                   style: TextStyle(
-  //                       color: Colors.black,
-  //                       fontFamily: 'halter',
-  //                       fontSize: 20,
-  //                       fontWeight: FontWeight.w500),
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 12,
-  //                 ),
-  //                 Padding(
-  //                   padding: const EdgeInsets.all(8.0),
-  //                   child: TextField(
-  //                     style: const TextStyle(color: Colors.black),
-  //                     controller: categoryController,
-  //                     decoration: const InputDecoration(
-  //                       border: OutlineInputBorder(
-  //                           borderSide: BorderSide(color: Colors.black),
-  //                           borderRadius: BorderRadius.all(Radius.circular(
-  //                               30))),
-  //                       enabledBorder: OutlineInputBorder(
-  //                           borderSide: BorderSide(color: Colors.black),
-  //                           borderRadius: BorderRadius.all(Radius.circular(
-  //                               30))),
-  //                       labelText: "Enter Category",
-  //                       labelStyle: TextStyle(
-  //                         color: Colors.black,
-  //                       ),
-  //                       filled: true,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 6,
-  //                 ),
-  //                 GestureDetector(
-  //                   onTap: () {
-  //                     validate(context, categoryController.text);
-  //                   },
-  //                   child: Container(
-  //                     margin:
-  //                     const EdgeInsets.symmetric(horizontal: 60, vertical: 6),
-  //                     decoration: BoxDecoration(
-  //                       color: Colors.red,
-  //                       borderRadius: BorderRadius.circular(20),
-  //                     ),
-  //                     padding: const EdgeInsets.symmetric(vertical: 15),
-  //                     width: double.infinity,
-  //                     alignment: Alignment.center,
-  //                     child: const Text(
-  //                       'Save Category',
-  //                       style: TextStyle(
-  //                         color: Colors.white,
-  //                         fontFamily: 'halter',
-  //                         fontSize: 14,
-  //                         package: 'flutter_credit_card',
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
-  // void validate(BuildContext context, String text) {
-  //   final data = CategoryModal(category: text);
-  //   final box = Boxes.getCategoryModal();
-  //   box.add(data);
-  //   Navigator.pop(context);
-  //   // print('valid!');
-  // }
 
 
 }
