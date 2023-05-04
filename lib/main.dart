@@ -4,17 +4,20 @@
 //SearchField.dart,chart.dart
 //icon for passwords
 //name for account and edit function or not
-import 'package:cardsaver/notesave/notes_modal.dart';
-import 'package:cardsaver/notesfile/note_model.dart';
-import 'package:cardsaver/notesfile/simple_bloc_observer.dart';
-import 'package:cardsaver/notesfile/notes_cubit.dart';
+import 'package:cardsaver/models/notes_modal.dart';
+import 'package:cardsaver/models/note_model.dart';
+import 'package:cardsaver/providers/chats_provider.dart';
+import 'package:cardsaver/providers/models_provider.dart';
+import 'package:cardsaver/providers/simple_bloc_observer.dart';
+import 'package:cardsaver/providers/notes_cubit.dart';
 import 'package:cardsaver/ui/splash_page.dart';
 import 'package:flutter/material.dart';
-import 'package:cardsaver/notesfile/constant.dart';
+import 'package:cardsaver/constants/notes_constant.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +25,13 @@ void main() async {
   Hive.init(directory.path);
   Hive.registerAdapter(NotesModalAdapter());
   Hive.registerAdapter(SocialModalAdapter());
+  Hive.registerAdapter(ProfileInfoModelAdapter());
   await Hive.openBox<NotesModal>("notes");
   await Hive.openBox<SocialModal>("socialPasswords");
   await Hive.openBox<SocialModal>("facebookPasswords");
   await Hive.openBox<SocialModal>("instagramPasswords");
   await Hive.openBox<SocialModal>("googlePasswords");
+  await Hive.openBox<ProfileInfoModal>("profileinfo");
 
   await Hive.initFlutter();
   Bloc.observer = SimpleBlocObserver();
@@ -44,13 +49,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NotesCubit(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(),
-        home: const Splash(),
-        // home: MyHomePage(title: 'hello',),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ModelsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ChatProvider(),
+        )
+      ],
+      child: BlocProvider(
+        create: (context) => NotesCubit(),
+        child: const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // theme: ThemeData.dark(),
+          home: Splash(),
+          // home: MyHomePage(title: 'hello',),
+        ),
       ),
     );
   }

@@ -1,8 +1,8 @@
 //line 311
 import 'package:card_scanner/card_scanner.dart';
 import 'package:cardsaver/Utils/colorselector.dart';
-import 'package:cardsaver/notesave/boxes.dart';
-import 'package:cardsaver/notesave/notes_modal.dart';
+import 'package:cardsaver/models/boxes.dart';
+import 'package:cardsaver/models/notes_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
@@ -168,7 +168,6 @@ class CreditCardPageState extends State<CreditCardPage> {
                               ].map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-
                                   child: Text(
                                     value,
                                     style: const TextStyle(
@@ -177,11 +176,9 @@ class CreditCardPageState extends State<CreditCardPage> {
                                   ),
                                 );
                               }).toList(),
-                              hint: const Text("Select Card Type", style: TextStyle(color: Colors.black54),),
-                              // value: cardType,
                               decoration: InputDecoration(
                                 border: border,
-                                labelText: (cardType != null ? "Card Type" : ""),
+                                labelText: (cardType != null ? "Card Type" : "Select Card Type"),
                               ),
                               onChanged: (String? newValue) {setState(() {cardType = newValue!;});}
                           ),
@@ -283,9 +280,7 @@ class CreditCardPageState extends State<CreditCardPage> {
       final box = Boxes.getdata();
       box.add(data);
       Navigator.pop(context);
-      // print('valid!');
     } else {
-      // print('invalid!');
     }
   }
 
@@ -293,20 +288,17 @@ class CreditCardPageState extends State<CreditCardPage> {
     var sharedpref = await SharedPreferences.getInstance();
     var sColor = sharedpref.getInt("selectedcolor");
     setState(() {
-      // selectedColor = sColor ?? Colors.black.value;
       if (sColor == null) {
         selectedColor = Colors.lightBlue.value;
       } else {
         selectedColor = sColor;
       }
-
     });
     _onValidate();
   }
 
   Future<void> scanCard() async {
     var cardDetails = await CardScanner.scanCard();
-    // print("getcard ${cardDetails?.cardNumber.toString()} ");
     if (!mounted) return;
 
     _cardDetails = cardDetails!;

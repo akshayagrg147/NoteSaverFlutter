@@ -1,4 +1,5 @@
-import 'package:cardsaver/notesfile/notes_view.dart';
+import 'package:cardsaver/ui/chat_screen.dart';
+import 'package:cardsaver/ui/notes_screen_ui/notes_view.dart';
 import 'package:cardsaver/ui/savedCardScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -49,6 +50,36 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                 onTap: (){
                   Navigator.push(
                     context,
+                    MaterialPageRoute(builder: (context) => const ChatScreen()),
+                  );
+                },
+                child: Container(
+                  width: 114,
+                  decoration: BoxDecoration(border: Border.all(width:1,color: Colors.grey),
+                      borderRadius: BorderRadius.circular(30)
+                  ),
+                  child:Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left:5.0,right: 5),
+                        child: CircleAvatar(
+                            radius: 18,
+                            backgroundColor: const Color(0xfffaf3ed),
+                            child: Image.asset("assets/images/chat_logo.png")),
+                      ),
+                      const Text("ChatGpt",style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w400),),
+                    ],
+                  ),
+                )
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right:8,top: 11,bottom: 8),
+            child:InkWell(
+                onTap: (){
+                  Navigator.push(
+                    context,
                     MaterialPageRoute(builder: (context) => const NoteScreen()),
                   );
                 },
@@ -59,15 +90,15 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                   ),
                   child:Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
+                    children: [
                       Padding(
-                        padding: EdgeInsets.only(left:5.0,right: 5),
+                        padding: const EdgeInsets.only(left:5.0,right: 5),
                         child: CircleAvatar(
                             radius: 18,
-                            backgroundColor: Color(0xfffaf3ed),
-                            child: Icon(Icons.add_card)),
+                            backgroundColor: const Color(0xfffaf3ed),
+                            child: Image.asset("assets/images/card.png")),
                       ),
-                      Text("Card",style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w400),),
+                      const Text("Card",style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w400),),
                     ],
                   ),
                 )
@@ -89,15 +120,15 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                   ),
                   child:Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
+                    children: [
                       Padding(
-                        padding: EdgeInsets.only(left:4.0,right:1),
+                        padding: const EdgeInsets.only(left:4.0,right:1),
                         child: CircleAvatar(
                             radius: 18,
-                            backgroundColor: Color(0xfffaf3ed),
-                            child: Icon(Icons.note_add_outlined)),
+                            backgroundColor: const Color(0xfffaf3ed),
+                            child: Image.asset("assets/images/notes.png")),
                       ),
-                      Text("Notes",style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w400),),
+                      const Text("Notes",style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w400),),
                     ],
                   ),
                 )

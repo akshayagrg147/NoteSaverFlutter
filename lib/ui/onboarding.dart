@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cardsaver/ui/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'homepage.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -24,7 +24,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     _pageController.dispose();
     super.dispose();
   }
-
   _storeOnboardInfo() async {
     int isViewed = 0;
     var sharedpref = await SharedPreferences.getInstance();
@@ -79,8 +78,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => const MyHomePage(
-                                            title: 'hello',
-                                          )));
+                                        title: 'hello',
+                                      )));
                             }
                             _pageController.nextPage(
                                 duration: const Duration(milliseconds: 300),

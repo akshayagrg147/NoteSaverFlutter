@@ -1,5 +1,5 @@
-import 'package:cardsaver/notesave/boxes.dart';
-import 'package:cardsaver/notesave/notes_modal.dart';
+import 'package:cardsaver/models/boxes.dart';
+import 'package:cardsaver/models/notes_modal.dart';
 import 'package:cardsaver/ui/creditCardPage.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';

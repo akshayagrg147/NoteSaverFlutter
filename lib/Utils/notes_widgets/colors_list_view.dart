@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../constants/notes_constant.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../constants/notes_constant.dart';
+import '../../providers/add_note_cubit.dart';
 
 
-class ColorItems extends StatelessWidget {
-  const ColorItems({super.key, required this.isActive, required this.color});
+class ColorItem extends StatelessWidget {
+  const ColorItem({super.key, required this.isActive, required this.color});
 
   final bool isActive;
 
@@ -27,20 +28,20 @@ class ColorItems extends StatelessWidget {
   }
 }
 
-class ColorSelecting extends StatefulWidget {
-  const ColorSelecting({super.key});
+class ColorsListView extends StatefulWidget {
+  const ColorsListView({super.key});
 
   @override
-  State<ColorSelecting> createState() => _ColorSelectingState();
+  State<ColorsListView> createState() => _ColorsListViewState();
 }
 
-class _ColorSelectingState extends State<ColorSelecting> {
+class _ColorsListViewState extends State<ColorsListView> {
   int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 29 * 2,
+      height: 29 *2,
       child: ListView.builder(
         itemCount: kColors.length,
         scrollDirection: Axis.horizontal,
@@ -48,14 +49,12 @@ class _ColorSelectingState extends State<ColorSelecting> {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: GestureDetector(
-              onTap: () async {
+              onTap: () {
                 currentIndex = index;
-
-                var sharedpref = await SharedPreferences.getInstance();
-                sharedpref.setInt("selectedcolor", kColors[index].value);
+                BlocProvider.of<AddNoteCubit>(context).color = kColors[index];
                 setState(() {});
               },
-              child: ColorItems(
+              child: ColorItem(
                 color: kColors[index],
                 isActive: currentIndex == index,
               ),
@@ -66,3 +65,4 @@ class _ColorSelectingState extends State<ColorSelecting> {
     );
   }
 }
+

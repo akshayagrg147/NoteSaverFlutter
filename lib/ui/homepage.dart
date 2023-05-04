@@ -1,15 +1,15 @@
 //18 to 31
 //836 - 930
-import 'package:cardsaver/SocialNotesPage/SocialCategory.dart';
-import 'package:cardsaver/Utils/appdrawer.dart';
+import 'package:cardsaver/ui/SocialCategory.dart';
 import 'package:cardsaver/Utils/fingerprint.dart';
 import 'package:cardsaver/Utils/iconselector.dart';
+import 'package:cardsaver/ui/profile_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cardsaver/Utils/categoryhscroll.dart';
-import 'package:cardsaver/notesave/boxes.dart';
-import 'package:cardsaver/notesave/notes_modal.dart';
-import 'package:cardsaver/notesfile/add_note_bottom_sheet.dart';
+import 'package:cardsaver/models/boxes.dart';
+import 'package:cardsaver/models/notes_modal.dart';
+import 'package:cardsaver/Utils/notes_widgets/add_note_bottom_sheet.dart';
 import 'package:cardsaver/ui/creditCardPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -61,13 +61,23 @@ class _MyHomePageState extends State<MyHomePage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final titleController = TextEditingController();
+  bool onOff = false;
 
+  getFingerPrintOnOff() async {
+    var sharedpref = await SharedPreferences.getInstance();
+    setState(() {
+      onOff = sharedpref.getBool("fingerprint_on_off")!;
+    });
+    if (onOff == true) {
+      FingerPrint fp = FingerPrint();
+      fp.authenticate();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    FingerPrint fp = FingerPrint();
-    fp.authenticate();
+    getFingerPrintOnOff();
   }
 
   @override
@@ -87,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: const Color(0xFFf4f4f4),
-            iconTheme: IconThemeData(color: Colors.black),
+            iconTheme: const IconThemeData(color: Colors.black),
             // leading: IconButton(
             //   icon: const Icon(Icons.sort),
             //   color: Colors.black,
@@ -102,18 +112,27 @@ class _MyHomePageState extends State<MyHomePage> {
             //     // }
             //   },
             // ), //IconButton
-            actions: const <Widget>[
+            actions: <Widget>[
               Padding(
                 padding: EdgeInsets.only(right: 10, top: 10),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/avatar.png"),
-                  backgroundColor: Colors.red,
-                  radius: 22,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap:(){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                    );
+                  } ,
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage("assets/images/avatar.png"),
+                    backgroundColor: Colors.red,
+                    radius: 22,
+                  ),
                 ),
               ),
             ], //<Widget>[]
           ),
-          drawer: AppDrawer(),
+          // drawer: AppDrawer(),
           floatingActionButton: SpeedDial(
             animatedIcon: AnimatedIcons.add_event,
             openCloseDial: isDialOpen,
