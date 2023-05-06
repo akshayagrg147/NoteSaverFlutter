@@ -1,9 +1,3 @@
-//homepage.dart, credit card page
-// line 39-51
-// name for account name
-//SearchField.dart,chart.dart
-//icon for passwords
-//name for account and edit function or not
 import 'package:cardsaver/models/notes_modal.dart';
 import 'package:cardsaver/models/note_model.dart';
 import 'package:cardsaver/providers/chats_provider.dart';

@@ -1,9 +1,11 @@
+import 'package:cardsaver/ui/account_screen.dart';
 import 'package:cardsaver/ui/privacy_setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cardsaver/ui/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -17,6 +19,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? lastname = "";
   String? email = "";
   String? profilePicPath = "";
+  ImageProvider imageChose = AssetImage("assets/images/noselectedimage.png");
+
+  void choseImage() {
+    if (profilePicPath != "" && profilePicPath != null) {
+      setState(() {
+        imageChose = FileImage(File("$profilePicPath"));
+      });
+    }
+  }
 
   getProfileInfo() async {
     var sharedPrefProfileInfo = await SharedPreferences.getInstance();
@@ -31,18 +42,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    getProfileInfo();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    getProfileInfo();
+    choseImage();
     return Scaffold(
+      backgroundColor: const Color(0xFFf4f4f4),
       appBar: AppBar(
+        backgroundColor: const Color(0xFFf4f4f4),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.transparent,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -70,33 +78,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Stack(
                 children: [
-                  SizedBox(
+                  Container(
                     width: 120,
                     height: 120,
-                    child: Center(
-                        child: profilePicPath != ""
-                            ? CircleAvatar(
-                                backgroundImage:
-                                    FileImage(File(profilePicPath!)),
-                                radius: 200.0,
-                              )
-                            : const CircleAvatar(
-                          radius: 200,
-                          backgroundColor: Colors.black,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 58,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 18),
-                              child: Text(
-                                'No image selected',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ),
-                        ),
-                        ),
-                  ),
+                    decoration: BoxDecoration(
+                        // color: Colors.green,
+                        borderRadius: BorderRadius.circular(60),
+                        image: DecorationImage(
+                          image: imageChose,
+                        )
+                        //more than 50% of width makes circle
+                        ),),
                   Positioned(
                     bottom: 0,
                     right: 0,
@@ -107,11 +99,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius: BorderRadius.circular(100),
                           color: const Color(0xFFFFE400)),
                       child: IconButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const UpdateProfileScreen(),
+                                builder: (context) =>
+                                    const UpdateProfileScreen(),
                               ));
                         },
                         icon: const Icon(
@@ -125,18 +118,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              firstname == ""
+              firstname == "" || firstname == null
                   ? const Text("Enter name",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 19))
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 19))
                   : Text("$firstname $lastname",
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 19)),
               const SizedBox(height: 1),
-              email == ""
+              email == "" || email == null
                   ? const Text("Enter your email address",
                       style: TextStyle(fontSize: 15))
-                  : Text(email!, style: const TextStyle(fontSize: 15)),
+                  : Text("$email", style: const TextStyle(fontSize: 15)),
               const SizedBox(height: 20),
               SizedBox(
                 width: 200,
@@ -163,7 +156,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ProfileMenuWidget(
                   title: "Account",
                   icon: LineAwesomeIcons.user_1,
-                  onPress: () {}),
+                  onPress: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                          const AccountSection(),
+                        ));
+                  }),
               ProfileMenuWidget(
                   title: "Privacy Setting",
                   icon: LineAwesomeIcons.cog,
@@ -177,19 +177,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ProfileMenuWidget(
                   title: "Contact Us",
                   icon: LineAwesomeIcons.info,
-                  onPress: () {}),
+                  onPress: () async {
+                    String email =
+                        Uri.encodeComponent("support@suprixsolution.in");
+                    Uri mail = Uri.parse("mailto:$email");
+                    await launchUrl((mail));
+                  }),
               const Divider(color: Colors.grey),
               const SizedBox(height: 10),
-              ProfileMenuWidget(
-                  title: "Information",
-                  icon: LineAwesomeIcons.info,
-                  onPress: () {}),
               ProfileMenuWidget(
                   title: "Logout",
                   icon: LineAwesomeIcons.alternate_sign_out,
                   textColor: Colors.red,
                   endIcon: false,
-                  onPress: () {}),
+                  onPress: () {
+                    exit(0);
+                  }),
             ],
           ),
         ),

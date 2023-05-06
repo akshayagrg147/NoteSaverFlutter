@@ -15,30 +15,51 @@ class UpdateProfileScreen extends StatefulWidget {
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final emailController = TextEditingController();
-  String? gender;
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  String gender = "selectGender";
+  String? profilePicPath = "";
   final _formKey = GlobalKey<FormState>();
+  ImageProvider imageChose = AssetImage("assets/images/noselectedimage.png");
+
+  void choseImage() {
+    if(_imagepath != ""){
+      setState(() {
+        imageChose =FileImage(File(_imagepath));
+      });
+    }
+     else if (profilePicPath != "" && profilePicPath != null) {
+      setState(() {
+        imageChose = FileImage(File("$profilePicPath"));
+      });
+    }
+  }
 
   _storeProfileInfo() async {
     var sharedPrefProfileInfo = await SharedPreferences.getInstance();
     sharedPrefProfileInfo.setString('firstname', firstNameController.text);
     sharedPrefProfileInfo.setString('lastname', lastNameController.text);
     sharedPrefProfileInfo.setString('email', emailController.text);
-    if (_imagepath != null) {
-      sharedPrefProfileInfo.setString('profilePicPath', _imagepath!);
+    if (_imagepath != "") {
+      sharedPrefProfileInfo.setString('profilePicPath', _imagepath);
     }
     setState(() {});
   }
 
   getProfileInfo() async {
     var sharedPrefProfileInfo = await SharedPreferences.getInstance();
-    firstNameController.text = sharedPrefProfileInfo.getString('firstname')!;
-    setState(() {
-      lastNameController.text = sharedPrefProfileInfo.getString('lastname')!;
-      emailController.text = sharedPrefProfileInfo.getString('email')!;
-    });
+    if (sharedPrefProfileInfo.getString('firstname') != null) {
+      setState(() {
+        firstNameController.text =
+            sharedPrefProfileInfo.getString('firstname')!;
+        lastNameController.text = sharedPrefProfileInfo.getString('lastname')!;
+        emailController.text = sharedPrefProfileInfo.getString('email')!;
+      });
+      setState(() {
+        profilePicPath = sharedPrefProfileInfo.getString('profilePicPath');
+      });
+    }
   }
 
   @override
@@ -47,8 +68,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     getProfileInfo();
   }
 
-  File? _image;
-  String? _imagepath;
+  String _imagepath = "";
   Future _pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -56,8 +76,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       File? img = File(image.path);
       img = await _cropImage(imageFile: img);
       setState(() {
-        _image = img;
-        _imagepath = image.path;
+        _imagepath = img!.path;
         Navigator.of(context).pop();
       });
     } on PlatformException catch (e) {
@@ -100,8 +119,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    choseImage();
     return Scaffold(
+      backgroundColor: const Color(0xFFf4f4f4),
       appBar: AppBar(
+        backgroundColor: const Color(0xFFf4f4f4),
         centerTitle: true,
         title: const Text("Personal Details",
             style: TextStyle(
@@ -116,7 +138,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           color: Colors.black,
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -125,31 +146,17 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             children: [
               Stack(
                 children: [
-                  SizedBox(
+                  Container(
                     width: 120,
                     height: 120,
-                    child: Center(
-                      child: _image == null
-                          ? const CircleAvatar(
-                              radius: 200,
-                              backgroundColor: Colors.black,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 58,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 18),
-                                    child: Text(
-                                      'No image selected',
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                              ),
-                            )
-                          : CircleAvatar(
-                              backgroundImage: FileImage(_image!),
-                              radius: 200.0,
-                            ),
-                    ), //
+                    decoration: BoxDecoration(
+                        // color: Colors.green,
+                        borderRadius: BorderRadius.circular(60),
+                        image: DecorationImage(
+                          image: imageChose,
+                        )
+                        //more than 50% of width makes circle
+                        ), //
                   ),
                   Positioned(
                     bottom: 0,
@@ -190,8 +197,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(100),
-                            borderSide:
-                                const BorderSide(width: 2, color: Color(0xFF272727)),
+                            borderSide: const BorderSide(
+                                width: 2, color: Color(0xFF272727)),
                           ),
                         ),
                         validator: (value) {
@@ -213,8 +220,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(100),
-                            borderSide:
-                                const BorderSide(width: 2, color: Color(0xFF272727)),
+                            borderSide: const BorderSide(
+                                width: 2, color: Color(0xFF272727)),
                           ),
                         ),
                         validator: (value) {
@@ -264,7 +271,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             style: TextStyle(color: Colors.black54),
                           ),
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(LineAwesomeIcons.fingerprint),
+                            prefixIcon:
+                                const Icon(LineAwesomeIcons.fingerprint),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(100),
                             ),
@@ -273,12 +281,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               borderSide: const BorderSide(
                                   width: 2, color: Color(0xFF272727)),
                             ),
-                            labelText: (gender != null ? "Select Gender" : ""),
+                            labelText: (gender != "selectGender"
+                                ? "Select Gender"
+                                : ""),
                           ),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              gender = newValue!;
-                            });
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                gender = value;
+                              });
+                            }
                           },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -301,7 +313,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               backgroundColor: const Color(0xFFFFE400),
                               side: BorderSide.none,
                               shape: const StadiumBorder()),
-                          child: const Text("Edit Profile",
+                          child: const Text("Save Profile",
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16)),
                         ),

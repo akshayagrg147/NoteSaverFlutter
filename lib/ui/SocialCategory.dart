@@ -1,5 +1,4 @@
-//line 21, 25-28, 52-56,262-265,294-299,391-414,
-//285 , 344,378,418,
+import 'package:cardsaver/Utils/whatsapp_share.dart';
 import 'package:cardsaver/models/boxes.dart';
 import 'package:cardsaver/models/notes_modal.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class SocialScreen extends StatefulWidget {
   final String categoryType;
@@ -30,12 +30,18 @@ class _SocialScreenState extends State<SocialScreen> {
     // if (widget.categoryType.contains('facebook')) {
     //   listenable = Boxes.getFacebookPasswords().listenable();
     // }
+    String title = "Facebook";
 
     var listenable = Boxes.getFacebookPasswords().listenable();
     if (widget.categoryType.contains('Instagram')) {
       listenable = Boxes.getInstagramPasswords().listenable();
+      title = "Instagram";
     } else if (widget.categoryType.contains('google')) {
       listenable = Boxes.getgooglePasswords().listenable();
+      title = "Google";
+    }else if (widget.categoryType.contains('internetBanking')) {
+      listenable = Boxes.getBankingPasswords().listenable();
+      title = "Internet Banking";
     }
 
     return Scaffold(
@@ -64,6 +70,8 @@ class _SocialScreenState extends State<SocialScreen> {
               image = 'assets/gif/insta.gif';
             } else if (widget.categoryType.contains('google')) {
               image = 'assets/gif/google.gif';
+            }else if (widget.categoryType.contains('internetBanking')) {
+              image = 'assets/gif/bank.gif';
             }
 
             return box.length == 0
@@ -145,25 +153,6 @@ class _SocialScreenState extends State<SocialScreen> {
                               itemBuilder: (context, index) {
                                 setEmail(widget.categoryType,
                                     data[box.length - 1].username.toString());
-                                String maskingPassword =
-                                    data[index].password.toString();
-                                String maskedPassword = "";
-                                if (maskingPassword.length > 3) {
-                                  maskedPassword = maskingPassword[0] +
-                                      maskingPassword[1] +
-                                      "*" * (maskingPassword.length - 4) +
-                                      maskingPassword[
-                                          (maskingPassword.length - 2)] +
-                                      maskingPassword[
-                                          (maskingPassword.length - 1)];
-                                } else {
-                                  maskedPassword = maskingPassword;
-                                }
-
-                                // var valueTitle = data[index].title;
-                                // var visibilityTilte = true;
-                                // if (valueTitle.isEmpty||valueTitle.contains("null")||valueTitle.contains("empty")) {
-                                //   visibilityTilte = false;}
 
                                 return Card(
                                   color: Colors.white,
@@ -173,18 +162,6 @@ class _SocialScreenState extends State<SocialScreen> {
                                     width: double.infinity,
                                     child: Column(
                                       children: [
-                                        // Visibility(
-                                        //   visible: visibilityTilte,
-                                        //   child: Text(
-                                        //     "Title : ${data[index].title.toString()}",
-                                        //     style: const TextStyle(
-                                        //       fontSize: 12,
-                                        //       color: Colors.black26,
-                                        //       fontWeight: FontWeight.w700,
-                                        //       fontStyle: FontStyle.normal,
-                                        //     ),
-                                        //   ),
-                                        // ),
                                         ListTile(
                                           leading: CircleAvatar(
                                             backgroundColor: Colors.amberAccent,
@@ -219,7 +196,7 @@ class _SocialScreenState extends State<SocialScreen> {
                                                 ),
                                                 children: <TextSpan>[
                                                   TextSpan(
-                                                      text: maskedPassword,
+                                                      text: data[index].password.toString(),
                                                       style: const TextStyle(
                                                           color:
                                                               Colors.black45))
@@ -259,6 +236,17 @@ class _SocialScreenState extends State<SocialScreen> {
                                                     Icons.delete,
                                                     color: Colors.black26,
                                                   )),
+                                              IconButton(
+
+                                                  onPressed: () {
+                                                    ShareToWhatsapp whatsapp = ShareToWhatsapp();
+                                                    whatsapp.send("Account: $title\nUsername: ${data[index].username}\nPassword: ${data[index].password}");
+                                                  },
+                                                  icon: const Icon(
+                                                    LineAwesomeIcons.what_s_app,
+                                                    color: Colors.black26,
+                                                  )),
+
                                             ],
                                           ),
                                           onLongPress: () async {
@@ -339,6 +327,13 @@ class _SocialScreenState extends State<SocialScreen> {
       } else {
         await sharedpref.remove("instagramEmail");
       }
+    } else if (widget.categoryType.contains('internetBanking')) {
+      if (emailData != null) {
+        sharedpref.setString("internetBankingUsername", emailData);
+        setState(() {});
+      } else {
+        await sharedpref.remove("internetBankingUsername");
+      }
     }
     setState(() {});
   }
@@ -366,6 +361,8 @@ class _SocialScreenState extends State<SocialScreen> {
       box = Boxes.getInstagramPasswords();
     } else if (categoryType.contains('google')) {
       box = Boxes.getgooglePasswords();
+    }else if (categoryType.contains('internetBanking')) {
+      box = Boxes.getBankingPasswords();
     }
 
     if (position != -1) {

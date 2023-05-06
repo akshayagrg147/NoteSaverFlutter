@@ -1,5 +1,4 @@
-//18 to 31
-//836 - 930
+import 'package:cardsaver/Utils/whatsapp_share.dart';
 import 'package:cardsaver/ui/SocialCategory.dart';
 import 'package:cardsaver/Utils/fingerprint.dart';
 import 'package:cardsaver/Utils/iconselector.dart';
@@ -16,13 +15,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:upgrader/upgrader.dart';
-
-
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'chat_screen.dart';
+import 'dart:io';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -46,32 +46,181 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double height = 0,
-      width = 0;
+  double height = 0, width = 0;
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   String search = '';
   TextEditingController searchController = TextEditingController();
-  var facebookEmail = "No Password" ;
+  var facebookEmail = "No Password";
   var instagramEmail = "No Password";
   var googleEmail = "No Password";
+  var internetBankingUsername = "No Password";
   var selectedicon = "assets/images/avatar.png";
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final titleController = TextEditingController();
-  bool onOff = false;
+  bool? onOff = false;
+  String? firstname = "";
+  String? lastname = "";
+  String? profilePicPath = "";
+  ImageProvider avatar = const AssetImage("assets/images/avatar.png");
+
+  void chooseAvatar() {
+    if (profilePicPath != "" && profilePicPath != null) {
+      setState(() {
+        avatar = FileImage(File("$profilePicPath"));
+      });
+    }
+  }
+
+  greeting() {
+    getUserName();
+    chooseAvatar();
+    var hour = DateTime.now().hour;
+
+    if (firstname == "" || firstname == null) {
+      if (hour >= 6 && hour < 12) {
+        return RichText(
+          text: const TextSpan(
+              text: "Good Morning!\n",
+              style: TextStyle(
+                  fontSize: 13.5,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.italic),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "Guest",
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 18,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w500))
+              ]),
+        );
+      } else if (hour >= 12 && hour < 17) {
+
+        return RichText(
+          text: const TextSpan(
+              text: "Good Afternoon!\n",
+              style: TextStyle(
+                  fontSize: 13.5,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.italic),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "Guest",
+                    style: TextStyle(
+                        color: Colors.black45,
+                        fontSize: 18,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w500))
+              ]),
+        );
+      } else {
+        return RichText(
+          text: const TextSpan(
+              text: "Good Evening!\n",
+              style: TextStyle(
+                  fontSize: 14.5,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.italic),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "Guest",
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w500))
+              ]),
+        );
+      }
+    } else {
+      if (hour >= 6 && hour < 12) {
+        return RichText(
+          text: TextSpan(
+              text: "Good Morning!\n",
+              style: const TextStyle(
+                  fontSize: 13.5,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.italic),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "$firstname $lastname",
+                    style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 18,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w500))
+              ]),
+        );
+      } else if (hour >= 12 && hour < 17) {
+        return RichText(
+          text: TextSpan(
+              text: "Good Afternoon!\n",
+              style: const TextStyle(
+                  fontSize: 13.5,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.italic),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "$firstname $lastname",
+                    style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 18,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w500))
+              ]),
+        );
+      } else {
+        return RichText(
+          text: TextSpan(
+              text: "Good Evening!\n",
+              style: const TextStyle(
+                  fontSize: 13.5,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.italic),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "$firstname $lastname",
+                    style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 18,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w500))
+              ]),
+        );
+      }
+    }
+  }
 
   getFingerPrintOnOff() async {
     var sharedpref = await SharedPreferences.getInstance();
     setState(() {
-      onOff = sharedpref.getBool("fingerprint_on_off")!;
+      onOff = sharedpref.getBool("fingerprint_on_off");
     });
     if (onOff == true) {
       FingerPrint fp = FingerPrint();
       fp.authenticate();
     }
+  }
+
+  getUserName() async {
+    var sharedPrefProfileInfo = await SharedPreferences.getInstance();
+    setState(() {
+      firstname = sharedPrefProfileInfo.getString('firstname');
+      lastname = sharedPrefProfileInfo.getString('lastname');
+    });
+    setState(() {
+      profilePicPath = sharedPrefProfileInfo.getString('profilePicPath');
+    });
   }
 
   @override
@@ -98,33 +247,21 @@ class _MyHomePageState extends State<MyHomePage> {
             elevation: 0,
             backgroundColor: const Color(0xFFf4f4f4),
             iconTheme: const IconThemeData(color: Colors.black),
-            // leading: IconButton(
-            //   icon: const Icon(Icons.sort),
-            //   color: Colors.black,
-            //   tooltip: 'Menu',
-            //   onPressed: () {
-            //     // if(scaffoldKey.currentState!.isDrawerOpen){
-            //     //   scaffoldKey.currentState!.closeDrawer();
-            //     //   //close drawer, if drawer is open
-            //     // }else{
-            //     // scaffoldKey.currentState!.openDrawer();
-            //     // //open drawer, if drawer is closed
-            //     // }
-            //   },
-            // ), //IconButton
+            title: greeting(),
             actions: <Widget>[
               Padding(
-                padding: EdgeInsets.only(right: 10, top: 10),
+                padding: const EdgeInsets.only(right: 10, top: 10),
                 child: GestureDetector(
                   behavior: HitTestBehavior.translucent,
-                  onTap:(){
+                  onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const ProfileScreen()),
                     );
-                  } ,
+                  },
                   child: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/avatar.png"),
+                    backgroundImage: avatar,
                     backgroundColor: Colors.red,
                     radius: 22,
                   ),
@@ -151,10 +288,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: 40,
                   ),
                   label: 'Card',
+                  labelBackgroundColor: const Color(0xFFf4f4f4),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const CreditCardPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const CreditCardPage()),
                     );
                   }),
               SpeedDialChild(
@@ -165,6 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: 38,
                   ),
                   label: 'Notes',
+                  labelBackgroundColor: const Color(0xFFf4f4f4),
                   onTap: () {
                     showModalBottomSheet(
                         isScrollControlled: true,
@@ -174,8 +314,26 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         context: context,
                         builder: (context) {
-                          return const AddNoteBottomSheet(navigator: "tonotespage",);
+                          return const AddNoteBottomSheet(
+                            navigator: "tonotespage",
+                          );
                         });
+                  }),
+              SpeedDialChild(
+                  backgroundColor: Colors.black26,
+                  child: Image.asset(
+                    'assets/images/chat_logo.png',
+                    height: 38,
+                    width: 38,
+                  ),
+                  label: 'ChatGpt',
+                  labelBackgroundColor: const Color(0xFFf4f4f4),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ChatScreen()),
+                    );
                   }),
               SpeedDialChild(
                   backgroundColor: Colors.black26,
@@ -184,9 +342,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 40,
                     width: 40,
                   ),
-                  label: 'Password',
+                  label: 'Save Password',
+                  labelBackgroundColor: const Color(0xFFf4f4f4),
                   onTap: () {
-                    callBottomSheets(context,usernameController,passwordController,titleController,-1);
+                    callBottomSheets(context, usernameController,
+                        passwordController, titleController, -1);
                   }),
             ],
           ),
@@ -196,8 +356,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: const BoxDecoration(
                   color: Color(0xFFf4f4f4),
                 ),
-                child:
-                ValueListenableBuilder<Box <SocialModal>>(
+                child: ValueListenableBuilder<Box<SocialModal>>(
                     valueListenable: Boxes.getSocialPasswords().listenable(),
                     builder: (context, box, _) {
                       var data = box.values.toList().cast<SocialModal>();
@@ -224,15 +383,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     contentPadding: const EdgeInsets.symmetric(
                                         vertical: 10.0, horizontal: 15),
                                     hintText: 'Search "passwords"',
-                                    hintStyle: const TextStyle(color: Colors.grey),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.grey),
                                     fillColor: Colors.white,
                                     filled: true,
                                     border: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.grey.withOpacity(0.7),
                                       ),
-                                      borderRadius:
-                                      const BorderRadius.all(Radius.circular(15)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(15)),
                                     ),
                                     prefixIcon: const Icon(
                                       Icons.search,
@@ -264,171 +424,232 @@ class _MyHomePageState extends State<MyHomePage> {
                             Container(
                                 child: searchController.text.isEmpty
                                     ? Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFFff6f1),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  margin: const EdgeInsets.only(
-                                    left: 15,
-                                    right: 15,
-                                    top: 1,
-                                  ),
-                                  child: ListTile(
-                                    contentPadding:
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 10.0,
-                                        vertical: 0.0),
-                                    shape: RoundedRectangleBorder(
-                                      side: const BorderSide(width: 2),
-                                      borderRadius:
-                                      BorderRadius.circular(20),
-                                    ),
-                                    title: const Text(
-                                      "Google Account",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFFff6f1),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        margin: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 1,
+                                        ),
+                                        child:
+                                        ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10.0,
+                                                  vertical: 0.0),
+                                          shape: RoundedRectangleBorder(
+                                            side: const BorderSide(width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          title: const Text(
+                                            "Google Account",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
 
-                                    subtitle: Text(
-                                      googleEmail,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12),
-                                    ),
-                                    leading: const CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          "assets/images/google.png"),
-                                      radius: 20,
-                                      backgroundColor: Colors.white,
-                                    ),
-                                    // trailing:
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const SocialScreen(
-                                                "google")),
-                                      );
-                                    },
-                                  ),
-                                )
+                                          subtitle: Text(
+                                            googleEmail,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12),
+                                          ),
+                                          leading: const CircleAvatar(
+                                            backgroundImage: AssetImage(
+                                                "assets/images/google.png"),
+                                            radius: 20,
+                                            backgroundColor: Colors.white,
+                                          ),
+                                          // trailing:
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SocialScreen(
+                                                          "google")),
+                                            );
+                                          },
+                                        ),
+                                      )
                                     : Container(
-                                  height: 1,
-                                )),
+                                        height: 1,
+                                      )),
                             Container(
                                 child: searchController.text.isEmpty
                                     ? Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFFff6f1),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  margin: const EdgeInsets.only(
-                                    left: 15,
-                                    right: 15,
-                                    top: 8,
-                                  ),
-                                  child: ListTile(
-                                    contentPadding:
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 10.0,
-                                        vertical: 0.0),
-                                    shape: RoundedRectangleBorder(
-                                      //<-- SEE HERE
-                                      side: const BorderSide(width: 2),
-                                      borderRadius:
-                                      BorderRadius.circular(20),
-                                    ),
-                                    title: const Text(
-                                      "Instagram",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    subtitle: Text(
-                                      instagramEmail,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12),
-                                    ),
-                                    leading: const CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          "assets/images/instagram.png"),
-                                      radius: 20,
-                                    ),
-                                    // trailing:
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const SocialScreen(
-                                                'Instagram')),
-                                      );
-                                    },
-                                  ),
-                                )
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFFff6f1),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        margin: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 8,
+                                        ),
+                                        child: ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10.0,
+                                                  vertical: 0.0),
+                                          shape: RoundedRectangleBorder(
+                                            //<-- SEE HERE
+                                            side: const BorderSide(width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          title: const Text(
+                                            "Instagram",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          subtitle: Text(
+                                            instagramEmail,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12),
+                                          ),
+                                          leading: const CircleAvatar(
+                                            backgroundImage: AssetImage(
+                                                "assets/images/instagram.png"),
+                                            radius: 20,
+                                          ),
+                                          // trailing:
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SocialScreen(
+                                                          'Instagram')),
+                                            );
+                                          },
+                                        ),
+                                      )
                                     : Container(
-                                  height: 1,
-                                )),
+                                        height: 1,
+                                      )),
                             Container(
                                 child: searchController.text.isEmpty
                                     ? Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFFff6f1),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  margin: const EdgeInsets.only(
-                                      left: 15,
-                                      right: 15,
-                                      top: 8,
-                                      bottom: 5),
-                                  child: ListTile(
-                                    contentPadding:
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 10.0,
-                                        vertical: 0.0),
-                                    shape: RoundedRectangleBorder(
-                                      //<-- SEE HERE
-                                      side: const BorderSide(width: 2),
-                                      borderRadius:
-                                      BorderRadius.circular(20),
-                                    ),
-                                    title: const Text(
-                                      "Facebook",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    subtitle: Text(
-                                      facebookEmail,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12),
-                                    ),
-                                    leading: const CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          "assets/images/facebook.png"),
-                                      radius: 20,
-                                    ),
-                                    // trailing:
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const SocialScreen(
-                                                "facebook")),
-                                      );
-                                    },
-                                  ),
-                                )
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFFff6f1),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        margin: const EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                            top: 8,
+                                            bottom: 5),
+                                        child: ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10.0,
+                                                  vertical: 0.0),
+                                          shape: RoundedRectangleBorder(
+                                            //<-- SEE HERE
+                                            side: const BorderSide(width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          title: const Text(
+                                            "Facebook",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          subtitle: Text(
+                                            facebookEmail,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12),
+                                          ),
+                                          leading: const CircleAvatar(
+                                            backgroundImage: AssetImage(
+                                                "assets/images/facebook.png"),
+                                            radius: 20,
+                                          ),
+                                          // trailing:
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SocialScreen(
+                                                          "facebook")),
+                                            );
+                                          },
+                                        ),
+                                      )
                                     : Container(
-                                  height: 1,
-                                )),
+                                        height: 1,
+                                      )),
+                            Container(
+                                child: searchController.text.isEmpty
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFFff6f1),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        margin: const EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                            top: 8,
+                                            bottom: 5),
+                                        child: ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10.0,
+                                                  vertical: 0.0),
+                                          shape: RoundedRectangleBorder(
+                                            //<-- SEE HERE
+                                            side: const BorderSide(width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          title: const Text(
+                                            "Internet Banking",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          subtitle: Text(
+                                            internetBankingUsername,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12),
+                                          ),
+                                          leading: const CircleAvatar(
+                                            backgroundImage: AssetImage(
+                                                "assets/images/bank.png"),
+                                            radius: 20,
+                                          ),
+                                          // trailing:
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SocialScreen(
+                                                          'internetBanking')),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    : Container(
+                                        height: 1,
+                                      )),
 
-                            if (searchController.text.isEmpty && box.length != 0)
+                            if (searchController.text.isEmpty &&
+                                box.length != 0)
                               (const Padding(
                                 padding: EdgeInsets.only(left: 20, top: 5),
                                 child: Text(
@@ -443,17 +664,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               height: 5,
                             ),
                             if (box.length == 0 &&
-                                MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height > 550)
+                                MediaQuery.of(context).size.height > 550)
                               (SizedBox(
                                 height:
-                                (MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height - 525) /
-                                    5,
+                                    (MediaQuery.of(context).size.height - 525) /
+                                        5,
                               )),
                             if (box.length == 0)
                               (Column(
@@ -463,9 +678,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                     width: double.infinity,
                                     child: IconButton(
                                       onPressed: () {
-                                        callBottomSheets(context,
-                                          usernameController,passwordController,titleController,-1
-                                        );
+                                        callBottomSheets(
+                                            context,
+                                            usernameController,
+                                            passwordController,
+                                            titleController,
+                                            -1);
                                       },
                                       icon: const Icon(
                                         Icons.add_circle_outline_rounded,
@@ -475,7 +693,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                   const Padding(
-                                    padding: EdgeInsets.only(top: 10, bottom: 25),
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 25),
                                     child: Text("Save More Passwords",
                                         style: TextStyle(
                                             color: Colors.black38,
@@ -485,13 +704,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ],
                               )),
 
-
                             ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: box.length,
                                 itemBuilder: (context, index) {
-                                  late String position = data[index].title.toString();
+                                  late String position =
+                                      data[index].title.toString();
 
                                   if (searchController.text.isEmpty) {
                                     return Container(
@@ -507,13 +726,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                       child: ListTile(
                                         contentPadding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                            vertical: 0.0),
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 0.0),
                                         shape: RoundedRectangleBorder(
                                           side: const BorderSide(width: 2),
                                           borderRadius:
-                                          BorderRadius.circular(20),
+                                              BorderRadius.circular(20),
                                         ),
                                         title: Text(
                                           data[index].title.toString(),
@@ -522,7 +741,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         subtitle: Text(
-                                          data[index].username.toString(),
+                                          "${data[index].username}\n${data[index].password}",
                                           style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 12),
@@ -535,31 +754,55 @@ class _MyHomePageState extends State<MyHomePage> {
                                         trailing: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  ShareToWhatsapp whatsapp =
+                                                      ShareToWhatsapp();
+                                                  whatsapp.send(
+                                                      "Account: ${data[index].title}\nUsername: ${data[index].username}\nPassword: ${data[index].password}");
+                                                },
+                                                icon: const Icon(
+                                                  LineAwesomeIcons.what_s_app,
+                                                  color: Colors.black26,
+                                                )),
                                             InkWell(
-
-                                                onTap: () async{
-                                                await Clipboard.setData(ClipboardData(text: data[index].username.toString()));
-                                                Fluttertoast.showToast(
-                                                    msg: "Username Copied\nLong Press to copy Password",
-                                                    toastLength: Toast.LENGTH_SHORT,
-                                                    timeInSecForIosWeb: 1,
-                                                    backgroundColor: Colors.black54,
-                                                    textColor: Colors.white,
-                                                    fontSize: 16.0
-                                                );},
-                                                onLongPress: () async{
-                                                  await Clipboard.setData(ClipboardData(text: data[index].password.toString()));
+                                                onTap: () async {
+                                                  await Clipboard.setData(
+                                                      ClipboardData(
+                                                          text: data[index]
+                                                              .username
+                                                              .toString()));
+                                                  Fluttertoast.showToast(
+                                                      msg:
+                                                          "Username Copied\nLong Press to copy Password",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      timeInSecForIosWeb: 1,
+                                                      backgroundColor:
+                                                          Colors.black54,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
+                                                },
+                                                onLongPress: () async {
+                                                  await Clipboard.setData(
+                                                      ClipboardData(
+                                                          text: data[index]
+                                                              .password
+                                                              .toString()));
                                                   Fluttertoast.showToast(
                                                       msg: "Password Copied",
-                                                      toastLength: Toast.LENGTH_SHORT,
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
                                                       timeInSecForIosWeb: 1,
-                                                      backgroundColor: Colors.black54,
+                                                      backgroundColor:
+                                                          Colors.black54,
                                                       textColor: Colors.white,
-                                                      fontSize: 16.0
-                                                  );
+                                                      fontSize: 16.0);
                                                 },
-                                                child: const Icon(Icons.content_copy,
-                                                  color: Colors.black26,)),
+                                                child: const Icon(
+                                                  Icons.content_copy,
+                                                  color: Colors.black26,
+                                                )),
                                             IconButton(
                                                 onPressed: () {
                                                   box.deleteAt(index);
@@ -571,16 +814,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ],
                                         ),
                                         onLongPress: () {
-                                          usernameController.text = data[index].username.toString();
-                                          passwordController.text = data[index].password.toString();
-                                          titleController.text = data[index].title.toString();
+                                          usernameController.text =
+                                              data[index].username.toString();
+                                          passwordController.text =
+                                              data[index].password.toString();
+                                          titleController.text =
+                                              data[index].title.toString();
 
                                           callBottomSheets(
-                                              context,
-                                              usernameController,
-                                              passwordController,
-                                              titleController,
-                                              index,);
+                                            context,
+                                            usernameController,
+                                            passwordController,
+                                            titleController,
+                                            index,
+                                          );
                                         },
                                       ),
                                     );
@@ -598,14 +845,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                       child: ListTile(
                                         contentPadding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                            vertical: 0.0),
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 0.0),
                                         shape: RoundedRectangleBorder(
                                           //<-- SEE HERE
                                           side: const BorderSide(width: 2),
                                           borderRadius:
-                                          BorderRadius.circular(20),
+                                              BorderRadius.circular(20),
                                         ),
                                         title: Text(
                                           data[index].title.toString(),
@@ -614,7 +861,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         subtitle: Text(
-                                          data[index].username.toString(),
+                                          "${data[index].username}\n${data[index].password}",
                                           style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 12),
@@ -627,31 +874,55 @@ class _MyHomePageState extends State<MyHomePage> {
                                         trailing: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  ShareToWhatsapp whatsapp =
+                                                      ShareToWhatsapp();
+                                                  whatsapp.send(
+                                                      "Username: ${data[index].username}\nPassword: ${data[index].password}");
+                                                },
+                                                icon: const Icon(
+                                                  LineAwesomeIcons.what_s_app,
+                                                  color: Colors.black38,
+                                                )),
                                             InkWell(
-
-                                              onTap: () async{
-                                                await Clipboard.setData(ClipboardData(text: data[index].username.toString()));
-                                                Fluttertoast.showToast(
-                                                    msg: "Username Copied\nLong Press to copy Password",
-                                                    toastLength: Toast.LENGTH_SHORT,
-                                                    timeInSecForIosWeb: 1,
-                                                    backgroundColor: Colors.black54,
-                                                    textColor: Colors.white,
-                                                    fontSize: 16.0
-                                                );},
-                                              onLongPress: () async{
-                                              await Clipboard.setData(ClipboardData(text: data[index].password.toString()));
-                                              Fluttertoast.showToast(
-                                              msg: "Password Copied",
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.black54,
-                                              textColor: Colors.white,
-                                              fontSize: 16.0
-                                              );
-                                              },
-                                                child: const Icon(Icons.content_copy,
-                                                  color: Colors.black26,)),
+                                                onTap: () async {
+                                                  await Clipboard.setData(
+                                                      ClipboardData(
+                                                          text: data[index]
+                                                              .username
+                                                              .toString()));
+                                                  Fluttertoast.showToast(
+                                                      msg:
+                                                          "Username Copied\nLong Press to copy Password",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      timeInSecForIosWeb: 1,
+                                                      backgroundColor:
+                                                          Colors.black54,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
+                                                },
+                                                onLongPress: () async {
+                                                  await Clipboard.setData(
+                                                      ClipboardData(
+                                                          text: data[index]
+                                                              .password
+                                                              .toString()));
+                                                  Fluttertoast.showToast(
+                                                      msg: "Password Copied",
+                                                      toastLength:
+                                                          Toast.LENGTH_SHORT,
+                                                      timeInSecForIosWeb: 1,
+                                                      backgroundColor:
+                                                          Colors.black54,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
+                                                },
+                                                child: const Icon(
+                                                  Icons.content_copy,
+                                                  color: Colors.black26,
+                                                )),
                                             IconButton(
                                                 onPressed: () {
                                                   box.deleteAt(index);
@@ -663,20 +934,23 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ],
                                         ),
                                         onTap: () {
-                                          usernameController.text = data[index].username.toString();
-                                          passwordController.text = data[index].password.toString();
-                                          titleController.text = data[index].title.toString();
+                                          usernameController.text =
+                                              data[index].username.toString();
+                                          passwordController.text =
+                                              data[index].password.toString();
+                                          titleController.text =
+                                              data[index].title.toString();
 
                                           callBottomSheets(
                                             context,
                                             usernameController,
                                             passwordController,
                                             titleController,
-                                            index,);
+                                            index,
+                                          );
                                         },
                                       ),
                                     );
-
                                   } else {
                                     return Container();
                                   }
@@ -696,31 +970,32 @@ class _MyHomePageState extends State<MyHomePage> {
     var facebookEmailId = sharedpref.getString("facebookEmail");
     var instagramEmailId = sharedpref.getString("instagramEmail");
     var googleEmailId = sharedpref.getString("googleEmail");
+    var internetBankingUser = sharedpref.getString("internetBankingUsername");
     var sIcon = sharedpref.getString("selectedicon");
     setState(() {
-      facebookEmail =
-          facebookEmailId ?? "No Account Saved";
+      facebookEmail = facebookEmailId ?? "No Account Saved";
     });
     setState(() {
-      instagramEmail =
-      instagramEmailId ?? "No Account Saved";
+      instagramEmail = instagramEmailId ?? "No Account Saved";
     });
     setState(() {
       googleEmail = googleEmailId ?? "No Account Saved";
     });
     setState(() {
-      selectedicon =
-          sIcon ?? "assets/images/avatar.png";
+      selectedicon = sIcon ?? "assets/images/appicon.png";
+    });
+    setState(() {
+      internetBankingUsername = internetBankingUser ?? "No Account Saved";
     });
   }
 
   void callBottomSheets(
-      BuildContext context,
-      TextEditingController emailController,
-      TextEditingController passController,
-      TextEditingController titleController,
-      int position,
-      ) {
+    BuildContext context,
+    TextEditingController emailController,
+    TextEditingController passController,
+    TextEditingController titleController,
+    int position,
+  ) {
     // final titleController = TextEditingController();
     // final emailController = TextEditingController();
     // final passController = TextEditingController();
@@ -752,16 +1027,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             decoration: const InputDecoration(
                               labelText: "Title/Website Name",
                               labelStyle:
-                              TextStyle(fontSize: 16, color: Colors.black),
+                                  TextStyle(fontSize: 16, color: Colors.black),
                               filled: true,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                                      BorderRadius.all(Radius.circular(15))),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                                      BorderRadius.all(Radius.circular(15))),
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -782,16 +1057,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             decoration: const InputDecoration(
                               labelText: "Email/Username",
                               labelStyle:
-                              TextStyle(fontSize: 16, color: Colors.black),
+                                  TextStyle(fontSize: 16, color: Colors.black),
                               filled: true,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                                      BorderRadius.all(Radius.circular(15))),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                                      BorderRadius.all(Radius.circular(15))),
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -812,17 +1087,17 @@ class _MyHomePageState extends State<MyHomePage> {
                             decoration: const InputDecoration(
                               labelText: "Password",
                               labelStyle:
-                              TextStyle(fontSize: 16, color: Colors.black),
+                                  TextStyle(fontSize: 16, color: Colors.black),
                               // hintText: "Enter Email",
                               filled: true,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                                      BorderRadius.all(Radius.circular(15))),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                                      BorderRadius.all(Radius.circular(15))),
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -836,9 +1111,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 22,
                       ),
                       const Padding(
-                          padding: EdgeInsets.only(left: 16.5 ,right:16.5),
-                          child: IconSelecting()
-                      ),
+                          padding: EdgeInsets.only(left: 16.5, right: 16.5),
+                          child: IconSelecting()),
                       const SizedBox(
                         height: 18,
                       ),
@@ -854,8 +1128,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                         child: Container(
                           height: 55,
-                          margin:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 6),
                           decoration: BoxDecoration(
                             // color: Colors.red,
                             color: Colors.lightBlue,
@@ -883,7 +1157,12 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  void onValidate(BuildContext context, TextEditingController usernameController, TextEditingController passwordController, TextEditingController titleController,int position) {
+  void onValidate(
+      BuildContext context,
+      TextEditingController usernameController,
+      TextEditingController passwordController,
+      TextEditingController titleController,
+      int position) {
     final data = SocialModal(
         username: usernameController.text,
         password: passwordController.text,
@@ -898,8 +1177,4 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     navigator.pop();
   }
-
-
-
-
 }
