@@ -85,17 +85,17 @@ class _MyHomePageState extends State<MyHomePage> {
           text: const TextSpan(
               text: "Good Morning!\n",
               style: TextStyle(
-                  fontSize: 13.5,
-                  color: Colors.grey,
+                  fontSize: 14.5,
+                  color: Colors.black87,
                   fontWeight: FontWeight.w700,
                   fontStyle: FontStyle.italic),
               children: <TextSpan>[
                 TextSpan(
                     text: "Guest",
                     style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
-                        fontStyle: FontStyle.normal,
+                        color: Colors.black45,
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.w500))
               ]),
         );
@@ -105,8 +105,8 @@ class _MyHomePageState extends State<MyHomePage> {
           text: const TextSpan(
               text: "Good Afternoon!\n",
               style: TextStyle(
-                  fontSize: 13.5,
-                  color: Colors.grey,
+                  fontSize: 14.5,
+                  color: Colors.black87,
                   fontWeight: FontWeight.w700,
                   fontStyle: FontStyle.italic),
               children: <TextSpan>[
@@ -114,8 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     text: "Guest",
                     style: TextStyle(
                         color: Colors.black45,
-                        fontSize: 18,
-                        fontStyle: FontStyle.normal,
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.w500))
               ]),
         );
@@ -145,16 +145,16 @@ class _MyHomePageState extends State<MyHomePage> {
           text: TextSpan(
               text: "Good Morning!\n",
               style: const TextStyle(
-                  fontSize: 13.5,
-                  color: Colors.grey,
+                  fontSize: 15,
+                  color: Colors.black87,
                   fontWeight: FontWeight.w700,
                   fontStyle: FontStyle.italic),
               children: <TextSpan>[
                 TextSpan(
                     text: "$firstname $lastname",
                     style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
+                        color: Colors.black45,
+                        fontSize: 14,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w500))
               ]),
@@ -164,16 +164,16 @@ class _MyHomePageState extends State<MyHomePage> {
           text: TextSpan(
               text: "Good Afternoon!\n",
               style: const TextStyle(
-                  fontSize: 13.5,
-                  color: Colors.grey,
+                  fontSize: 15,
+                  color: Colors.black87,
                   fontWeight: FontWeight.w700,
                   fontStyle: FontStyle.italic),
               children: <TextSpan>[
                 TextSpan(
                     text: "$firstname $lastname",
                     style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
+                        color: Colors.black45,
+                        fontSize: 14,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w500))
               ]),
@@ -183,16 +183,16 @@ class _MyHomePageState extends State<MyHomePage> {
           text: TextSpan(
               text: "Good Evening!\n",
               style: const TextStyle(
-                  fontSize: 13.5,
-                  color: Colors.grey,
+                  fontSize: 15,
+                  color: Colors.black87,
                   fontWeight: FontWeight.w700,
                   fontStyle: FontStyle.italic),
               children: <TextSpan>[
                 TextSpan(
                     text: "$firstname $lastname",
                     style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
+                        color: Colors.black45,
+                        fontSize: 14,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w500))
               ]),
