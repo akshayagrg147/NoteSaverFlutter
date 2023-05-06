@@ -25,6 +25,7 @@ void main() async {
   await Hive.openBox<SocialModal>("facebookPasswords");
   await Hive.openBox<SocialModal>("instagramPasswords");
   await Hive.openBox<SocialModal>("googlePasswords");
+  await Hive.openBox<SocialModal>("internetBanking");
   await Hive.openBox<ProfileInfoModal>("profileinfo");
 
   await Hive.initFlutter();
