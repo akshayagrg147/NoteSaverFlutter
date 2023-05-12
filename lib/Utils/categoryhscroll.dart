@@ -1,7 +1,7 @@
-import 'package:cardsaver/ui/chat_screen.dart';
 import 'package:cardsaver/ui/notes_screen_ui/notes_view.dart';
 import 'package:cardsaver/ui/savedCardScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HorizontalScroll extends StatefulWidget {
   const HorizontalScroll({Key? key}) : super(key: key);
@@ -48,10 +48,7 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
             padding: const EdgeInsets.only(right:8,top: 11,bottom: 8),
             child:InkWell(
                 onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ChatScreen()),
-                  );
+                  _launchURL();
                 },
                 child: Container(
                   width: 114,
@@ -141,5 +138,17 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
         ],
       ),
     );
+  }
+
+  _launchURL() async {
+    const url = 'https://chat.openai.com';
+    final uri = Uri.parse(url);
+      await launchUrl(uri,mode: LaunchMode.externalApplication);
+
+    // if (await canLaunchUrl(uri)) {
+    //   await launchUrl(uri);
+    // } else {
+    //   throw 'Could not launch $url';
+    // }
   }
 }
