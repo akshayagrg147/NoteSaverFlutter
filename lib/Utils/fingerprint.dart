@@ -10,6 +10,7 @@ class FingerPrint {
       bool authorized = await auth.authenticate(
         localizedReason:
         'Login to Proceed',
+
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: false,
