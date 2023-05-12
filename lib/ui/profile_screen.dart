@@ -63,13 +63,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 fontSize: 22,
                 color: Colors.black,
                 fontWeight: FontWeight.w500)),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(LineAwesomeIcons.sun),
-            color: Colors.black,
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: const Icon(LineAwesomeIcons.sun),
+        //     color: Colors.black,
+        //   )
+        // ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -186,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const Divider(color: Colors.grey),
               const SizedBox(height: 10),
               ProfileMenuWidget(
-                  title: "Logout",
+                  title: "Exit",
                   icon: LineAwesomeIcons.alternate_sign_out,
                   textColor: Colors.red,
                   endIcon: false,
