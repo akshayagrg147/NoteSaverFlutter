@@ -11,6 +11,13 @@ class Boxes{
   static Box<SocialModal> getBankingPasswords()=>Hive.box<SocialModal>("internetBanking");
   static Box<ProfileInfoModal> getprofiledata()=>Hive.box<ProfileInfoModal>("profileinfo");
 
+  static Box<DocumentModal> getpan()=>Hive.box<DocumentModal>("pan");
+  static Box<DocumentModal> getaadhaar()=>Hive.box<DocumentModal>("aadhaar");
+  static Box<DocumentModal> getlicense()=>Hive.box<DocumentModal>("license");
+  static Box<DocumentModal> gethsc()=>Hive.box<DocumentModal>("hsc");
+  static Box<DocumentModal> getssc()=>Hive.box<DocumentModal>("ssc");
+  static Box<DocumentModal> getother()=>Hive.box<DocumentModal>("other");
+
   // static Box<CategoryModal> getCategoryModal()=>Hive.box<CategoryModal>("category");
 }
 

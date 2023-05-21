@@ -26,8 +26,6 @@ class VideoState extends State<Splash> with SingleTickerProviderStateMixin {
     isviewed = sharedpref.getInt('onBoard');
     var duration = const Duration(milliseconds: 1600);
     return Timer(duration, navigationPage);
-
-
   }
 
   void navigationPage() {

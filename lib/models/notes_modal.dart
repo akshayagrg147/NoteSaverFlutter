@@ -72,6 +72,18 @@ class ProfileInfoModal extends HiveObject{
     required this.gender,
     required this.image,
   });
+}
 
+@HiveType(typeId: 3)
+class DocumentModal extends HiveObject{
+  @HiveField(0)
+  late String? name;
+  // @HiveField(1)
+  // late File? doc;
+
+  DocumentModal({
+    // required this.doc,
+    required this.name,
+  });
 }
 

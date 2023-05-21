@@ -1,3 +1,4 @@
+import 'package:cardsaver/Utils/chatgpt_webview.dart';
 import 'package:cardsaver/Utils/whatsapp_share.dart';
 import 'package:cardsaver/ui/SocialCategory.dart';
 import 'package:cardsaver/Utils/fingerprint.dart';
@@ -16,7 +17,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
 class HomePage extends StatelessWidget {
@@ -329,7 +329,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: 'ChatGpt',
                   labelBackgroundColor: const Color(0xFFf4f4f4),
                   onTap: () {
-                   _launchURL();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyChatGpt()),
+                    );
                   }),
               SpeedDialChild(
                   backgroundColor: Colors.black26,
@@ -1174,10 +1178,4 @@ class _MyHomePageState extends State<MyHomePage> {
     navigator.pop();
   }
 
-  _launchURL() async {
-    const url = 'https://chat.openai.com';
-    final uri = Uri.parse(url);
-    await launchUrl(uri,mode: LaunchMode.externalApplication);
-
-  }
 }
