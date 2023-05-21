@@ -15,9 +15,6 @@ import 'package:printing/printing.dart';
 import '../models/boxes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-
-
-
 class SaveDocument extends StatefulWidget {
   const SaveDocument({Key? key}) : super(key: key);
 
@@ -26,8 +23,6 @@ class SaveDocument extends StatefulWidget {
 }
 
 class _SaveDocumentState extends State<SaveDocument> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,22 +46,39 @@ class _SaveDocumentState extends State<SaveDocument> {
               icon: const Icon(Icons.home)),
         ],
       ),
-      body:
-      Column(
+      body: Column(
         // file: file
         children: [
-          NewListTile(title: "AadharCard",icon: "assets/images/aadhaar.png",pages: 2,),
-          NewListTile(title: "Pan Card",icon: "assets/images/PanCard.png",),
-          NewListTile(title: "Driving License",icon: "assets/images/Driving.png",),
-          NewListTile(title: "HSC Marksheet",icon: "assets/images/Marksheet.png",),
-          NewListTile(title: "SSC Marksheet", icon: "assets/images/Marksheet.png",),
-          NewListTile(title: "Other",icon: "assets/images/document.png",),
+          NewListTile(
+            title: "AadharCard",
+            icon: "assets/images/aadhaar.png",
+            pages: 2,
+          ),
+          NewListTile(
+            title: "Pan Card",
+            icon: "assets/images/PanCard.png",
+          ),
+          NewListTile(
+            title: "Driving License",
+            icon: "assets/images/Driving.png",
+          ),
+          NewListTile(
+            title: "HSC Marksheet",
+            icon: "assets/images/Marksheet.png",
+          ),
+          NewListTile(
+            title: "SSC Marksheet",
+            icon: "assets/images/Marksheet.png",
+          ),
+          NewListTile(
+            title: "Other",
+            icon: "assets/images/document.png",
+          ),
         ],
       ),
     );
   }
-  }
-
+}
 
 // ignore: must_be_immutable
 class NewListTile extends StatefulWidget {
@@ -78,7 +90,6 @@ class NewListTile extends StatefulWidget {
   });
 
   File? file;
-  File? file2;
   final String title;
   final String icon;
   int pages;
@@ -88,7 +99,6 @@ class NewListTile extends StatefulWidget {
 }
 
 class _NewListTileState extends State<NewListTile> {
-
   @override
   Widget build(BuildContext context) {
     var listenable = Boxes.getaadhaar().listenable();
@@ -96,84 +106,91 @@ class _NewListTileState extends State<NewListTile> {
       listenable = Boxes.getpan().listenable();
     } else if (widget.title.contains('Driving')) {
       listenable = Boxes.getlicense().listenable();
-    }else if (widget.title.contains('HSC')) {
+    } else if (widget.title.contains('HSC')) {
       listenable = Boxes.gethsc().listenable();
-    }else if (widget.title.contains('SSC')) {
+    } else if (widget.title.contains('SSC')) {
       listenable = Boxes.getssc().listenable();
-    }else if (widget.title.contains('Other')) {
+    } else if (widget.title.contains('Other')) {
       listenable = Boxes.getother().listenable();
     }
     return ValueListenableBuilder(
         valueListenable: listenable,
         builder: (context, box, _) {
-      var data = box.values.toList().cast<DocumentModal>();
-      if (box.length != 0){
-          widget.file = File(data[0].name!);
-          if(widget.pages == 2){
-            widget.file2 = File(data[1].name!);
+          var data = box.values.toList().cast<DocumentModal>();
+
+          if (box.length != 0) {
+            widget.file = File(data[0].name!);
           }
-      }
-
-
-      return ListTile(
-        leading: CircleAvatar(
-          backgroundImage: AssetImage(widget.icon),
-          radius: 20,
-          backgroundColor: Colors.white,
-        ),
-        title: Text(widget.title + box.length.toString()),
-
-        subtitle: widget.file == null ?Text("Upload ${widget.title}") : const Text("Uploaded"),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-                onPressed: () {
-                  _showSelectPhotoOptions(context);
-                },
-                icon: const Icon(
-                  Icons.add_circle_outline_rounded,
-                  color: Colors.black26,
-                )),
-            IconButton(
-                onPressed: () async {
-                  if(widget.file != null){
-                    if(widget.pages ==2){
-                      _generatePdf(file:widget.file, file2:widget.file2);
-                    }else{_generatePdf(file:widget.file);
-                    }
-                  }
-                  else{
-                    noFileSelectedNotification();
-                  }
-                },
-                icon: const Icon(
-                  LineAwesomeIcons.download,
-                  color: Colors.black26,
-                )),
-            IconButton(
-                onPressed: () {
-                  if(widget.file != null){
-                    _sharePdf(widget.file);
-                  }
-                  else{
-                    noFileSelectedNotification();
-                  }
-                },
-                icon: const Icon(
-                  Icons.share,
-                  color: Colors.black26,
-                )),
-          ],
-        ),
-        onLongPress: () async {},
-        onTap: () async {},
-      );
-
-    });
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage(widget.icon),
+              radius: 20,
+              backgroundColor: Colors.white,
+            ),
+            title: Text(widget.title),
+            subtitle: widget.file == null
+                ? Text("Upload ${widget.title}")
+                : const Text("Uploaded"),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      _showSelectPhotoOptions(context,_pickImages);
+                      // if(widget.pages ==2){
+                      //   aadhaarSecondPage();
+                      // }
+                      // if(widget.pages ==2 && widget.secondPage == true){
+                      //   _showSelectPhotoOptions(context);
+                      // }
+                    },
+                    icon: const Icon(
+                      Icons.add_circle_outline_rounded,
+                      color: Colors.black26,
+                    )),
+                IconButton(
+                    onPressed: () async {
+                      if (widget.file != null) {
+                        if (widget.pages == 2 && box.length >1) {
+                          _generatePdf(
+                              file: widget.file, file2: File(data[1].name!));
+                        } else {
+                          _generatePdf(file: widget.file);
+                        }
+                      } else {
+                        noFileSelectedNotification();
+                      }
+                    },
+                    icon: const Icon(
+                      LineAwesomeIcons.download,
+                      color: Colors.black26,
+                    )),
+                IconButton(
+                    onPressed: () {
+                      if (widget.file != null) {
+                        if (widget.pages == 2  && box.length >1) {
+                          _sharePdf(
+                              file: widget.file, file2: File(data[1].name!));
+                        } else {
+                          _sharePdf(file: widget.file);
+                        }
+                      } else {
+                        noFileSelectedNotification();
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.share,
+                      color: Colors.black26,
+                    )),
+              ],
+            ),
+            onLongPress: () async {},
+            onTap: () async {},
+          );
+        });
   }
 
-  void _showSelectPhotoOptions(BuildContext context) {
+  void _showSelectPhotoOptions(BuildContext context,ontap) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -191,7 +208,8 @@ class _NewListTileState extends State<NewListTile> {
             return SingleChildScrollView(
               controller: scrollController,
               child: SelectPhotoOptionsScreen(
-                onTap: _pickImages,
+                onTap: ontap,
+                // onTap: _pickImages,
               ),
             );
           }),
@@ -205,60 +223,97 @@ class _NewListTileState extends State<NewListTile> {
       if (image == null) return;
       File? img = File(image.path);
       String? imgs = await _cropImage(imageFile: img);
-      // setState(() {
-      //   widget.file = File(imgs!);
-      //   Navigator.of(context).pop();
-      // });
       var data = DocumentModal(name: imgs);
       var box = Boxes.getaadhaar();
       if (widget.title.contains('Pan')) {
         box = Boxes.getpan();
       } else if (widget.title.contains('Driving')) {
         box = Boxes.getlicense();
-      }else if (widget.title.contains('HSC')) {
+      } else if (widget.title.contains('HSC')) {
         box = Boxes.gethsc();
-      }else if (widget.title.contains('SSC')) {
+      } else if (widget.title.contains('SSC')) {
         box = Boxes.getssc();
-      }else if (widget.title.contains('Other')) {
+      } else if (widget.title.contains('Other')) {
         box = Boxes.getother();
       }
-      if(box.length == 0){box.add(data);}
-      else{box.putAt(0,data);}
+      if (box.length == 0) {
+        box.add(data);
+      }
+      // else if(box.length == 1 && widget.pages != 2){box.putAt(0, data);}
+      // else if(box.length == 1 && widget.pages == 2){box.add(data);}
+      else {
+        box.putAt(0, data);
+      }
       navigator.pop();
-
     } on PlatformException catch (e) {
       Navigator.of(context).pop();
       return e;
     }
-    if(widget.pages ==2){
-      try {
-        final image1 = await ImagePicker().pickImage(source: source);
-        if (image1 == null) return;
-        File? img1 = File(image1.path);
-        String? imgs1 = await _cropImage(imageFile: img1);
-        var data = DocumentModal(name: imgs1);
-        var box = Boxes.getaadhaar();
-        if(box.length < 2){
-          box.add(data);
-        }
-        else{
-          box.putAt(1,data);
-        }
-      } on PlatformException catch (e) {
-        navigator.pop();
-        return e;
-      }
+    if(widget.pages == 2){
+      aadhaarSecondPage();
     }
   }
 
+  Future _pickImages2(ImageSource source) async {
+    final navigator = Navigator.of(context);
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      File? img = File(image.path);
+      String? imgs = await _cropImage(imageFile: img);
+      var data = DocumentModal(name: imgs);
+      var box = Boxes.getaadhaar();
+      if(box.length <2){box.add(data);}
+      else{
+        box.putAt(1, data);
+      }
+      navigator.pop();
+    } on PlatformException catch (e) {
+      Navigator.of(context).pop();
+      return e;
+    }
+  }
 
-  void _generatePdf({required file, file2,}) async {
+  aadhaarSecondPage() {
+    AlertDialog alert = AlertDialog(
+      title: Text('Aadhar'),
+      content: Text('Upload Back side of Aadhar'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('No'),
+        ),
+        TextButton(
+          // textColor: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+            _showSelectPhotoOptions(context,_pickImages2);
+          },
+          child: Text('Yes'),
+        ),
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void _generatePdf({
+    required file,
+    file2,
+  }) async {
     final pdf = pw.Document(version: PdfVersion.pdf_1_5, compress: true);
     final showImage = pw.MemoryImage(file.readAsBytesSync());
+    var box = Boxes.getaadhaar();
 
     pdf.addPage(
       pw.Page(
-        pageFormat:PdfPageFormat.a4,
+        pageFormat: PdfPageFormat.a4,
         build: (context) {
           return pw.Center(
             child: pw.Image(showImage, fit: pw.BoxFit.contain),
@@ -266,11 +321,11 @@ class _NewListTileState extends State<NewListTile> {
         },
       ),
     );
-    if(widget.pages ==2){
+    if (widget.pages == 2 && box.length>1) {
       final showImage2 = pw.MemoryImage(file2.readAsBytesSync());
       pdf.addPage(
         pw.Page(
-          pageFormat:PdfPageFormat.a4,
+          pageFormat: PdfPageFormat.a4,
           build: (context) {
             return pw.Center(
               child: pw.Image(showImage2, fit: pw.BoxFit.contain),
@@ -284,13 +339,19 @@ class _NewListTileState extends State<NewListTile> {
     await Printing.layoutPdf(
         onLayout: (PdfPageFormat format) async => pdf.save());
   }
-  void _sharePdf(file) async {
+
+  void _sharePdf({
+    required file,
+    file2,
+  }) async {
     final pdf = pw.Document(version: PdfVersion.pdf_1_5, compress: true);
     final showImage = pw.MemoryImage(file.readAsBytesSync());
+    var box = Boxes.getaadhaar();
+
 
     pdf.addPage(
       pw.Page(
-        pageFormat:PdfPageFormat.a4,
+        pageFormat: PdfPageFormat.a4,
         build: (context) {
           return pw.Center(
             child: pw.Image(showImage, fit: pw.BoxFit.contain),
@@ -298,27 +359,37 @@ class _NewListTileState extends State<NewListTile> {
         },
       ),
     );
+    if (widget.pages == 2 && box.length>1) {
+      final showImage2 = pw.MemoryImage(file2.readAsBytesSync());
+      pdf.addPage(
+        pw.Page(
+          pageFormat: PdfPageFormat.a4,
+          build: (context) {
+            return pw.Center(
+              child: pw.Image(showImage2, fit: pw.BoxFit.contain),
+            );
+          },
+        ),
+      );
+    }
 
     // return pdf.save();
     await Printing.sharePdf(bytes: await pdf.save(), filename: 'document.pdf');
   }
 
-  void noFileSelectedNotification(){
+  void noFileSelectedNotification() {
     Fluttertoast.showToast(
-        msg:
-        "No document Uploaded",
-        toastLength:
-        Toast.LENGTH_SHORT,
+        msg: "No document Uploaded",
+        toastLength: Toast.LENGTH_SHORT,
         timeInSecForIosWeb: 1,
-        backgroundColor:
-        Colors.black54,
+        backgroundColor: Colors.black54,
         textColor: Colors.white,
         fontSize: 16.0);
   }
 
   Future<String?> _cropImage({required File imageFile}) async {
     CroppedFile? croppedImage =
-    await ImageCropper().cropImage(sourcePath: imageFile.path);
+        await ImageCropper().cropImage(sourcePath: imageFile.path);
     if (croppedImage == null) return null;
     // return File(croppedImage.path);
     return croppedImage.path;

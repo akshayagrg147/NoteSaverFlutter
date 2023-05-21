@@ -23,7 +23,6 @@ class _ImageResizerState extends State<ImageResizer> {
   XFile? _resizedImage;
   double? _width;
   double? _height;
-  bool _lockAspectRatio = false;
   String _selectedUnit = 'Pixels';
 
   @override
@@ -146,7 +145,10 @@ class _ImageResizerState extends State<ImageResizer> {
                 child: Image.file(_imageSelected!),
               ),
               ElevatedButton(
-                onPressed: _getImageFromGallery,
+                onPressed: (){
+                  _getImageFromGallery();
+                  _resizedImage = null;
+                },
                 child: const Text('Select Image'),
               ),
               const SizedBox(height: 10.0),
@@ -188,19 +190,6 @@ class _ImageResizerState extends State<ImageResizer> {
                 },
               ),
               const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _lockAspectRatio,
-                    onChanged: (value) {
-                      setState(() {
-                        _lockAspectRatio = value!;
-                      });
-                    },
-                  ),
-                  const Text('Lock Aspect Ratio'),
-                ],
-              ),
               const SizedBox(height: 10.0),
               ElevatedButton(
                 onPressed: _resizeImage,

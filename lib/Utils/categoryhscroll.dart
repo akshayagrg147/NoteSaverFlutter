@@ -63,7 +63,7 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                   );
                 },
                 child: Container(
-                  width: 114,
+                  width: 104,
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.grey),
                       borderRadius: BorderRadius.circular(30)),
@@ -98,7 +98,7 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                   );
                 },
                 child: Container(
-                  width: 110,
+                  width: 130,
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.grey),
                       borderRadius: BorderRadius.circular(30)),
@@ -114,7 +114,7 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                             child: Image.asset("assets/images/resizer.png")),
                       ),
                       const Text(
-                        "Resizer",
+                        "Resize Image",
                         style: TextStyle(
                             fontSize: 16,
                             color: Colors.black,
