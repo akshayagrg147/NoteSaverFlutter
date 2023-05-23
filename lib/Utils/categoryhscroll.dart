@@ -4,7 +4,6 @@ import 'package:cardsaver/ui/image_resize.dart';
 import 'package:cardsaver/ui/notes_screen_ui/notes_view.dart';
 import 'package:cardsaver/ui/savedCardScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HorizontalScroll extends StatefulWidget {
   const HorizontalScroll({Key? key}) : super(key: key);
@@ -33,7 +32,6 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                           Border.all(width: 3, color: const Color(0xFFFfc9b6)),
                       borderRadius: BorderRadius.circular(30)),
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: const [
                       Padding(
                         padding: EdgeInsets.only(left: 10.0, right: 11),
@@ -98,7 +96,7 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                   );
                 },
                 child: Container(
-                  width: 130,
+                  width: 135,
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.grey),
                       borderRadius: BorderRadius.circular(30)),
@@ -113,12 +111,15 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                             // child: Image.asset("assets/images/document.png")),
                             child: Image.asset("assets/images/resizer.png")),
                       ),
-                      const Text(
-                        "Resize Image",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 2),
+                        child: Text(
+                          "Resize Image",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ],
                   ),

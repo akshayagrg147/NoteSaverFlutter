@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
@@ -122,6 +123,16 @@ class _ImageResizerState extends State<ImageResizer> {
   void _saveImage() async {
     if (_resizedImage != null) {
       await GallerySaver.saveImage(_image!.path);
+      Fluttertoast.showToast(
+          msg:
+          "Image Saved to gallery",
+          toastLength:
+          Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor:
+          Colors.black54,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
