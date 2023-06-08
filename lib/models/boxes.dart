@@ -18,6 +18,11 @@ class Boxes{
   static Box<DocumentModal> getssc()=>Hive.box<DocumentModal>("ssc");
   static Box<DocumentModal> getother()=>Hive.box<DocumentModal>("other");
 
+
+  static Box<TransactionModal> gettransactiondata()=>Hive.box<TransactionModal>("Add");
+
+
+
   // static Box<CategoryModal> getCategoryModal()=>Hive.box<CategoryModal>("category");
 }
 

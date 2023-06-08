@@ -1,4 +1,5 @@
 import 'package:cardsaver/Utils/chatgpt_webview.dart';
+import 'package:cardsaver/ui/Transaction_Screen.dart';
 import 'package:cardsaver/ui/document.dart';
 import 'package:cardsaver/ui/image_resize.dart';
 import 'package:cardsaver/ui/notes_screen_ui/notes_view.dart';
@@ -61,7 +62,7 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                   );
                 },
                 child: Container(
-                  width: 104,
+                  width: 124,
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.grey),
                       borderRadius: BorderRadius.circular(30)),
@@ -92,11 +93,46 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                 onTap: () {
                   Navigator.push(
                     context,
+                    MaterialPageRoute(builder: (context) => const Transaction()),
+                  );
+                },
+                child: Container(
+                  width: 104,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.grey),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(left: 5.0, right: 5),
+                        child: CircleAvatar(
+                            radius: 18,
+                            backgroundColor: Color(0xfffaf3ed),
+                            child: Icon(Icons.account_balance_wallet)),
+                      ),
+                      Text(
+                        "Wallet",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
+            child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
                     MaterialPageRoute(builder: (context) => const ImageResizer()),
                   );
                 },
                 child: Container(
-                  width: 135,
+                  width: 155,
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.grey),
                       borderRadius: BorderRadius.circular(30)),

@@ -31,6 +31,7 @@ void main() async {
   Hive.registerAdapter(SocialModalAdapter());
   Hive.registerAdapter(ProfileInfoModelAdapter());
   Hive.registerAdapter(DocumentModalAdapter());
+  Hive.registerAdapter(TransactionModalAdapter());
   await Hive.openBox<NotesModal>("notes");
   await Hive.openBox<SocialModal>("socialPasswords");
   await Hive.openBox<SocialModal>("facebookPasswords");
@@ -44,6 +45,7 @@ void main() async {
   await Hive.openBox<DocumentModal>("ssc");
   await Hive.openBox<DocumentModal>("hsc");
   await Hive.openBox<DocumentModal>("other");
+  await Hive.openBox<TransactionModal>("Add");
 
   await Hive.initFlutter();
   Bloc.observer = SimpleBlocObserver();

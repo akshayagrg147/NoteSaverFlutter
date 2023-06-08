@@ -87,3 +87,28 @@ class DocumentModal extends HiveObject{
   });
 }
 
+@HiveType(typeId: 5)
+class TransactionModal extends HiveObject{
+  @HiveField(0)
+  late String? category;
+  @HiveField(1)
+  late String title;
+  @HiveField(2)
+  late String description;
+  @HiveField(3)
+  late int amount;
+  @HiveField(4)
+  late String date;
+  @HiveField(5)
+  late String? type;
+
+  TransactionModal({
+    required this.category,
+    required this.title,
+    required this.description,
+    required this.amount,
+    required this.date,
+    required this.type,
+  });
+}
+
