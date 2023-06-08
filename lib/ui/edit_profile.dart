@@ -272,7 +272,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           ),
                           decoration: InputDecoration(
                             prefixIcon:
-                                const Icon(LineAwesomeIcons.fingerprint),
+                                const Icon(LineAwesomeIcons.genderless),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(100),
                             ),
