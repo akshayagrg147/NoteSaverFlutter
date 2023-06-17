@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   local_auth_windows
-  modal_progress_hud_nsn
   permission_handler_windows
   printing
   share_plus

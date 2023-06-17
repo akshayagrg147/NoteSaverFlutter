@@ -36,7 +36,7 @@ class IncomeExpenseCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(label,
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Colors.white,
                         fontSize: fontSizeBody,
                         fontWeight: FontWeight.w300)),
@@ -44,7 +44,7 @@ class IncomeExpenseCard extends StatelessWidget {
                   height: defaultSpacing / 3,
                 ),
                 Text(balance,
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Colors.white,
                         fontSize: fontSizeHeading - 3,
                         fontWeight: FontWeight.w800)),

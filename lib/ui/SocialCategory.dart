@@ -385,11 +385,6 @@ class _SocialScreenState extends State<SocialScreen> {
       TextEditingController titleController,
       int position,
       String categoryType) {
-    // bool _titleVisibility = true;
-    // if(categoryType.contains('facebook')|categoryType.contains('google')|categoryType.contains('Instagram')|categoryType.contains('null')){
-    //   _titleVisibility=false;
-    //   titleController.text="empty";
-    // }
 
     showModalBottomSheet<void>(
         // context and builder are

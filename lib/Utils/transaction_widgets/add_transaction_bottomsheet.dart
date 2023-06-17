@@ -21,7 +21,7 @@ class _AddTransactionState extends State<AddTransaction> {
   var descriptionController = TextEditingController();
   var amountController = TextEditingController();
   TextEditingController dateinput = TextEditingController();
-  final List<Widget> transactiontype = <Widget>[Text("Expense"), Text("Income")];
+  final List<Widget> transactiontype = <Widget>[const Text("Expense"), const Text("Income")];
   final List<bool> _selectedtype = <bool>[true, false];
 
   @override
@@ -81,13 +81,10 @@ class _AddTransactionState extends State<AddTransaction> {
                 child: DropdownButtonFormField(
                     items: <String>[
                       "Payment",
-                      "Flipkart"
-                      "Amazon"
-                      "Chroma"
-                      "Offline"
-                      "Fashion",
-                      "Electronic Appliances",
-                      "loan",
+                      "Flipkart",
+                      "Amazon",
+                      "Chroma",
+                      "Offline",
                       "Emi",
                       "Others",
                     ].map((String value) {
@@ -206,7 +203,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 child: TextFormField(
                   controller: dateinput, //editing controller of this TextField
                   decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.calendar_today), //icon of text field
+                      prefixIcon: const Icon(Icons.calendar_today), //icon of text field
                       labelText: "Enter Date" , //label text of field
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -217,7 +214,7 @@ class _AddTransactionState extends State<AddTransaction> {
                     ),
                       ),
                   readOnly:
-                      true, //set it true, so that user will not able to edit text
+                      true,
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                         context: context,
@@ -227,14 +224,8 @@ class _AddTransactionState extends State<AddTransaction> {
                         lastDate: DateTime(2101));
 
                     if (pickedDate != null) {
-                      print(
-                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(pickedDate);
-                      print(
-                          formattedDate); //formatted date output using intl package =>  2021-03-16
-//you can implement different kind of Date Format here according to your requirement
-
                       setState(() {
                         dateinput.text =
                             formattedDate; //set output date to TextField value.

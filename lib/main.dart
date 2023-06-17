@@ -1,7 +1,5 @@
 import 'package:cardsaver/models/notes_modal.dart';
 import 'package:cardsaver/models/note_model.dart';
-import 'package:cardsaver/providers/chats_provider.dart';
-import 'package:cardsaver/providers/models_provider.dart';
 import 'package:cardsaver/providers/simple_bloc_observer.dart';
 import 'package:cardsaver/providers/notes_cubit.dart';
 import 'package:cardsaver/ui/splash_page.dart';
@@ -63,23 +61,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => ModelsProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => ChatProvider(),
-        )
-      ],
-      child: BlocProvider(
-        create: (context) => NotesCubit(),
-        child: const MaterialApp(
-          debugShowCheckedModeBanner: false,
-          // theme: ThemeData.dark(),
-          home: Splash(),
-          // home: MyHomePage(title: 'hello',),
-        ),
+    return BlocProvider(
+      create: (context) => NotesCubit(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        // theme: ThemeData.dark(),
+        home: Splash(),
+        // home: MyHomePage(title: 'hello',),
       ),
     );
   }

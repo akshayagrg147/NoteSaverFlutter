@@ -48,7 +48,7 @@ class TransactionTile extends StatelessWidget {
           transaction.title,
           style: Theme.of(context)
               .textTheme
-              .bodyText1
+              .bodyLarge
               ?.copyWith(color: fontHeading, fontSize: fontSizeTitle),
         ),
         subtitle: Text(transaction.description),
@@ -63,11 +63,11 @@ class TransactionTile extends StatelessWidget {
             //           : primaryDark),
             // ),
             transaction.type == "Expense"
-            ? Text("- ₹${transaction.amount}",style: Theme.of(context).textTheme.bodyText1?.copyWith(fontWeight: FontWeight.w700,color: Colors.red))
-            : Text("+ ₹${transaction.amount}",style: Theme.of(context).textTheme.bodyText1?.copyWith(fontWeight: FontWeight.w700,color: primaryDark)),
+            ? Text("- ₹${transaction.amount}",style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700,color: Colors.red))
+            : Text("+ ₹${transaction.amount}",style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700,color: primaryDark)),
             Text(
               transaction.date,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(color: fontSubHeading),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: fontSubHeading),
             )
           ],
         ),

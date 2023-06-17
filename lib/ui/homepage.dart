@@ -28,9 +28,6 @@ class HomePage extends StatelessWidget {
     return const MaterialApp(
       title: 'NoteSaver',
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blueGrey,
-      // ),
       home: MyHomePage(title: 'Card Saver'),
     );
   }
@@ -352,6 +349,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
 
           body: UpgradeAlert(
+            upgrader: Upgrader(dialogStyle: UpgradeDialogStyle.cupertino),
             child: Container(
                 decoration: const BoxDecoration(
                   color: Color(0xFFf4f4f4),
@@ -961,8 +959,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       );
                     })),
-          ),
-        ));
+          )));
   }
 
   void getEmail() async {
