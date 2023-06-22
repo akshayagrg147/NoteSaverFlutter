@@ -37,7 +37,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 fontWeight: FontWeight.w500)),
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context,"saved");
           },
           icon: const Icon(LineAwesomeIcons.angle_left),
           color: Colors.black,
@@ -284,7 +284,7 @@ class _AddTransactionState extends State<AddTransaction> {
 
       final box = Boxes.gettransactiondata();
       box.add(data);
-      Navigator.pop(context);
+      Navigator.pop(context,"saved");
     } else {
     }
   }

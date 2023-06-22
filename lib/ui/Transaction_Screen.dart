@@ -21,15 +21,26 @@ class _TransactionState extends State<Transaction> {
   String? firstname = "";
   String? lastname = "";
   String? profilePicPath = "";
-
+  late ValueNotifier<Box<TransactionModal>> listener;
   @override
   void initState() {
     super.initState();
+
     getUserName();
+  }
+
+
+  @override
+  void dispose() {
+super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final Box<TransactionModal> box = Hive.box<TransactionModal>('Add');
+    var data = box.values.toList().cast<TransactionModal>();
+    debugPrint('called ${data.length}', wrapWidth: 80);
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: accent,
@@ -37,16 +48,17 @@ class _TransactionState extends State<Transaction> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddTransaction()),
-            );
+            ).then((value){
+              if(value!=null){
+                setState(() {
+                });
+                print('Result from second screen: $value');
+              }
+            });
           },
           child: const Icon(Icons.add),
         ),
-        body: ValueListenableBuilder<Box<TransactionModal>>(
-            valueListenable: Boxes.gettransactiondata().listenable(),
-            builder: (context, box, _) {
-              var data = box.values.toList().cast<TransactionModal>();
-
-              return SafeArea(
+        body: SafeArea(
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -161,8 +173,8 @@ class _TransactionState extends State<Transaction> {
                     ),
                   ),
                 ),
-              );
-            }));
+              )
+            );
   }
 
   getUserName() async {

@@ -20,16 +20,18 @@ class AddNoteBottomSheet extends StatelessWidget {
           if (state is AddNoteFailure) {}
 
           if (state is AddNoteSuccess) {
-            BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+
             if(navigator == "tonotespage"){
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const NotesView()),
               );
+
             }
             else if(navigator == "just_pop"){
               Navigator.pop(context);
             }
+            BlocProvider.of<NotesCubit>(context).fetchAllNotes();
           }
         },
         builder: (context, state) {

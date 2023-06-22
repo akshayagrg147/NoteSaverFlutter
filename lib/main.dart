@@ -15,46 +15,50 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (!kIsWeb &&
       kDebugMode &&
       defaultTargetPlatform == TargetPlatform.android) {
     await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
   }
 
-
-  WidgetsFlutterBinding.ensureInitialized();
   var directory = await getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
+   Hive.init(directory.path);
   Hive.registerAdapter(NotesModalAdapter());
   Hive.registerAdapter(SocialModalAdapter());
   Hive.registerAdapter(ProfileInfoModelAdapter());
   Hive.registerAdapter(DocumentModalAdapter());
   Hive.registerAdapter(TransactionModalAdapter());
-  await Hive.openBox<NotesModal>("notes");
-  await Hive.openBox<SocialModal>("socialPasswords");
-  await Hive.openBox<SocialModal>("facebookPasswords");
-  await Hive.openBox<SocialModal>("instagramPasswords");
-  await Hive.openBox<SocialModal>("googlePasswords");
-  await Hive.openBox<SocialModal>("internetBanking");
-  await Hive.openBox<ProfileInfoModal>("profileinfo");
-  await Hive.openBox<DocumentModal>("pan");
-  await Hive.openBox<DocumentModal>("aadhaar");
-  await Hive.openBox<DocumentModal>("license");
-  await Hive.openBox<DocumentModal>("ssc");
-  await Hive.openBox<DocumentModal>("hsc");
-  await Hive.openBox<DocumentModal>("other");
-  await Hive.openBox<TransactionModal>("Add");
 
-  await Hive.initFlutter();
+  await Future.wait([
+    Hive.openBox<NotesModal>("notes"),
+    Hive.openBox<SocialModal>("socialPasswords"),
+    Hive.openBox<SocialModal>("facebookPasswords"),
+    Hive.openBox<SocialModal>("instagramPasswords"),
+    Hive.openBox<SocialModal>("googlePasswords"),
+    Hive.openBox<SocialModal>("internetBanking"),
+    Hive.openBox<ProfileInfoModal>("profileinfo"),
+    Hive.openBox<DocumentModal>("pan"),
+    Hive.openBox<DocumentModal>("aadhaar"),
+    Hive.openBox<DocumentModal>("license"),
+    Hive.openBox<DocumentModal>("ssc"),
+    Hive.openBox<DocumentModal>("hsc"),
+    Hive.openBox<DocumentModal>("other"),
+    Hive.openBox<TransactionModal>("Add"),
+    Hive.initFlutter(),
+  ]);
+
   Bloc.observer = SimpleBlocObserver();
   Hive.registerAdapter(NoteModelAdapter());
   await Hive.openBox<NoteModel>(kNotesBox);
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,));
+    statusBarColor: Colors.transparent,
+  ));
 
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

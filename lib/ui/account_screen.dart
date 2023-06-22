@@ -22,11 +22,14 @@ class _AccountSectionState extends State<AccountSection> {
 
   getProfileInfo() async {
     var sharedPrefProfileInfo = await SharedPreferences.getInstance();
-    setState(() {
-      firstname = sharedPrefProfileInfo.getString('firstname');
-      lastname = sharedPrefProfileInfo.getString('lastname');
-      email = sharedPrefProfileInfo.getString('email');
-    });
+    if(sharedPrefProfileInfo.getString('firstname')?.isNotEmpty==true){
+      setState(() {
+        firstname = sharedPrefProfileInfo.getString('firstname');
+        lastname = sharedPrefProfileInfo.getString('lastname');
+        email = sharedPrefProfileInfo.getString('email');
+      });
+    }
+
     setState(() {
       profilePicPath = sharedPrefProfileInfo.getString('profilePicPath');
     });

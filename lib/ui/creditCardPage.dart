@@ -67,7 +67,7 @@ class CreditCardPageState extends State<CreditCardPage> {
           ),
           child: SafeArea(
             child: Column(
-              children: <Widget>[
+              children: [
                 const SizedBox(
                   height: 12,
                 ),
@@ -106,7 +106,7 @@ class CreditCardPageState extends State<CreditCardPage> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
-                      children: <Widget>[
+                      children:[
                         CreditCardForm(
                           formKey: formKey,
                           obscureCvv: false,
