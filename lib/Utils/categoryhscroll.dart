@@ -14,260 +14,73 @@ class HorizontalScroll extends StatefulWidget {
 }
 
 class _HorizontalScrollState extends State<HorizontalScroll> {
+
+  final List<CategoryModel> _data = [
+    CategoryModel("assets/images/chat_logo.png", "ChatGpt", MyChatGpt()),
+  CategoryModel("assets/images/wallet.png", "Wallet", Transaction()),
+  CategoryModel("assets/images/resizer.png", "Resize Image", ImageResizer()),
+  CategoryModel("assets/images/document.png", "Docs", SaveDocument()),
+  CategoryModel("assets/images/card.png", "Card", NoteScreen()),
+  CategoryModel("assets/images/notes.png", "Notes", NotesView())
+
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 75,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 10, bottom: 8),
-            child: InkWell(
-                onTap: () {},
-                child: Container(
-                  width: 95,
-                  // height: 48,
-                  decoration: BoxDecoration(
-                      border:
-                          Border.all(width: 3, color: const Color(0xFFFfc9b6)),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 10.0, right: 11),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: Colors.orangeAccent,
-                            child: Icon(Icons.category_outlined)),
-                      ),
-                      Text(
-                        "All",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyChatGpt()),
-                  );
-                },
-                child: Container(
-                  width: 124,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0, right: 5),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: const Color(0xfffaf3ed),
-                            child: Image.asset("assets/images/chat_logo.png")),
-                      ),
-                      const Text(
-                        "ChatGpt",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Transaction()),
-                  );
-                },
-                child: Container(
-                  width: 104,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 5.0, right: 5),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: Color(0xfffaf3ed),
-                            child: Icon(Icons.account_balance_wallet)),
-                      ),
-                      Text(
-                        "Wallet",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ImageResizer()),
-                  );
-                },
-                child: Container(
-                  width: 155,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0, right: 5),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: const Color(0xfffaf3ed),
-                            // child: Image.asset("assets/images/document.png")),
-                            child: Image.asset("assets/images/resizer.png")),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(right: 2),
-                        child: Text(
-                          "Resize Image",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SaveDocument()),
-                  );
-                },
-                child: Container(
-                  width: 95,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0, right: 5),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: const Color(0xfffaf3ed),
-                            child: Image.asset("assets/images/document.png")),
-                      ),
-                      const Text(
-                        "Docs",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const NoteScreen()),
-                  );
-                },
-                child: Container(
-                  width: 95,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0, right: 5),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: const Color(0xfffaf3ed),
-                            child: Image.asset("assets/images/card.png")),
-                      ),
-                      const Text(
-                        "Card",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const NotesView()),
-                  );
-                },
-                child: Container(
-                  width: 95,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0, right: 1),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: const Color(0xfffaf3ed),
-                            child: Image.asset("assets/images/notes.png")),
-                      ),
-                      const Text(
-                        "Notes",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-        ],
-      ),
+        height: 55,
+
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+          return customRow(_data[index], () => {
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => _data[index].widget),
+          )
+          });
+        }, itemCount: _data.length,)
+
+
     );
   }
+}
+
+Widget customRow(CategoryModel data,
+    Function() onTap) {
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      margin: const EdgeInsets.only(left: 10.0),
+      decoration: BoxDecoration(
+          border: Border.all(width: 1, color: Colors.grey),
+          borderRadius: BorderRadius.circular(30)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            CircleAvatar(
+                radius: 18,
+                backgroundColor: const Color(0xfffaf3ed),
+                child: Image.asset(data.icon)),
+            SizedBox(width: 10,),
+            Text(data.title, style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.w400),)
+          ],
+        ),
+      ),
+    )
+    ,
+  );
+}
+
+class CategoryModel {
+  final String icon;
+  final String title;
+  final Widget widget;
+
+  CategoryModel(this.icon, this.title, this.widget);
 }

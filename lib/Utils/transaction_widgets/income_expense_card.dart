@@ -20,7 +20,7 @@ class IncomeExpenseCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: defaultSpacing),
       height: 80,
-      width: (size.width / 2) - defaultSpacing,
+      width: 300,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: const BorderRadius.all(

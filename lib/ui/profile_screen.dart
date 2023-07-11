@@ -1,5 +1,6 @@
 import 'package:cardsaver/ui/account_screen.dart';
 import 'package:cardsaver/ui/privacy_setting.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cardsaver/ui/edit_profile.dart';
 import 'package:flutter/material.dart';
@@ -191,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   textColor: Colors.red,
                   endIcon: false,
                   onPress: () {
-                    exit(0);
+                    SystemNavigator.pop();
                   }),
             ],
           ),
