@@ -187,52 +187,52 @@ class DocumentModalAdapter extends TypeAdapter<DocumentModal> {
 }
 
 
-class TransactionModalAdapter extends TypeAdapter<TransactionModal> {
-  @override
-  final int typeId = 5;
-
-  @override
-  TransactionModal read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return TransactionModal(
-      category: fields[0] as String?,
-      title: fields[1] as String,
-      description: fields[2] as String,
-      amount: fields[3] as int,
-      date: fields[4] as String,
-      type: fields[5] as String?,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, TransactionModal obj) {
-    writer
-      ..writeByte(6)
-      ..writeByte(0)
-      ..write(obj.category)
-      ..writeByte(1)
-      ..write(obj.title)
-      ..writeByte(2)
-      ..write(obj.description)
-      ..writeByte(3)
-      ..write(obj.amount)
-      ..writeByte(4)
-      ..write(obj.date)
-      ..writeByte(5)
-      ..write(obj.type);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is TransactionModalAdapter &&
-              runtimeType == other.runtimeType &&
-              typeId == other.typeId;
-}
+// class TransactionModalAdapter extends TypeAdapter<TransactionModal> {
+//   @override
+//   final int typeId = 5;
+//
+//   @override
+//   TransactionModal read(BinaryReader reader) {
+//     final numOfFields = reader.readByte();
+//     final fields = <int, dynamic>{
+//       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+//     };
+//     return TransactionModal(
+//       category: fields[0] as String?,
+//       title: fields[1] as String,
+//       description: fields[2] as String,
+//       amount: fields[3] as int,
+//       date: fields[4] as String,
+//       type: fields[5] as String?,
+//     );
+//   }
+//
+//   @override
+//   void write(BinaryWriter writer, TransactionModal obj) {
+//     writer
+//       ..writeByte(6)
+//       ..writeByte(0)
+//       ..write(obj.category)
+//       ..writeByte(1)
+//       ..write(obj.title)
+//       ..writeByte(2)
+//       ..write(obj.description)
+//       ..writeByte(3)
+//       ..write(obj.amount)
+//       ..writeByte(4)
+//       ..write(obj.date)
+//       ..writeByte(5)
+//       ..write(obj.type);
+//   }
+//
+//   @override
+//   int get hashCode => typeId.hashCode;
+//
+//   @override
+//   bool operator ==(Object other) =>
+//       identical(this, other) ||
+//           other is TransactionModalAdapter &&
+//               runtimeType == other.runtimeType &&
+//               typeId == other.typeId;
+// }
 

@@ -19,7 +19,7 @@ class Boxes{
   static Box<DocumentModal> getother()=>Hive.box<DocumentModal>("other");
 
 
-  static Box<TransactionModal> gettransactiondata()=>Hive.box<TransactionModal>("Add");
+  // static Box<TransactionModal> gettransactiondata()=>Hive.box<TransactionModal>("Add");
 
 
 

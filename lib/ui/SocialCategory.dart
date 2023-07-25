@@ -25,6 +25,14 @@ class _SocialScreenState extends State<SocialScreen> {
   // ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
   @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    titleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // var listenable = Boxes.getSocialPasswords().listenable();
     // if (widget.categoryType.contains('facebook')) {

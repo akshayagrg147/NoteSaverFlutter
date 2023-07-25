@@ -87,80 +87,80 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                   ),
                 )),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Transaction()),
-                  );
-                },
-                child: Container(
-                  width: 104,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 5.0, right: 5),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: Color(0xfffaf3ed),
-                            child: Icon(Icons.account_balance_wallet)),
-                      ),
-                      Text(
-                        "Wallet",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ImageResizer()),
-                  );
-                },
-                child: Container(
-                  width: 155,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0, right: 5),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: const Color(0xfffaf3ed),
-                            // child: Image.asset("assets/images/document.png")),
-                            child: Image.asset("assets/images/resizer.png")),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(right: 2),
-                        child: Text(
-                          "Resize Image",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
+          //   child: InkWell(
+          //       onTap: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(builder: (context) => const Transaction()),
+          //         );
+          //       },
+          //       child: Container(
+          //         width: 104,
+          //         decoration: BoxDecoration(
+          //             border: Border.all(width: 1, color: Colors.grey),
+          //             borderRadius: BorderRadius.circular(30)),
+          //         child: Row(
+          //           // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //           children: const [
+          //             Padding(
+          //               padding: EdgeInsets.only(left: 5.0, right: 5),
+          //               child: CircleAvatar(
+          //                   radius: 18,
+          //                   backgroundColor: Color(0xfffaf3ed),
+          //                   child: Icon(Icons.account_balance_wallet)),
+          //             ),
+          //             Text(
+          //               "Wallet",
+          //               style: TextStyle(
+          //                   fontSize: 16,
+          //                   color: Colors.black,
+          //                   fontWeight: FontWeight.w400),
+          //             ),
+          //           ],
+          //         ),
+          //       )),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
+          //   child: InkWell(
+          //       onTap: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(builder: (context) => const ImageResizer()),
+          //         );
+          //       },
+          //       child: Container(
+          //         width: 155,
+          //         decoration: BoxDecoration(
+          //             border: Border.all(width: 1, color: Colors.grey),
+          //             borderRadius: BorderRadius.circular(30)),
+          //         child: Row(
+          //           // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //           children: [
+          //             Padding(
+          //               padding: const EdgeInsets.only(left: 5.0, right: 5),
+          //               child: CircleAvatar(
+          //                   radius: 18,
+          //                   backgroundColor: const Color(0xfffaf3ed),
+          //                   // child: Image.asset("assets/images/document.png")),
+          //                   child: Image.asset("assets/images/resizer.png")),
+          //             ),
+          //             const Padding(
+          //               padding: EdgeInsets.only(right: 2),
+          //               child: Text(
+          //                 "Resize Image",
+          //                 style: TextStyle(
+          //                     fontSize: 16,
+          //                     color: Colors.black,
+          //                     fontWeight: FontWeight.w400),
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       )),
+          // ),
           Padding(
             padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
             child: InkWell(
@@ -231,41 +231,41 @@ class _HorizontalScrollState extends State<HorizontalScroll> {
                   ),
                 )),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const NotesView()),
-                  );
-                },
-                child: Container(
-                  width: 95,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0, right: 1),
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: const Color(0xfffaf3ed),
-                            child: Image.asset("assets/images/notes.png")),
-                      ),
-                      const Text(
-                        "Notes",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 8, top: 11, bottom: 8),
+          //   child: InkWell(
+          //       onTap: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(builder: (context) => const NotesView()),
+          //         );
+          //       },
+          //       child: Container(
+          //         width: 95,
+          //         decoration: BoxDecoration(
+          //             border: Border.all(width: 1, color: Colors.grey),
+          //             borderRadius: BorderRadius.circular(30)),
+          //         child: Row(
+          //           // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //           children: [
+          //             Padding(
+          //               padding: const EdgeInsets.only(left: 4.0, right: 1),
+          //               child: CircleAvatar(
+          //                   radius: 18,
+          //                   backgroundColor: const Color(0xfffaf3ed),
+          //                   child: Image.asset("assets/images/notes.png")),
+          //             ),
+          //             const Text(
+          //               "Notes",
+          //               style: TextStyle(
+          //                   fontSize: 16,
+          //                   color: Colors.black,
+          //                   fontWeight: FontWeight.w400),
+          //             ),
+          //           ],
+          //         ),
+          //       )),
+          // ),
         ],
       ),
     );

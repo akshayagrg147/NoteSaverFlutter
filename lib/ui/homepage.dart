@@ -227,6 +227,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void dispose() {
+    searchController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    titleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
@@ -293,29 +302,29 @@ class _MyHomePageState extends State<MyHomePage> {
                           builder: (context) => const CreditCardPage()),
                     );
                   }),
-              SpeedDialChild(
-                  backgroundColor: Colors.black26,
-                  child: Image.asset(
-                    'assets/images/notes.png',
-                    height: 38,
-                    width: 38,
-                  ),
-                  label: 'Notes',
-                  labelBackgroundColor: const Color(0xFFf4f4f4),
-                  onTap: () {
-                    showModalBottomSheet(
-                        isScrollControlled: true,
-                        backgroundColor: const Color(0xFFFff6f1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        context: context,
-                        builder: (context) {
-                          return const AddNoteBottomSheet(
-                            navigator: "tonotespage",
-                          );
-                        });
-                  }),
+              // SpeedDialChild(
+              //     backgroundColor: Colors.black26,
+              //     child: Image.asset(
+              //       'assets/images/notes.png',
+              //       height: 38,
+              //       width: 38,
+              //     ),
+              //     label: 'Notes',
+              //     labelBackgroundColor: const Color(0xFFf4f4f4),
+              //     onTap: () {
+              //       showModalBottomSheet(
+              //           isScrollControlled: true,
+              //           backgroundColor: const Color(0xFFFff6f1),
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(15),
+              //           ),
+              //           context: context,
+              //           builder: (context) {
+              //             return const AddNoteBottomSheet(
+              //               navigator: "tonotespage",
+              //             );
+              //           });
+              //     }),
               SpeedDialChild(
                   backgroundColor: Colors.black26,
                   child: Image.asset(

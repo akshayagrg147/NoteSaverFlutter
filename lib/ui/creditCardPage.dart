@@ -48,6 +48,11 @@ class CreditCardPageState extends State<CreditCardPage> {
   }
 
   @override
+  void dispose() {
+    bankNameController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Credit Card View Demo',

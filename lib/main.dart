@@ -1,17 +1,17 @@
 import 'package:cardsaver/models/notes_modal.dart';
-import 'package:cardsaver/models/note_model.dart';
-import 'package:cardsaver/providers/simple_bloc_observer.dart';
-import 'package:cardsaver/providers/notes_cubit.dart';
+// import 'package:cardsaver/models/note_model.dart';
+// import 'package:cardsaver/providers/simple_bloc_observer.dart';
+// import 'package:cardsaver/providers/notes_cubit.dart';
 import 'package:cardsaver/ui/splash_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cardsaver/constants/notes_constant.dart';
+// import 'package:cardsaver/constants/notes_constant.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,14 +22,14 @@ void main() async {
   }
 
 
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   var directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(NotesModalAdapter());
   Hive.registerAdapter(SocialModalAdapter());
   Hive.registerAdapter(ProfileInfoModelAdapter());
   Hive.registerAdapter(DocumentModalAdapter());
-  Hive.registerAdapter(TransactionModalAdapter());
+  // Hive.registerAdapter(TransactionModalAdapter());
   await Hive.openBox<NotesModal>("notes");
   await Hive.openBox<SocialModal>("socialPasswords");
   await Hive.openBox<SocialModal>("facebookPasswords");
@@ -43,12 +43,12 @@ void main() async {
   await Hive.openBox<DocumentModal>("ssc");
   await Hive.openBox<DocumentModal>("hsc");
   await Hive.openBox<DocumentModal>("other");
-  await Hive.openBox<TransactionModal>("Add");
+  // await Hive.openBox<TransactionModal>("Add");
 
-  await Hive.initFlutter();
-  Bloc.observer = SimpleBlocObserver();
-  Hive.registerAdapter(NoteModelAdapter());
-  await Hive.openBox<NoteModel>(kNotesBox);
+  // await Hive.initFlutter();
+  // Bloc.observer = SimpleBlocObserver();
+  // Hive.registerAdapter(NoteModelAdapter());
+  // await Hive.openBox<NoteModel>(kNotesBox);
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,));
@@ -61,14 +61,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NotesCubit(),
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // theme: ThemeData.dark(),
-        home: Splash(),
-        // home: MyHomePage(title: 'hello',),
-      ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // theme: ThemeData.dark(),
+      home: Splash(),
+      // home: MyHomePage(title: 'hello',),
     );
+    // return BlocProvider(
+    //   create: (context) => NotesCubit(),
+    //   child: const MaterialApp(
+    //     debugShowCheckedModeBanner: false,
+    //     // theme: ThemeData.dark(),
+    //     home: Splash(),
+    //     // home: MyHomePage(title: 'hello',),
+    //   ),
+    // );
   }
 }

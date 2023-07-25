@@ -1,7 +1,7 @@
-part of '../providers/notes_cubit.dart';
-
-@immutable
-abstract class NotesState {}
-
-class NotesInitial extends NotesState {}
-class NotesSuccess extends NotesState {}
+// part of '../providers/notes_cubit.dart';
+//
+// @immutable
+// abstract class NotesState {}
+//
+// class NotesInitial extends NotesState {}
+// class NotesSuccess extends NotesState {}

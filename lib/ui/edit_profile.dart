@@ -68,6 +68,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     getProfileInfo();
   }
 
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+
+    super.dispose();
+  }
+
   String _imagepath = "";
   Future _pickImage(ImageSource source) async {
     try {
